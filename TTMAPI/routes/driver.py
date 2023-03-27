@@ -2,8 +2,10 @@ from fastapi import APIRouter
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
-from TTMAPI.schemas.driver import driverEntity, driversEntity
+from TTMAPI.models.aception import Aception
+from TTMAPI.schemas.driver import driverSchema, driversSchema
 from TTMAPI.services import driver_service
+
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -15,7 +17,7 @@ async def find_all_drivers():
     logger.info("GET" + base_route)
 
     result = driver_service.get_all_drivers(logger=logger)
-    return driversEntity(result)
+    return driversSchema(result)
 
 
 @router.get(base_route + '/{name}')
@@ -26,7 +28,7 @@ async def find_driver_by_name(name):
         name=name, logger=logger)
 
     driver = Driver(**driver_cursor)
-    result = driverEntity(driver)
+    result = driverSchema(driver)
     return result
 
 
@@ -46,3 +48,17 @@ async def update_driver(name, driver: Driver):
     result = driver_service.update_driver(
         driver=driver, name=name, logger=logger)
     return result
+
+
+@router.post(base_route + "/match")
+async def get_matched_drivers(aception: Aception):
+    logger.info(f"POST {base_route}/match  aception='{aception.text}'")
+
+    drivers_cursor = driver_service.get_all_drivers(logger=logger)
+    drivers = []
+    for driver_cursor in drivers_cursor:
+        driver = Driver(**driver_cursor)
+        driver.GetBestPercents(aception)
+        drivers.append(driver)
+
+    return drivers

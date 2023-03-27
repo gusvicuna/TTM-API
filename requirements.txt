@@ -1,5 +1,8 @@
-autopep8
+autopep8==2.0.2
 fastapi
-flake8
+flake8==6.0.0
+matplotlib
 mongoengine
-uvicorn[standard]
+numpy
+python-dotenv
+uvicorn[standard]==0.20.0

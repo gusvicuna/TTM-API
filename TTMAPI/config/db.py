@@ -1,13 +1,13 @@
 import mongoengine
+from dotenv import dotenv_values
+
+
+config = dotenv_values("settings.env")
 
 
 def getDB():
-    username = "gpvicuna"
-    password = "Night1139"
-    db_name = "test"
     client = mongoengine.connect(
-        host=f"mongodb+srv://{username}:{password}@{db_name}" +
-        ".0v1hxpd.mongodb.net/test")
+        host=config["CLIENT_URL"])
     db = client["test"]
 
     return db
