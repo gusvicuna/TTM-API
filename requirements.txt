@@ -4,5 +4,6 @@ flake8==6.0.0
 matplotlib
 mongoengine
 numpy
+pytest
 python-dotenv
 uvicorn[standard]==0.20.0

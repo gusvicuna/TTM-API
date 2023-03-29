@@ -1,71 +1,66 @@
 from pydantic import BaseModel
+from TTMAPI.helpers.text import LenOfCharsWithoutSpace
 
 
 class Aception(BaseModel):
 
     text: str
-    bestWordPercent: int = 0
-    bestCharPercent: int = 0
+    mostWordsMatched: int = 0
+    mostCharsMatched: int = 0
 
     def __str__(self) -> str:
         return f"{self.text}"
 
-    def Words(self):
-        return self.text.split(" ")
+    def getWordPercent(self):
+        return round(
+            self.mostWordsMatched * 100 / len(self.text.split(" ")), 2)
 
-    def Characters(self):
-        return list(str(self.text))
+    def getCharPercent(self):
+        return round(
+            self.mostCharsMatched * 100 / LenOfCharsWithoutSpace(self.text), 2)
 
-    def CountCharactersWithoutSpaces(self) -> int:
-        splited_text = [i for i in self.Characters() if i != " "]
-        return len(splited_text)
+    def MatchTrainText(self, trainText: str) -> None:
+        len_traintext = len(list(trainText))
+        len_aception = len(self.text)
 
-    def MatchTrainText(self, trainText) -> None:
-        aception_char_count = len(self.Characters())
-        train_text_char_count = len(trainText.Characters())
+        for aception_pos in range(len_traintext + len_aception):
 
-        train_id = 0
-        while train_id < aception_char_count + train_text_char_count:
-            char_match_count = 0
-            word_match_count = 0
-            word_match = True
+            chars_matched = 0
+            words_matched = 0
 
-            char_id = 0
-            while char_id < train_text_char_count:
+            pos_delay = 0
+            print("------------")
+            for word in self.text.split(" "):
+                print(f"word: {word}")
 
-                moving_aception_id =\
-                    aception_char_count - train_id + char_id
-                if moving_aception_id < 0 or moving_aception_id >=\
-                        aception_char_count:
-                    moving_char = ""
-                else:
-                    moving_char =\
-                        self.Characters()[moving_aception_id]
+                is_word_matching = False
 
-                is_char_an_space = trainText.Characters()[char_id] == " "
-                is_final_char = char_id == train_text_char_count - 1
-                is_same_char =\
-                    trainText.Characters()[char_id] == moving_char
-                if is_char_an_space or is_final_char:
-                    if word_match:
-                        word_match_count += 1
-                    word_match = True
+                for char_pos_traintext in range(len_traintext):
 
-                elif is_same_char and moving_char != "":
-                    char_match_count += 1
-                else:
-                    word_match = False
+                    char_id = (len_aception + char_pos_traintext) -\
+                        (pos_delay + aception_pos)
 
-                char_id += 1
+                    if char_id == 0:
+                        is_word_matching = True
+                    if char_id < 0 or char_id > len(word):
+                        continue
+                    elif char_id == len(word):
+                        if is_word_matching:
+                            print(is_word_matching)
+                            words_matched += 1
+                        continue
 
-            matchedWordsPercent =\
-                round(100 * word_match_count / len(self.Words()))
-            matchedCharsPercent =\
-                100 * char_match_count / self.CountCharactersWithoutSpaces()
+                    traintext_char = trainText.upper()[char_pos_traintext]
+                    word_char = word.upper()[char_id]
+                    print(f"    {traintext_char}={word_char}")
+                    are_the_same_char = traintext_char == word_char
 
-            if matchedWordsPercent > self.bestWordPercent:
-                self.bestWordPercent = round(matchedWordsPercent, 2)
-            if matchedCharsPercent > self.bestCharPercent:
-                self.bestCharPercent = round(matchedCharsPercent, 2)
+                    if are_the_same_char:
+                        chars_matched += 1
+                    else:
+                        is_word_matching = False
 
-            train_id += 1
+                pos_delay += len(word) + 1
+
+            self.mostWordsMatched = max(self.mostWordsMatched, words_matched)
+            self.mostCharsMatched = max(self.mostCharsMatched, chars_matched)
