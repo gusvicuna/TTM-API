@@ -3,7 +3,8 @@ from fastapi import APIRouter
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.models.aception import Aception
-from TTMAPI.schemas.driver import driverSchema, driversSchema
+from TTMAPI.schemas.driver import\
+    driverSchema, driversSchema, matchedDriversSchema
 from TTMAPI.services import driver_service
 
 
@@ -61,4 +62,5 @@ async def get_matched_drivers(aception: Aception):
         driver.GetBestPercents(aception)
         drivers.append(driver)
 
-    return drivers
+    result = matchedDriversSchema(drivers)
+    return result
