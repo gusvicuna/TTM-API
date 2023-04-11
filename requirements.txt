@@ -3,7 +3,7 @@ fastapi==0.95.0
 flake8==6.0.0
 gunicorn
 matplotlib
-mongoengine
+pymongo
 numpy
 pytest
 python-dotenv
