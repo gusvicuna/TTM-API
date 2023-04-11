@@ -46,8 +46,13 @@ async def create_driver(driver: Driver):
 async def update_driver(name, driver: Driver):
     logger.info(f"PUT {base_route}/{name}  driver={driver}")
 
-    result = driver_service.update_driver(
+    driver_result = driver_service.update_driver(
         driver=driver, name=name, logger=logger)
+    if (driver_result is not None):
+        result = Driver(**driver_result)
+        result = driverSchema(result)
+    else:
+        result = driver_result
     return result
 
 
