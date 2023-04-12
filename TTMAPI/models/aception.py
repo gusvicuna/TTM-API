@@ -60,8 +60,13 @@ class Aception(BaseModel):
                         is_word_matching = False
 
                     if is_word_matching and char_id == len(word) - 1:
-                        # print(is_word_matching)
-                        words_matched += 1
+                        if (char_pos_traintext != len_traintext - 1):
+                            if (cleaned_traintext[char_pos_traintext + 1] == " "):
+                                # print(is_word_matching)
+                                words_matched += 1
+                        else:
+                            # print(is_word_matching)
+                            words_matched += 1
 
                 pos_delay += len(word) + 1
 

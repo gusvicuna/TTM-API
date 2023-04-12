@@ -25,8 +25,14 @@ def test_aception_has_2_of_3_words_must_have_66_percent_charmatch(aception):
     assert aception.getWordPercent() == 66.67
 
 
-def test_incomplete_words_shouldnt_count_as_word(aception):
+def test_incomplete_words_in_traintext_shouldnt_count_as_word(aception):
     train_text = "mu"
+    aception.MatchTrainText(train_text)
+    assert aception.getWordPercent() == 0
+
+
+def test_incomplete_words_in_aception_shouldnt_count_as_word(aception):
+    train_text = "Buenas tardes"
     aception.MatchTrainText(train_text)
     assert aception.getWordPercent() == 0
 
