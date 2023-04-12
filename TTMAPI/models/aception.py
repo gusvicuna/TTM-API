@@ -7,17 +7,21 @@ class Aception(BaseModel):
     text: str
     mostWordsMatched: int = 0
     mostCharsMatched: int = 0
+    bestWordPercent: int = 0
+    bestCharPercent: int = 0
 
     def __str__(self) -> str:
         return f"{self.text}"
 
     def getWordPercent(self):
-        return round(
+        self.bestWordPercent = round(
             self.mostWordsMatched * 100 / len(self.text.split(" ")), 2)
+        return self.bestWordPercent
 
     def getCharPercent(self):
-        return round(
+        self.bestCharPercent = round(
             self.mostCharsMatched * 100 / LenOfCharsWithoutSpace(self.text), 2)
+        return self.bestCharPercent
 
     def MatchTrainText(self, trainText: str) -> None:
         cleaned_text = CleanText(self.text)
