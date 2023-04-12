@@ -9,3 +9,13 @@ def BiggestWord(text: str):
         if len(word) > len(biggest_word):
             biggest_word = word
     return biggest_word
+
+
+def CleanText(text: str) -> str:
+    text = text.replace("á", "a")
+    text = text.replace("é", "e")
+    text = text.replace("í", "i")
+    text = text.replace("ó", "o")
+    text = text.replace("ú", "u")
+    text = text.upper()
+    return text

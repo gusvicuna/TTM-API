@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from TTMAPI.helpers.text import LenOfCharsWithoutSpace
+from TTMAPI.helpers.text import LenOfCharsWithoutSpace, CleanText
 
 
 class Aception(BaseModel):
@@ -20,8 +20,10 @@ class Aception(BaseModel):
             self.mostCharsMatched * 100 / LenOfCharsWithoutSpace(self.text), 2)
 
     def MatchTrainText(self, trainText: str) -> None:
-        len_traintext = len(list(trainText))
-        len_aception = len(self.text)
+        cleaned_text = CleanText(self.text)
+        cleaned_traintext = CleanText(trainText)
+        len_traintext = len(list(cleaned_traintext))
+        len_aception = len(cleaned_text)
 
         for aception_pos in range(len_traintext + len_aception):
 
@@ -30,7 +32,7 @@ class Aception(BaseModel):
 
             pos_delay = 0
             # print("------------")
-            for word in self.text.split(" "):
+            for word in cleaned_text.split(" "):
                 # print(f"word: {word}")
 
                 is_word_matching = False
@@ -45,13 +47,10 @@ class Aception(BaseModel):
                     if char_id < 0 or char_id > len(word):
                         continue
                     elif char_id == len(word):
-                        if is_word_matching:
-                            # print(is_word_matching)
-                            words_matched += 1
                         continue
 
-                    traintext_char = trainText.upper()[char_pos_traintext]
-                    word_char = word.upper()[char_id]
+                    traintext_char = cleaned_traintext[char_pos_traintext]
+                    word_char = word[char_id]
                     # print(f"    {traintext_char}={word_char}")
                     are_the_same_char = traintext_char == word_char
 
@@ -59,6 +58,10 @@ class Aception(BaseModel):
                         chars_matched += 1
                     else:
                         is_word_matching = False
+
+                    if is_word_matching and char_id == len(word) - 1:
+                        # print(is_word_matching)
+                        words_matched += 1
 
                 pos_delay += len(word) + 1
 

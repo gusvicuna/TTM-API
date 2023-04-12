@@ -29,3 +29,15 @@ def test_incomplete_words_shouldnt_count_as_word(aception):
     train_text = "mu"
     aception.MatchTrainText(train_text)
     assert aception.getWordPercent() == 0
+
+
+def test_different_cases_should_be_ignored(aception):
+    train_text = "mUy bUena comuNicacIóN"
+    aception.MatchTrainText(train_text)
+    assert aception.getWordPercent() == 100
+
+
+def test_acents_should_be_ignored(aception):
+    train_text = "Muy buena comunicacion"
+    aception.MatchTrainText(train_text)
+    assert aception.getWordPercent() == 100
