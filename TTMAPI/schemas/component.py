@@ -13,6 +13,7 @@ def matchedComponentSchema(item) -> dict:
         "bestCharPercent": item.bestCharPercent,
         "mostWordsMatched": item.mostWordsMatched,
         "mostCharsMatched": item.mostCharsMatched,
+        "aceptions": item.aceptions,
     }
 
 
