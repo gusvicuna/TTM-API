@@ -5,9 +5,13 @@ from dotenv import dotenv_values
 config = dotenv_values("settings.env")
 
 
-def getDB():
+def getDB(isProduction: bool = False):
     client = pymongo.MongoClient(
         config["CLIENT_URL"])
-    db = client.test
+
+    if (isProduction):
+        db = client.production
+    else:
+        db = client.test
 
     return db

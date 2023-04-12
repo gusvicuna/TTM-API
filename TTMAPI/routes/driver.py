@@ -26,7 +26,8 @@ async def find_driver_by_name(name):
     logger.info("GET" + base_route + f"/{name}")
 
     driver_cursor = driver_service.get_driver_by_id_service(
-        name=name, logger=logger)
+        name=name,
+        logger=logger)
 
     driver = Driver(**driver_cursor)
     result = driverSchema(driver)
@@ -38,7 +39,8 @@ async def create_driver(driver: Driver):
     logger.info(f"POST {base_route}  driver={driver}")
 
     result = driver_service.create_new_driver(
-        driver=driver, logger=logger)
+        driver=driver,
+        logger=logger)
     return result
 
 
@@ -47,7 +49,9 @@ async def update_driver(name, driver: Driver):
     logger.info(f"PUT {base_route}/{name}  driver={driver}")
 
     driver_result = driver_service.update_driver(
-        driver=driver, name=name, logger=logger)
+        driver=driver,
+        name=name,
+        logger=logger)
     if (driver_result is not None):
         result = Driver(**driver_result)
         result = driverSchema(result)
