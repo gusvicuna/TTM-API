@@ -9,6 +9,8 @@ class Driver(BaseModel):
     name: str
     components: List[Component]
 
-    def GetBestPercents(self, trainText: Aception):
+    def TextMatch(self, trainText: Aception, concatenated: bool = True):
         for component in self.components:
-            component.GetBestPercents(trainText=trainText)
+            component.TextMatch(
+                trainText=trainText,
+                concatenated=concatenated)

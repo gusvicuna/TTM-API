@@ -61,14 +61,20 @@ async def update_driver(name, driver: Driver):
 
 
 @router.post(base_route + "/match")
-async def get_matched_drivers(aception: Aception):
-    logger.info(f"POST {base_route}/match  aception='{aception.text}'")
+async def get_matched_drivers(
+        aception: Aception,
+        concatenated: bool = True,
+        isProduction: bool = True):
 
-    drivers_cursor = driver_service.get_all_drivers(logger=logger)
+    logger.info(f"POST {base_route}/match  aception='{aception.text}'\
+                concatenated={concatenated}, productionDB={isProduction}")
+
+    drivers_cursor = driver_service.get_all_drivers(
+        logger=logger, isProduction=isProduction)
     drivers = []
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
-        driver.GetBestPercents(aception)
+        driver.TextMatch(aception, concatenated=concatenated)
         drivers.append(driver)
 
     result = matchedDriversSchema(drivers)

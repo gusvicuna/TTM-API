@@ -6,8 +6,8 @@ from .create_new_driver_service import create_new_driver_service
 from .update_driver_service import update_driver_service
 
 
-def get_all_drivers(logger):
-    return get_all_drivers_service(logger=logger)
+def get_all_drivers(logger, isProduction: bool = True):
+    return get_all_drivers_service(logger=logger, isProduction=isProduction)
 
 
 def get_driver_by_id(name: str, logger):

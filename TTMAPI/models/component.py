@@ -15,10 +15,15 @@ class Component(BaseModel):
 
     aceptions: List[Aception] = []
 
-    def GetBestPercents(self, trainText: Aception):
+    def TextMatch(self, trainText: Aception, concatenated: bool = True):
+
         for phrase in self.phrases:
+
             aception = Aception(text=phrase)
-            aception.MatchTrainText(trainText=trainText.text)
+            aception.MatchTrainText(
+                trainText=trainText.text,
+                concatenated=concatenated)
+
             self.aceptions.append(aception)
             self.mostCharsMatched =\
                 max(self.mostCharsMatched, aception.mostCharsMatched)

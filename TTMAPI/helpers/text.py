@@ -11,7 +11,7 @@ def BiggestWord(text: str):
     return biggest_word
 
 
-def CleanText(text: str) -> str:
+def Clean(text: str) -> str:
     text = text.replace("á", "a")
     text = text.replace("é", "e")
     text = text.replace("í", "i")
