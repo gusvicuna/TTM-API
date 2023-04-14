@@ -11,7 +11,7 @@ def update_driver_service(driver: Driver, name: str, logger):
 
         collection.replace_one(
             {"name": name},
-            driver.dict())
+            driver)
         driver_cursor = collection.find_one({"name": name})
 
     except Exception as e:
