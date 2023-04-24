@@ -1,20 +1,15 @@
 from TTMAPI.config.db import getDB
 from TTMAPI.models.driver import Driver
+from fastapi import HTTPException
 
 
-def update_driver_service(driver: Driver, name: str, logger):
+def update_driver_service(driver: Driver, dbid: str, logger):
     collection = getDB().drivers
-    try:
-        driver_cursor = collection.find_one({"name": name})
-        if (driver_cursor is None):
-            raise Exception("No Driver with that name")
-
+    driver_cursor = collection.find_one({"dbid": dbid})
+    if driver_cursor is not None:
         collection.replace_one(
-            {"name": name},
+            {"dbid": dbid},
             driver)
-        driver_cursor = collection.find_one({"name": name})
-
-    except Exception as e:
-        logger.error(e)
-        return None
-    return driver_cursor
+        return collection.find_one({"dbid": dbid})
+    else:
+        raise HTTPException(status_code=404, detail="Driver not found")

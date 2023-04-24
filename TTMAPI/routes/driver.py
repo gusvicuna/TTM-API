@@ -21,12 +21,12 @@ async def find_all_drivers():
     return driversSchema(result)
 
 
-@router.get(base_route + '/{name}')
-async def find_driver_by_name(name):
-    logger.info("GET" + base_route + f"/{name}")
+@router.get(base_route + '/{dbid}')
+async def find_driver_by_name(dbid: str):
+    logger.info("GET" + base_route + f"/{dbid}")
 
     driver_cursor = driver_service.get_driver_by_id_service(
-        name=name,
+        dbid=dbid,
         logger=logger)
 
     driver = Driver(**driver_cursor)
@@ -44,15 +44,15 @@ async def create_driver(driver: Driver):
     return result
 
 
-@router.put(base_route + '/{name}')
-async def update_driver(name, driver: Driver):
-    logger.info(f"PUT {base_route}/{name}  driver={driver}")
+@router.put(base_route + '/{dbid}')
+async def update_driver(dbid: str, driver: Driver):
+    logger.info(f"PUT {base_route}/{dbid}  driver={driver}")
 
     driver = driverSchema(driver)
 
     driver_result = driver_service.update_driver(
         driver=driver,
-        name=name,
+        dbid=dbid,
         logger=logger)
     if (driver_result is not None):
         result = Driver(**driver_result)
@@ -65,14 +65,14 @@ async def update_driver(name, driver: Driver):
 @router.post(base_route + "/match")
 async def get_matched_drivers(
         aception: Aception,
-        isConcatenated: bool = True,
-        isProduction: bool = True):
+        isConcatenated: bool = True
+        ):
 
     logger.info(f"POST {base_route}/match  aception='{aception.text}'\
-                concatenated={isConcatenated}, productionDB={isProduction}")
+                concatenated={isConcatenated}")
 
     drivers_cursor = driver_service.get_all_drivers(
-        logger=logger, isProduction=isProduction)
+        logger=logger)
     drivers = []
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)

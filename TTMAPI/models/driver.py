@@ -6,6 +6,7 @@ from TTMAPI.models.aception import Aception
 
 class Driver(BaseModel):
     _id: int
+    dbid: str
     name: str
     components: List[Component]
 

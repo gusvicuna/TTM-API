@@ -4,6 +4,7 @@ from TTMAPI.schemas.component import componentsSchema, matchedComponentsSchema
 
 def driverSchema(item) -> dict:
     return {
+        "dbid": item.dbid,
         "name": item.name,
         "components": componentsSchema(item.components)
     }
@@ -11,6 +12,7 @@ def driverSchema(item) -> dict:
 
 def matchedDriverSchema(item) -> dict:
     return {
+        "dbid": item.dbid,
         "name": item.name,
         "components": matchedComponentsSchema(item.components)
     }
