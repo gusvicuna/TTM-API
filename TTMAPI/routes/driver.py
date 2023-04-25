@@ -62,6 +62,16 @@ async def update_driver(dbid: str, driver: Driver):
     return result
 
 
+@router.delete(base_route + '/{bdid}')
+async def delete_driver_service(dbid: str):
+    logger.info(f"DELETE {base_route}/{dbid}")
+
+    result = driver_service.delete_driver(
+        dbid=dbid,
+        logger=logger)
+    return result
+
+
 @router.post(base_route + "/match")
 async def get_matched_drivers(
         aception: Aception,

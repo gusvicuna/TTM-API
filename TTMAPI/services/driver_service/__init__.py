@@ -4,6 +4,7 @@ from .get_all_driver_service import get_all_drivers_service
 from .get_driver_by_id_service import get_driver_by_id_service
 from .create_new_driver_service import create_new_driver_service
 from .update_driver_service import update_driver_service
+from .delete_driver_service import delete_driver_service
 
 
 def get_all_drivers(logger):
@@ -20,3 +21,7 @@ def create_new_driver(driver: Driver, logger):
 
 def update_driver(driver: Driver, dbid: str, logger):
     return update_driver_service(driver=driver, dbid=dbid, logger=logger)
+
+
+def delete_driver(dbid: str, logger):
+    return delete_driver_service(dbid=dbid, logger=logger)
