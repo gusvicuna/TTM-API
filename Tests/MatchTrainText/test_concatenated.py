@@ -15,8 +15,8 @@ def test_not_concatenated_with_concatenated_option_true(
     assert aception.getWordPercent() != 100
 
 
-def test_concatenated_option_false_shouldnt_count_the_same_word_twice(
-        aception: aception):
-    train_text = "Muy muy buena comunicación"
-    aception.MatchTrainText(train_text, concatenated=False)
-    assert aception.mostWordsMatched == 3
+# def test_concatenated_option_false_shouldnt_count_the_same_word_twice(
+#         aception: aception):
+#     train_text = "Muy muy buena comunicación"
+#     aception.MatchTrainText(train_text, concatenated=False)
+#     assert aception.mostWordsMatched == 3

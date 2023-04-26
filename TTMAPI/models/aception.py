@@ -70,8 +70,15 @@ class Aception(BaseModel):
 
                     traintext_char: str = cleaned_traintext[char_pos_traintext]
                     word_char: str = word[char_id]
+
                     # print(f"    {traintext_char}={word_char}")
-                    are_the_same_char: bool = traintext_char == word_char
+
+                    are_the_same_char: bool = False
+                    if traintext_char == word_char:
+                        are_the_same_char = True
+                    elif word_char == "@":
+                        if traintext_char == "A" or traintext_char == "O":
+                            are_the_same_char = True
 
                     if are_the_same_char:
                         chars_matched += 1
