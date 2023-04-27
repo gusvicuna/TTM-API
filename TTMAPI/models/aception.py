@@ -32,17 +32,27 @@ class Aception(BaseModel):
         cleaned_traintext: str = Clean(trainText)
         len_traintext: int = len(list(cleaned_traintext))
 
-        aception_words = dict()
-
         # Se evalua cada palabra de la acepción
         for word in cleaned_aception.split(" "):
-            # print(f"word: {word}")
 
-            aception_words[word] = {
-                "didWordMatch": False,
-                "finalPosOfMatch": -1,
-                "bestCharsMatch": 0
-            }
+            # Chequear si la palabra viene con paréntesis
+            (did_have_parenthesis): bool = False
+            did_have_slash: bool = False
+            splited_word: str = word.split("(")
+            extra: str = ""
+            splited_extra: list = []
+            if (len(splited_word) > 1):
+                (did_have_parenthesis) = True
+                word = splited_word[0]
+                extra = splited_word[1][:-1]
+
+                # Chequear si el parentesis viene con slash
+                splited_extra = extra.split("/")
+                if (len(splited_extra) > 1):
+                    did_have_slash = True
+
+            did_word_match: bool = False
+            bestCharsMatch: bool = False
 
             is_word_matching: bool = False
 
@@ -79,12 +89,8 @@ class Aception(BaseModel):
 
                     # print(f"    {traintext_char}={word_char}")
                     # Chequeo de si son el mismo caracter
-                    are_the_same_char: bool = False
-                    if traintext_char == word_char:
-                        are_the_same_char = True
-                    elif word_char == "@":
-                        if traintext_char == "A" or traintext_char == "O":
-                            are_the_same_char = True
+                    are_the_same_char = self.AreTheSameChar(
+                        traintext_char, word_char)
 
                     if are_the_same_char:
                         chars_matched += 1
@@ -93,24 +99,58 @@ class Aception(BaseModel):
 
                     # Chequeo de si cumple condiciones para considerarse
                     # match de palabra
-                    did_word_match: bool = False
+                    did_word_match = False
                     if is_word_matching and char_pos_word == len(word) - 1:
-                        if (char_pos_traintext != len_traintext - 1):
-                            if (cleaned_traintext[char_pos_traintext + 1]
-                                    == " "):
+
+                        if (char_pos_traintext == len_traintext - 1):
+                            if (not did_have_slash):
                                 did_word_match = True
-                        else:
-                            did_word_match = True
+
+                        elif (cleaned_traintext[char_pos_traintext + 1]
+                                == " "):
+                            if (not did_have_slash):
+                                did_word_match = True
+
+                        elif (did_have_parenthesis):
+                            if (not did_have_slash):
+                                word = word + extra
+                            else:
+                                # Repetir en caso de tener parentesis con slash
+                                # TODO: Optimizar esto
+                                for single_extra in splited_extra:
+                                    is_extra_matching: bool = True
+                                    extra_chars_matched: int = 0
+                                    for idx, x in enumerate(single_extra):
+                                        if (char_pos_traintext + idx + 1 == len_traintext):
+                                            break
+                                        # Chequeo de si son el mismo caracter
+                                        traintext_char = cleaned_traintext[char_pos_traintext + idx + 1]
+                                        print(f"{x}={traintext_char}")
+                                        are_the_same_char = self.AreTheSameChar(traintext_char, x)
+                                        if are_the_same_char:
+                                            extra_chars_matched += 1
+                                        else:
+                                            is_extra_matching = False
+                                    if is_extra_matching:
+                                        if (char_pos_traintext + len(single_extra) == len_traintext - 1):
+                                            did_word_match = True
+                                        elif (cleaned_traintext[char_pos_traintext + len(single_extra) + 1] == " "):
+                                            did_word_match = True
+
                     if did_word_match:
                         # print(f"Matched word: {word}")
-                        aception_words[word]["didWordMatch"] = True
-                        aception_words[word]["finalPosOfMatch"] =\
-                            char_pos_traintext
+                        self.mostWordsMatched += 1
+                        break
 
-                aception_words[word]["bestCharsMatch"] = max(
-                    aception_words[word]["bestCharsMatch"],
-                    chars_matched)
+                bestCharsMatch = max(bestCharsMatch, chars_matched)
 
-            if aception_words[word]["didWordMatch"]:
-                self.mostWordsMatched += 1
-            self.mostCharsMatched += aception_words[word]["bestCharsMatch"]
+            self.mostCharsMatched += bestCharsMatch
+
+    def AreTheSameChar(self, traintext_char, word_char):
+        are_the_same_char: bool = False
+        if traintext_char == word_char:
+            are_the_same_char = True
+        elif word_char == "@":
+            if traintext_char == "A" or traintext_char == "O":
+                are_the_same_char = True
+        return are_the_same_char

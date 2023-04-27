@@ -10,3 +10,13 @@ def aception():
 @fixture
 def aception_with_at_symbol():
     return Aception(text="Amen@")
+
+
+@fixture
+def aception_with_parenthesis():
+    return Aception(text="Atiende(n)")
+
+
+@fixture
+def aception_with_slash():
+    return Aception(text="Trat(o/en/an/aron)")
