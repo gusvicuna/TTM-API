@@ -28,51 +28,57 @@ class Aception(BaseModel):
                        concatenated: bool = True
                        ) -> None:
 
-        cleaned_text: str = Clean(self.text)
+        cleaned_aception: str = Clean(self.text)
         cleaned_traintext: str = Clean(trainText)
         len_traintext: int = len(list(cleaned_traintext))
-        len_aception: int = len(cleaned_text)
 
-        for aception_pos in range(len_traintext + len_aception):
+        aception_words = dict()
 
-            chars_matched: int = 0
-            words_matched: int = 0
+        # Se evalua cada palabra de la acepción
+        for word in cleaned_aception.split(" "):
+            # print(f"word: {word}")
 
-            pos_delay: int = 0
+            aception_words[word] = {
+                "didWordMatch": False,
+                "finalPosOfMatch": -1,
+                "bestCharsMatch": 0
+            }
 
-            # print("------------")
+            is_word_matching: bool = False
 
-            for word in cleaned_text.split(" "):
+            # Se recorre la palabra por el textrain
+            for word_position in range(len_traintext + len(word)):
+                chars_matched: int = 0
 
-                # print(f"word: {word}")
+                # print("------------")
 
-                is_word_matching: bool = False
-                did_word_match: bool = False
-
+                # Se recorre cada letra de traintext
                 for char_pos_traintext in range(len_traintext):
 
-                    char_id: int = (len_aception + char_pos_traintext) -\
-                        (pos_delay + aception_pos)
+                    # La position del carácter evaluado en la palabra
+                    char_pos_word: int = char_pos_traintext + len(word) -\
+                        word_position
 
-                    # Chequear si es el inicio de las palabras
-                    # en ambas acepciones
-                    if (char_id == 0):
+                    # Chequear si es el inicio en la palabra y
+                    # el traintext, para empezar a revisar match
+                    if (char_pos_word == 0):
+                        # Si es el inicio del traintext
                         if (char_pos_traintext == 0):
                             is_word_matching = True
+                        # O si es el inicio de una palabra entremedio
                         elif (cleaned_traintext[char_pos_traintext - 1]
                                 == " "):
                             is_word_matching = True
 
-                    if char_id < 0 or char_id > len(word):
-                        continue
-                    elif char_id == len(word):
+                    # Se omiten los caracteres fuera de la palabra evaluada
+                    if char_pos_word < 0 or char_pos_word >= len(word):
                         continue
 
                     traintext_char: str = cleaned_traintext[char_pos_traintext]
-                    word_char: str = word[char_id]
+                    word_char: str = word[char_pos_word]
 
                     # print(f"    {traintext_char}={word_char}")
-
+                    # Chequeo de si son el mismo caracter
                     are_the_same_char: bool = False
                     if traintext_char == word_char:
                         are_the_same_char = True
@@ -87,24 +93,24 @@ class Aception(BaseModel):
 
                     # Chequeo de si cumple condiciones para considerarse
                     # match de palabra
-                    if is_word_matching and char_id == len(word) - 1:
+                    did_word_match: bool = False
+                    if is_word_matching and char_pos_word == len(word) - 1:
                         if (char_pos_traintext != len_traintext - 1):
                             if (cleaned_traintext[char_pos_traintext + 1]
                                     == " "):
                                 did_word_match = True
                         else:
                             did_word_match = True
+                    if did_word_match:
+                        # print(f"Matched word: {word}")
+                        aception_words[word]["didWordMatch"] = True
+                        aception_words[word]["finalPosOfMatch"] =\
+                            char_pos_traintext
 
-                if (did_word_match):
-                    # print(f"Matched word: {word}")
-                    words_matched += 1
+                aception_words[word]["bestCharsMatch"] = max(
+                    aception_words[word]["bestCharsMatch"],
+                    chars_matched)
 
-                if (concatenated):
-                    pos_delay += len(word) + 1
-
-            if (concatenated):
-                self.mostWordsMatched = max(self.mostWordsMatched,
-                                            words_matched)
-            else:
-                self.mostWordsMatched += words_matched
-            self.mostCharsMatched = max(self.mostCharsMatched, chars_matched)
+            if aception_words[word]["didWordMatch"]:
+                self.mostWordsMatched += 1
+            self.mostCharsMatched += aception_words[word]["bestCharsMatch"]
