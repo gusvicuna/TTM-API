@@ -30,6 +30,13 @@ def test_traintext_with_another_slash_option_should_match_100_percent(
     assert aception_with_slash.getWordPercent() == 100
 
 
+def test_traintext_with_slash_option_on_end_should_match_100_percent(
+        aception_with_slash: aception_with_slash):
+    train_text = "- Trato"
+    aception_with_slash.MatchTrainText(train_text)
+    assert aception_with_slash.getWordPercent() == 100
+
+
 def test_traintext_with_only_base_of_slash_options_shouldnt_match(
         aception_with_slash: aception_with_slash):
     train_text = "- Trat -"

@@ -126,15 +126,15 @@ class Aception(BaseModel):
                                             break
                                         # Chequeo de si son el mismo caracter
                                         traintext_char = cleaned_traintext[char_pos_traintext + idx + 1]
-                                        print(f"{x}={traintext_char}")
                                         are_the_same_char = self.AreTheSameChar(traintext_char, x)
                                         if are_the_same_char:
                                             extra_chars_matched += 1
                                         else:
                                             is_extra_matching = False
                                     if is_extra_matching:
-                                        if (char_pos_traintext + len(single_extra) == len_traintext - 1):
-                                            did_word_match = True
+                                        if (char_pos_traintext + len(single_extra) >= len_traintext - 1):
+                                            if (char_pos_traintext + len(single_extra) == len_traintext - 1):
+                                                did_word_match = True
                                         elif (cleaned_traintext[char_pos_traintext + len(single_extra) + 1] == " "):
                                             did_word_match = True
 
