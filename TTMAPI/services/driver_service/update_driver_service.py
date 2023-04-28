@@ -12,6 +12,8 @@ def update_driver_service(driver: Driver, dbid: str, logger):
         for component in driver["components"]:
             if "" in component["phrases"]:
                 component["phrases"].remove("")
+            if " " in component["phrases"]:
+                component["phrases"].remove(" ")
 
         collection.replace_one(
             {"dbid": dbid},

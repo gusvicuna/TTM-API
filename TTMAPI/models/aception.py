@@ -19,8 +19,9 @@ class Aception(BaseModel):
         return self.bestWordPercent
 
     def getCharPercent(self):
+        # print(f"{self.text}: {LenOfCharsWithoutSpace(self.text)}")
         self.bestCharPercent = round(
-            self.mostCharsMatched * 100 / LenOfCharsWithoutSpace(self.text), 2)
+            self.mostCharsMatched * 100 / LenOfCharsWithoutSpace(self.text), 0)
         return self.bestCharPercent
 
     def MatchTrainText(self,
