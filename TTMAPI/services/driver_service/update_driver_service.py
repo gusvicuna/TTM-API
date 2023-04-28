@@ -9,8 +9,9 @@ def update_driver_service(driver: Driver, dbid: str, logger):
     driver_cursor = collection.find_one({"dbid": dbid})
     if driver_cursor is not None:
 
-        if "" in driver.phrases:
-            driver.phrases.remove("")
+        for component in driver["components"]:
+            if "" in component["phrases"]:
+                component["phrases"].remove("")
 
         collection.replace_one(
             {"dbid": dbid},
