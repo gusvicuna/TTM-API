@@ -38,6 +38,8 @@ async def find_driver_by_name(dbid: str):
 async def create_driver(driver: Driver):
     logger.info(f"POST {base_route}  driver={driver}")
 
+    driver = driverSchema(driver)
+
     result = driver_service.create_new_driver(
         driver=driver,
         logger=logger)
