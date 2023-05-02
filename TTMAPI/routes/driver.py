@@ -64,7 +64,7 @@ async def update_driver(dbid: str, driver: Driver):
     return result
 
 
-@router.delete(base_route + '/{bdid}')
+@router.delete(base_route + '/{dbid}')
 async def delete_driver_service(dbid: str):
     logger.info(f"DELETE {base_route}/{dbid}")
 
