@@ -4,4 +4,4 @@ from TTMAPI.models.aception import Aception
 
 @fixture
 def aception():
-    return Aception(text="Muy buena comunicación")
+    return Aception(text="ab cde fghi")
