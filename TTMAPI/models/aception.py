@@ -100,7 +100,6 @@ class Aception(BaseModel):
 
                     # Chequeo de si cumple condiciones para considerarse
                     # match de palabra
-                    did_word_match = False
                     if is_word_matching and char_pos_word == len(word) - 1:
 
                         if (char_pos_traintext == len_traintext - 1):
@@ -138,12 +137,11 @@ class Aception(BaseModel):
                                         elif (cleaned_traintext[char_pos_traintext + len(single_extra) + 1] == " "):
                                             did_word_match = True
 
-                    if did_word_match:
-                        # print(f"Matched word: {word}")
-                        self.mostWordsMatched += 1
-                        break
-
                 bestCharsMatch = max(bestCharsMatch, chars_matched)
+
+            if did_word_match:
+                # print(f"Matched word: {word}")
+                self.mostWordsMatched += 1
 
             self.mostCharsMatched += bestCharsMatch
 
