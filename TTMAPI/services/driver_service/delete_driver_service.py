@@ -12,5 +12,5 @@ def delete_driver_service(dbid: str, logger):
         else:
             raise HTTPException(status_code=404, detail="Driver not found")
     except Exception as e:
-        logger.error(e)
-        return None
+        logger.error(f"Error: {e}")
+        raise HTTPException(status_code=500, detail=e)

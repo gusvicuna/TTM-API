@@ -8,7 +8,7 @@ def get_driver_by_id_service(dbid: str, logger):
         driver_cursor = db["drivers"].find_one({"dbid": dbid})
     except Exception as e:
         logger.error(e)
-        return None
+        raise HTTPException(status_code=500, detail=e)
 
     if driver_cursor is not None:
         return driver_cursor

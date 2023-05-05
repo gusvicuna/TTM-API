@@ -1,4 +1,5 @@
 from TTMAPI.config.db import getDB
+from fastapi import HTTPException
 
 
 def get_all_drivers_service(logger):
@@ -7,5 +8,5 @@ def get_all_drivers_service(logger):
         drivers_cursor = db["drivers"].find()
     except Exception as e:
         logger.error(e)
-        return None
+        raise HTTPException(status_code=500, detail=e)
     return drivers_cursor
