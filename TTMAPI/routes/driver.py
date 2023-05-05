@@ -36,9 +36,8 @@ async def find_driver_by_name(dbid: str):
 
 @router.post(base_route)
 async def create_driver(driver: Driver):
-    logger.info(f"POST {base_route}  driver={driver}")
-
     driver = driverSchema(driver)
+    logger.info(f"POST {base_route}  driver={driver}")
 
     result = driver_service.create_new_driver(
         driver=driver,
@@ -48,9 +47,8 @@ async def create_driver(driver: Driver):
 
 @router.put(base_route + '/{dbid}')
 async def update_driver(dbid: str, driver: Driver):
-    logger.info(f"PUT {base_route}/{dbid}  driver={driver}")
-
     driver = driverSchema(driver)
+    logger.info(f"PUT {base_route}/{dbid}  driver={driver}")
 
     driver_result = driver_service.update_driver(
         driver=driver,
@@ -77,18 +75,16 @@ async def delete_driver_service(dbid: str):
 @router.post(base_route + "/match")
 async def get_matched_drivers(
         aception: Aception,
-        isConcatenated: bool = True
         ):
 
-    logger.info(f"POST {base_route}/match  aception='{aception.text}'\
-                concatenated={isConcatenated}")
+    logger.info(f"POST {base_route}/match  aception='{aception.text}'")
 
     drivers_cursor = driver_service.get_all_drivers(
         logger=logger)
     drivers = []
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
-        driver.TextMatch(aception, concatenated=isConcatenated)
+        driver.TextMatch(aception)
         drivers.append(driver)
 
     result = matchedDriversSchema(drivers)

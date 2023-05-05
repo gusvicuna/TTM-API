@@ -15,14 +15,13 @@ class Component(BaseModel):
 
     aceptions: List[Aception] = []
 
-    def TextMatch(self, trainText: Aception, concatenated: bool = True):
+    def TextMatch(self, trainText: Aception):
 
         for phrase in self.phrases:
 
             aception = Aception(text=phrase)
             aception.MatchTrainText(
-                trainText=trainText.text,
-                concatenated=concatenated)
+                trainText=trainText.text)
 
             self.aceptions.append(aception)
             self.mostCharsMatched =\

@@ -10,8 +10,7 @@ class Driver(BaseModel):
     name: str
     components: List[Component]
 
-    def TextMatch(self, trainText: Aception, concatenated: bool = True):
+    def TextMatch(self, trainText: Aception):
         for component in self.components:
             component.TextMatch(
-                trainText=trainText,
-                concatenated=concatenated)
+                trainText=trainText)

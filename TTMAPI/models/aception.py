@@ -26,7 +26,6 @@ class Aception(BaseModel):
 
     def MatchTrainText(self,
                        trainText: str,
-                       concatenated: bool = True
                        ) -> None:
 
         cleaned_aception: str = Clean(self.text)
