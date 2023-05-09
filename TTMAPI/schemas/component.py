@@ -9,7 +9,6 @@ def matchedComponentSchema(item) -> dict:
     return {
         "name": item.name,
         "phrases": item.phrases,
-        "bestWordPercent": item.bestWordPercent,
         "bestCharPercent": item.bestCharPercent,
         "mostWordsMatched": item.mostWordsMatched,
         "mostCharsMatched": item.mostCharsMatched,

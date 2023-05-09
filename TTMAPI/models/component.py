@@ -8,7 +8,6 @@ class Component(BaseModel):
     name: str
     phrases: List[str]
 
-    bestWordPercent: int = 0
     bestCharPercent: int = 0
     mostWordsMatched: int = 0
     mostCharsMatched: int = 0
@@ -26,9 +25,7 @@ class Component(BaseModel):
             self.aceptions.append(aception)
             self.mostCharsMatched =\
                 max(self.mostCharsMatched, aception.mostCharsMatched)
-            self.mostWordsMatched =\
-                max(self.mostWordsMatched, aception.mostWordsMatched)
-            self.bestWordPercent =\
-                max(self.bestWordPercent, aception.getWordPercent())
             self.bestCharPercent =\
                 max(self.bestCharPercent, aception.getCharPercent())
+            if (aception.didItMatch):
+                self.mostWordsMatched += 1
