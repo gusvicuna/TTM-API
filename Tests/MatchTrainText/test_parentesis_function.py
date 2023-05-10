@@ -18,14 +18,14 @@ def test_traintext_with_aception_with_parenthesis_should_match(
 
 def test_traintext_with_one_of_slash_options_should_match(
         aception_with_slash: aception_with_slash):
-    train_text = "- Trato -"
+    train_text = "Trato -"
     aception_with_slash.MatchTrainText(train_text)
     assert aception_with_slash.didItMatch
 
 
 def test_traintext_with_another_slash_option_should_match(
         aception_with_slash: aception_with_slash):
-    train_text = "- Trataron -"
+    train_text = "- Trataron"
     aception_with_slash.MatchTrainText(train_text)
     assert aception_with_slash.didItMatch
 

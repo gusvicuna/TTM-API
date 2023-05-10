@@ -46,6 +46,8 @@ class Aception(BaseModel):
             if (len(splited_extra) > 1):
                 did_have_slash = True
 
+        # print(f"base: {cleaned_aception}, extra: {splited_extra}")
+
         # Se recorre la palabra por el traintext
         for word_position in range(len_traintext + len(cleaned_aception)):
             is_word_matching: bool = True
@@ -105,7 +107,17 @@ class Aception(BaseModel):
                     else:
                         break
                 elif (char_pos_traintext >= len_traintext):
-                    break
+                    if (did_have_slash and
+                            word != cleaned_aception and
+                            len(splited_extra) > 0):
+                        word = cleaned_aception + splited_extra[0]
+                        word = word + " "
+                        splited_extra.pop(0)
+                        char_pos_aception = len(cleaned_aception) - 1
+                        is_word_matching = True
+                        continue
+                    else:
+                        break
 
                 traintext_char: str = cleaned_traintext[char_pos_traintext]
                 word_char: str = word[char_pos_aception]
