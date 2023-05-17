@@ -13,11 +13,10 @@ class Aception(BaseModel):
         return f"{self.text}"
 
     def getCharPercent(self):
-        if (self.didItMatch):
-            self.bestCharPercent = 100
-        else:
-            self.bestCharPercent =\
-                round(self.mostCharsMatched * 100 / (len(self.text) + 2), 0)
+        cleaned_text = self.text.split("(")
+        self.bestCharPercent =\
+            round(self.mostCharsMatched * 100 / (len(cleaned_text[0]) + 2), 0)
+        self.bestCharPercent = min(self.bestCharPercent, 100)
         return self.bestCharPercent
 
     def MatchTrainText(self,
@@ -86,8 +85,8 @@ class Aception(BaseModel):
                                     break
                             else:
                                 if (word == cleaned_aception):
-                                    self.didItMatch = True
-                                    word = word + extra + " "
+                                    word = word + " "
+                                    char_pos_aception -= 1
                                     continue
                                 else:
                                     # print("Parenthesis Match!")
@@ -116,6 +115,13 @@ class Aception(BaseModel):
                         char_pos_aception = len(cleaned_aception) - 1
                         is_word_matching = True
                         continue
+                    elif (did_have_parenthesis and
+                          word != cleaned_aception and
+                          extra != ""):
+                        word = word[:-1] + extra + " "
+                        is_word_matching = True
+                        extra = ""
+                        continue
                     else:
                         break
 
@@ -131,6 +137,7 @@ class Aception(BaseModel):
                     is_word_matching = False
 
                 # print(f"{traintext_char} = {word_char}  {is_word_matching}")
+                # print(self.didItMatch)
 
             self.mostCharsMatched = max(self.mostCharsMatched, chars_matched)
 

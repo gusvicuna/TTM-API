@@ -4,7 +4,7 @@ from TTMAPI.models.aception import Aception
 
 @fixture
 def aception():
-    return Aception(text="Amab(ilidad/le/les)")
+    return Aception(text="vende(n)")
 
 
 @fixture
