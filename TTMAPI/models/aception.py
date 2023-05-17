@@ -8,6 +8,7 @@ class Aception(BaseModel):
     mostCharsMatched: int = 0
     bestCharPercent: int = 0
     didItMatch: bool = False
+    isNegative: bool = False
 
     def __str__(self) -> str:
         return f"{self.text}"
@@ -24,12 +25,19 @@ class Aception(BaseModel):
                        ) -> None:
 
         cleaned_aception: str = Clean(self.text)
-        cleaned_aception = " " + cleaned_aception + " "
         cleaned_traintext: str = Clean(trainText)
+
+        # Chequear negativo
+        if (cleaned_aception[0] == "-"):
+            print(cleaned_aception[1:])
+            self.isNegative = True
+            cleaned_aception = cleaned_aception[1:]
+
+        cleaned_aception = " " + cleaned_aception + " "
         cleaned_traintext = " " + cleaned_traintext + " "
         len_traintext: int = len(cleaned_traintext)
 
-        # Chequear si la palabra viene con paréntesis
+        # Chequear Parentesis
         did_have_parenthesis: bool = False
         did_have_slash: bool = False
         splited_word: str = cleaned_aception.split("(")

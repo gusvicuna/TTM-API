@@ -20,3 +20,8 @@ def aception_with_parenthesis():
 @fixture
 def aception_with_slash():
     return Aception(text="Trat(o/os/en/an/aron)")
+
+
+@fixture
+def aception_with_line():
+    return Aception(text="-acepción")
