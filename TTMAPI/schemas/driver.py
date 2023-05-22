@@ -1,20 +1,28 @@
 from TTMAPI.models.driver import Driver
-from TTMAPI.schemas.component import componentsSchema, matchedComponentsSchema
+from TTMAPI.schemas.component import (
+    componentsSchema,
+    matchedComponentsSchema,
+    componentSchema,
+    matchedComponentSchema)
 
 
-def driverSchema(item) -> dict:
+def driverSchema(item: Driver) -> dict:
     return {
         "dbid": item.dbid,
         "name": item.name,
-        "components": componentsSchema(item.components)
+        "components": componentsSchema(item.components),
+        "negatives": componentSchema(item.negatives),
+        "isItPositive": item.isPositive
     }
 
 
-def matchedDriverSchema(item) -> dict:
+def matchedDriverSchema(item: Driver) -> dict:
     return {
         "dbid": item.dbid,
         "name": item.name,
-        "components": matchedComponentsSchema(item.components)
+        "components": matchedComponentsSchema(item.components),
+        "negatives": matchedComponentSchema(item.negatives),
+        "isItPositive": item.isPositive
     }
 
 

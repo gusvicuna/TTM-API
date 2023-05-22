@@ -11,7 +11,6 @@ class Component(BaseModel):
     bestCharPercent: int = 0
     mostWordsMatched: int = 0
     mostCharsMatched: int = 0
-
     aceptions: List[Aception] = []
 
     def TextMatch(self, trainText: Aception):
