@@ -66,6 +66,7 @@ class Aception(BaseModel):
             # Se recorre cada letra de la acepción
             # (cleaned_aception es la base de la acepcion)
             word: str = cleaned_aception
+            extra_token = splited_extra[:]
             char_pos_aception: int = -1
             while True:
                 char_pos_aception += 1
@@ -83,9 +84,9 @@ class Aception(BaseModel):
                         if (did_have_parenthesis):
                             if (did_have_slash):
                                 if (word == cleaned_aception):
-                                    word = cleaned_aception + splited_extra[0]
+                                    word = cleaned_aception + extra_token[0]
                                     word = word + " "
-                                    splited_extra.pop(0)
+                                    extra_token.pop(0)
                                     char_pos_aception -= 1
                                     continue
                                 else:
@@ -105,10 +106,10 @@ class Aception(BaseModel):
                             # print("Simple Match!")
                             self.match(word, char_pos_traintext)
                             break
-                    elif (word != cleaned_aception and len(splited_extra) > 0):
-                        word = cleaned_aception + splited_extra[0]
+                    elif (word != cleaned_aception and len(extra_token) > 0):
+                        word = cleaned_aception + extra_token[0]
                         word = word + " "
-                        splited_extra.pop(0)
+                        extra_token.pop(0)
                         char_pos_aception = len(cleaned_aception) - 1
                         is_word_matching = True
                         continue
@@ -117,10 +118,10 @@ class Aception(BaseModel):
                 elif (char_pos_traintext >= len_traintext):
                     if (did_have_slash and
                             word != cleaned_aception and
-                            len(splited_extra) > 0):
-                        word = cleaned_aception + splited_extra[0]
+                            len(extra_token) > 0):
+                        word = cleaned_aception + extra_token[0]
                         word = word + " "
-                        splited_extra.pop(0)
+                        extra_token.pop(0)
                         char_pos_aception = len(cleaned_aception) - 1
                         is_word_matching = True
                         continue
