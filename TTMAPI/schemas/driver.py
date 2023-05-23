@@ -11,8 +11,7 @@ def driverSchema(item: Driver) -> dict:
         "dbid": item.dbid,
         "name": item.name,
         "components": componentsSchema(item.components),
-        "negatives": componentSchema(item.negatives),
-        "isItPositive": item.isPositive
+        "negatives": componentSchema(item.negatives)
     }
 
 
@@ -21,8 +20,7 @@ def matchedDriverSchema(item: Driver) -> dict:
         "dbid": item.dbid,
         "name": item.name,
         "components": matchedComponentsSchema(item.components),
-        "negatives": matchedComponentSchema(item.negatives),
-        "isItPositive": item.isPositive
+        "negatives": matchedComponentSchema(item.negatives)
     }
 
 

@@ -9,17 +9,17 @@ class Component(BaseModel):
     phrases: List[str]
 
     bestCharPercent: int = 0
-    mostWordsMatched: int = 0
     mostCharsMatched: int = 0
+    matchedAceptions: List[Aception] = []
     aceptions: List[Aception] = []
 
-    def TextMatch(self, trainText: Aception):
+    def TextMatch(self, trainText: str):
 
         for phrase in self.phrases:
 
             aception = Aception(text=phrase)
             aception.MatchTrainText(
-                trainText=trainText.text)
+                trainText=trainText)
 
             self.aceptions.append(aception)
             self.mostCharsMatched =\
@@ -27,4 +27,4 @@ class Component(BaseModel):
             self.bestCharPercent =\
                 max(self.bestCharPercent, aception.getCharPercent())
             if (aception.didItMatch):
-                self.mostWordsMatched += 1
+                self.matchedAceptions.append(aception)

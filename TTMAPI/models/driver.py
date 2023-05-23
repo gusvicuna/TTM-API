@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import List
 from TTMAPI.models.component import Component
-from TTMAPI.models.aception import Aception
 
 
 class Driver(BaseModel):
@@ -10,15 +9,35 @@ class Driver(BaseModel):
     name: str
     components: List[Component]
     negatives: Component
-    isPositive: bool = True
 
-    def TextMatch(self, trainText: Aception):
-        did_have_match: bool = False
+    def AnalyzeText(self,
+                    trainText: str,
+                    beforeNegDis: int,
+                    afterNegDis: int):
+
         for component in self.components:
             component.TextMatch(trainText=trainText)
-            if component.mostWordsMatched >= 1:
-                did_have_match = True
-        if did_have_match:
-            self.negatives.TextMatch(trainText=trainText)
-            if self.negatives.mostWordsMatched >= 1:
-                self.isPositive = False
+            if len(component.matchedAceptions) > 0:
+                self.CheckNegatives(
+                    trainText,
+                    beforeNegDis,
+                    afterNegDis,
+                    component)
+
+    def CheckNegatives(
+            self,
+            trainText: str,
+            beforeNegDis: int,
+            afterNegDis: int,
+            component: Component):
+
+        for aception in component.matchedAceptions:
+            ini_neg_pos: int =\
+                        max(0, aception.startingPosMatch - beforeNegDis)
+            end_neg_pos: int =\
+                min(len(trainText), aception.endingPosMatch + afterNegDis)
+            self.negatives.TextMatch(
+                trainText=trainText[ini_neg_pos:end_neg_pos])
+            for negative in self.negatives.aceptions:
+                if negative.didItMatch:
+                    aception.isNegative = not aception.isNegative

@@ -10,8 +10,8 @@ def matchedComponentSchema(item) -> dict:
         "name": item.name,
         "phrases": item.phrases,
         "bestCharPercent": item.bestCharPercent,
-        "mostWordsMatched": item.mostWordsMatched,
         "mostCharsMatched": item.mostCharsMatched,
+        "matchedAceptions": item.matchedAceptions,
         "aceptions": item.aceptions,
     }
 

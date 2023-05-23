@@ -2,7 +2,6 @@ from fastapi import APIRouter
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
-from TTMAPI.models.aception import Aception
 from TTMAPI.schemas.driver import\
     driverSchema, driversSchema, matchedDriversSchema
 from TTMAPI.services import driver_service
@@ -23,7 +22,7 @@ async def find_all_drivers():
 
 @router.get(base_route + '/{dbid}')
 async def find_driver_by_name(dbid: str):
-    logger.info("GET" + base_route + f"/{dbid}")
+    logger.info(f"GET {base_route}/{dbid}")
 
     driver_cursor = driver_service.get_driver_by_id_service(
         dbid=dbid,
@@ -74,17 +73,21 @@ async def delete_driver_service(dbid: str):
 
 @router.post(base_route + "/match")
 async def get_matched_drivers(
-        aception: Aception,
+        trainText: str,
+        beforeNegativeDistance: int = 100,
+        afterNegativeDistance: int = 100,
         ):
 
-    logger.info(f"POST {base_route}/match  aception='{aception.text}'")
+    logger.info(f"POST {base_route}/match  aception='{trainText}'")
 
     drivers_cursor = driver_service.get_all_drivers(
         logger=logger)
     drivers = []
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
-        driver.TextMatch(aception)
+        driver.AnalyzeText(trainText=trainText,
+                           beforeNegDis=int(beforeNegativeDistance),
+                           afterNegDis=int(afterNegativeDistance))
         drivers.append(driver)
 
     result = matchedDriversSchema(drivers)
