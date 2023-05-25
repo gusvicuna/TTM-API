@@ -25,6 +25,6 @@ class Component(BaseModel):
             self.mostCharsMatched =\
                 max(self.mostCharsMatched, aception.mostCharsMatched)
             self.bestCharPercent =\
-                max(self.bestCharPercent, aception.getCharPercent())
+                max(self.bestCharPercent, aception.bestCharPercent)
             if (aception.didItMatch):
                 self.matchedAceptions.append(aception)

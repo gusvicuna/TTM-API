@@ -35,3 +35,10 @@ def test_traintext_with_only_base_of_slash_options_shouldnt_match(
     train_text = "$ Trat $"
     aception_with_slash.MatchTrainText(train_text)
     assert not aception_with_slash.didItMatch
+
+
+def test_traintext_with_only_base_shouldnt_have_100_percent_char_match(
+        aception_with_slash: aception_with_slash):
+    train_text = "$ Trat $"
+    aception_with_slash.MatchTrainText(train_text)
+    assert not aception_with_slash.bestCharPercent == 100

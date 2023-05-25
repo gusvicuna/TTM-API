@@ -15,15 +15,6 @@ class Aception(BaseModel):
     def __str__(self) -> str:
         return f"{self.text}"
 
-    def getCharPercent(self):
-        cleaned_text = self.text.split("(")[0]
-        if (cleaned_text[0] == "-"):
-            cleaned_text = cleaned_text[1:]
-        self.bestCharPercent =\
-            round(self.mostCharsMatched * 100 / (len(cleaned_text) + 2), 0)
-        self.bestCharPercent = min(self.bestCharPercent, 100)
-        return self.bestCharPercent
-
     def MatchTrainText(self, trainText: str) -> None:
 
         cleaned_aception: str = Clean(self.text)
@@ -54,7 +45,7 @@ class Aception(BaseModel):
             if (len(splited_extra) > 1):
                 did_have_slash = True
 
-        # print(f"base: {cleaned_aception}, extra: {splited_extra}")
+        # # print(f"base: {cleaned_aception}, extra: {splited_extra}")
 
         # Se recorre la palabra por el traintext
         for word_position in range(len_traintext + len(cleaned_aception)):
@@ -84,6 +75,7 @@ class Aception(BaseModel):
                         if (did_have_parenthesis):
                             if (did_have_slash):
                                 if (word == cleaned_aception):
+                                    # print("Base match")
                                     word = cleaned_aception + extra_token[0]
                                     word = word + " "
                                     extra_token.pop(0)
@@ -95,6 +87,7 @@ class Aception(BaseModel):
                                     break
                             else:
                                 if (word == cleaned_aception):
+                                    # print("Base match")
                                     word = word + " "
                                     char_pos_aception -= 1
                                     continue
@@ -112,6 +105,9 @@ class Aception(BaseModel):
                         extra_token.pop(0)
                         char_pos_aception = len(cleaned_aception) - 1
                         is_word_matching = True
+                        chars_matched = len(cleaned_aception)
+                        # print("Option did not match")
+                        # print("--")
                         continue
                     else:
                         break
@@ -146,10 +142,16 @@ class Aception(BaseModel):
                 else:
                     is_word_matching = False
 
-                # print(f"{traintext_char} = {word_char}  {is_word_matching}")
-                # print(self.didItMatch)
+                if (did_have_parenthesis):
+                    if (word == cleaned_aception):
+                        continue
 
-            self.mostCharsMatched = max(self.mostCharsMatched, chars_matched)
+                self.mostCharsMatched = max(self.mostCharsMatched,
+                                            chars_matched)
+                chars_percent = round(chars_matched * 100 / len(word), 0)
+                self.bestCharPercent = max(self.bestCharPercent, chars_percent)
+
+                # print(f"{traintext_char} = {word_char} {chars_percent}")
 
     def match(self, word, char_pos_traintext):
         self.didItMatch = True
