@@ -8,7 +8,9 @@ class Driver(BaseModel):
     dbid: str
     name: str
     components: List[Component]
+    positives: Component
     negatives: Component
+    objects: Component
 
     def AnalyzeText(self,
                     trainText: str,
@@ -18,6 +20,8 @@ class Driver(BaseModel):
         for component in self.components:
             component.TextMatch(trainText=trainText)
             if len(component.matchedAceptions) > 0:
+                self.positives.TextMatch(trainText=trainText)
+                self.objects.TextMatch(trainText=trainText)
                 self.CheckNegatives(
                     trainText,
                     beforeNegDis,
