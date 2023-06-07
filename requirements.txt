@@ -5,6 +5,7 @@ gunicorn
 matplotlib
 pymongo
 numpy
+openai
 pytest
 python-dotenv
 uvicorn[standard]==0.20.0
