@@ -1,11 +1,9 @@
 ---
-title: Chilean Plates FastAPI
-description: A FastAPI server to retrieve chilean car plates data
+title: 
+description: 
 tags:
   - fastapi
   - python
-  - chile
-  - cars
 ---
 
 # TrainTextMatch FastAPI
