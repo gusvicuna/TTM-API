@@ -12,6 +12,7 @@ class Component(BaseModel):
     mostCharsMatched: int = 0
     matchedAceptions: List[Aception] = []
     aceptions: List[Aception] = []
+    mark: int = 0
 
     def TextMatch(self, trainText: str):
 
@@ -28,3 +29,16 @@ class Component(BaseModel):
                 max(self.bestCharPercent, aception.bestCharPercent)
             if (aception.didItMatch):
                 self.matchedAceptions.append(aception)
+
+    def SetPolar(self):
+        for aception in self.matchedAceptions:
+            if aception.isNegative:
+                if self.mark == 1 or self.mark == 2:
+                    self.mark = 2
+                else:
+                    self.mark = -1
+            else:
+                if self.mark == -1 or self.mark == 2:
+                    self.mark = 2
+                else:
+                    self.mark = 1

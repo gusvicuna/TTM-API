@@ -78,7 +78,7 @@ async def get_matched_drivers(
         afterNegativeDistance: int = 100,
         ):
 
-    logger.info(f"POST {base_route}/match  aception='{trainText}'")
+    logger.info(f"POST {base_route}/match  traintext='{trainText}'")
 
     drivers_cursor = driver_service.get_all_drivers(
         logger=logger)
@@ -92,3 +92,26 @@ async def get_matched_drivers(
 
     result = matchedDriversSchema(drivers)
     return result
+
+
+@router.post(base_route + "/dbmatch")
+async def get_db_match(
+        trainText: str,
+        beforeNegativeDistance: int = 100,
+        afterNegativeDistance: int = 100,
+        ):
+
+    logger.info(f"POST {base_route}/dbmatch  traintext='{trainText}'")
+
+    drivers_cursor = driver_service.get_all_drivers(
+        logger=logger)
+    components = {}
+    for driver_cursor in drivers_cursor:
+        driver = Driver(**driver_cursor)
+        driver.AnalyzeText(trainText=trainText,
+                           beforeNegDis=int(beforeNegativeDistance),
+                           afterNegDis=int(afterNegativeDistance))
+        for component in driver.components:
+            components[component.name] = component.mark
+
+    return components

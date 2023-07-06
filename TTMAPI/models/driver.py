@@ -35,6 +35,7 @@ class Driver(BaseModel):
             afterNegDis: int,
             component: Component):
 
+        component.SetPolar()
         for aception in component.matchedAceptions:
             ini_neg_pos: int =\
                         max(0, aception.startingPosMatch - beforeNegDis)
