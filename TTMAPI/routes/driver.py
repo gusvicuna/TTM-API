@@ -5,6 +5,7 @@ from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.driver import\
     driverSchema, driversSchema, matchedDriversSchema
 from TTMAPI.services import driver_service
+from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 
 
 router = APIRouter()
@@ -76,9 +77,14 @@ async def get_matched_drivers(
         trainText: str,
         beforeNegativeDistance: int = 100,
         afterNegativeDistance: int = 100,
+        fixGrammar: bool = False
         ):
 
     logger.info(f"POST {base_route}/match  traintext='{trainText}'")
+
+    if (fixGrammar):
+        trainText = fix_grammar(traintext=trainText)
+        logger.info(f"fixed traintext ='{trainText}'")
 
     drivers_cursor = driver_service.get_all_drivers(
         logger=logger)
@@ -99,9 +105,14 @@ async def get_db_match(
         trainText: str,
         beforeNegativeDistance: int = 100,
         afterNegativeDistance: int = 100,
+        fixGrammar: bool = False
         ):
 
     logger.info(f"POST {base_route}/dbmatch  traintext='{trainText}'")
+
+    if (fixGrammar):
+        trainText = fix_grammar(traintext=trainText)
+        logger.info(f"fixed traintext ='{trainText}'")
 
     drivers_cursor = driver_service.get_all_drivers(
         logger=logger)
