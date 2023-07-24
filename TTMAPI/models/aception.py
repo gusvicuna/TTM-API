@@ -20,6 +20,9 @@ class Aception(BaseModel):
 
         cleaned_aception: str = Clean(self.text)
         cleaned_traintext: str = Clean(trainText)
+        
+        if (len(cleaned_aception) == 0):
+            return
 
         # Chequear negativo
         if (cleaned_aception[0] == "-"):

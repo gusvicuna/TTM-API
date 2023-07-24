@@ -6,6 +6,7 @@ from TTMAPI.schemas.driver import\
     driverSchema, driversSchema, matchedDriversSchema
 from TTMAPI.services import driver_service
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
+from TTMAPI.services.OpenAI.process_comment import gpt_process
 
 
 router = APIRouter()
@@ -84,7 +85,7 @@ async def get_matched_drivers(
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
-        logger.info(f"fixed traintext ='{trainText}'")
+        logger.debug(f"fixed traintext ='{trainText}'")
 
     drivers_cursor = driver_service.get_all_drivers(
         logger=logger)
@@ -97,6 +98,22 @@ async def get_matched_drivers(
         drivers.append(driver)
 
     result = matchedDriversSchema(drivers)
+    return result
+
+
+@router.post(base_route + "/aimatch")
+async def get_ai_matched_drivers(
+        trainText: str,
+        fixGrammar: bool = False
+        ):
+
+    logger.info(f"POST {base_route}/aimatch  traintext='{trainText}'")
+
+    if (fixGrammar):
+        trainText = fix_grammar(traintext=trainText)
+        logger.debug(f"fixed traintext ='{trainText}'")
+
+    result = gpt_process(trainText, logger=logger)
     return result
 
 
