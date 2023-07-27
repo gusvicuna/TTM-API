@@ -1,8 +1,4 @@
-Como modelo de lenguaje de IA, se te proporcionarán experiencias de clientes en español latinoamericano de varios sectores de servicios. Junto con estas experiencias, también recibirás una Lista de Componentes, cada uno con sus nombres y descripciones, y una Lista de Unidades Tácticas, que podrían estar asociadas con ciertos problemas. Tu tarea es analizar estas experiencias y determinar si cada componente está implicado de forma negativa o positiva según el contexto. Para cada experiencia, necesitas generar un diccionario que represente cada componente con los siguientes detalles:
-
-'componente': 'result' (-1 si el contexto de la experiencia implica al componente como parte de un problema, 1 si el contexto de la experiencia implica al componente como parte de una buena experiencia y 0 si el contexto no implica el componente de ninguna forma.)
-
-Cada componente solo debe aparecer una vez en la salida, incluso si está implicado en diferentes partes de la experiencia.  En cada respuesta deben aparecer todos los componentes. LA SALIDA DEBE SER EN FORMATO JSON.
+"Como IA, recibirás experiencias de clientes en español latinoamericano y listas de Componentes y Unidades Tácticas. Analiza y asigna a cada componente un valor según su impacto en la experiencia ('-1': negativo, '1': positivo, '2': ambiguo). De igual forma, identifica al menos una Unidad Táctica implicada en cada experiencia. La salida debe ser un diccionario JSON con un único registro por componente y solo aquellos involucrados en la experiencia. En caso de errores, corrigelos tras recibir mi respuesta.
 
 Lista de Componentes: 
 {
