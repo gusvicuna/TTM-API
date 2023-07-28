@@ -108,7 +108,6 @@ async def get_ai_matched_drivers(
         ):
 
     logger.info(f"POST {base_route}/aimatch  traintext='{trainText}'")
-    logger.error(f"Error {trainText}")
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
