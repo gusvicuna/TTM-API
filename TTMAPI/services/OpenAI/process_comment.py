@@ -9,6 +9,7 @@ openai.api_key = config["OPENAI_API_KEY"]
 
 
 def gpt_process(traintext: str, logger):
+    logger.debug("GPT Process")
     try:
         full_result = {
             "REQUERIMIENTO": 0,
@@ -61,10 +62,14 @@ def gpt_process(traintext: str, logger):
             "CONTACT_CENTER": 0,
         }
 
-        prompt_instruction = "TTMAPI\services\OpenAI\prompt_instruction_simple.txt"
+        prompt_instruction = "TTMAPI/services/OpenAI/prompt_instruction_simple.txt"
+
+        logger.debug("Prompt instruction")
 
         with open(prompt_instruction, 'r') as file:
             prompt_instruction: str = file.read()
+
+        logger.debug("OPENAI")
 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -77,9 +82,12 @@ def gpt_process(traintext: str, logger):
             frequency_penalty=0,
             presence_penalty=0
         )
+
+        logger.debug("RESULT")
+
         result = response['choices'][0]['message']['content']
 
-        logger.info(f"gptresponse: {result}")
+        logger.debug(f"gptresponse: {result}")
 
         json_result = json.loads(result)
         for key in json_result:
