@@ -1,6 +1,7 @@
 import openai
 import json
 from dotenv import dotenv_values
+from fastapi import HTTPException
 
 config = dotenv_values("settings.env")
 
@@ -60,41 +61,31 @@ def gpt_process(traintext: str, logger):
         "CONTACT_CENTER": 0,
     }
 
-    with open("TTMAPI\services\OpenAI\prompt_instruction_simple.txt", 'r') as file:
-        prompt_instruction: str = file.read()
-
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": prompt_instruction},
-            {"role": "user", "content": traintext}],
-        temperature=0.2,
-        max_tokens=814,
-        top_p=0.4,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    logger.info(f"gptresponse: {response['choices'][0]['message']['content']}")
-
+    prompt_instruction = "TTMAPI\services\OpenAI\prompt_instruction_simple.txt"
     try:
-        json_result = json.loads(response["choices"][0]["message"]["content"])
-    except Exception as e:
-        logger.error(e)
+        with open(prompt_instruction, 'r') as file:
+            prompt_instruction: str = file.read()
+
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": prompt_instruction},
-                {"role": "user", "content": traintext},
-                {"role": "assistant", "content": response['choices'][0]['message']['content']},
-                {"role": "user", "content": e}],
+                {"role": "user", "content": traintext}],
             temperature=0.2,
             max_tokens=814,
             top_p=0.4,
             frequency_penalty=0,
             presence_penalty=0
         )
-        json_result = json.loads(response["choices"][0]["message"]["content"])
-    for key in json_result:
-        if key in full_result:
-            full_result[key] = json_result[key]
-    return full_result
+        result = response['choices'][0]['message']['content']
+
+        logger.info(f"gptresponse: {result}")
+
+        json_result = json.loads(result)
+        for key in json_result:
+            if key in full_result:
+                full_result[key] = json_result[key]
+        return full_result
+    except Exception as e:
+        logger.error(f"{e}, GPT: {result}")
+        raise HTTPException(status_code=502, detail="Bad response from GPT")
