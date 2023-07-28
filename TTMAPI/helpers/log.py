@@ -32,7 +32,7 @@ def create_log_dir() -> Optional[str]:
     You can also modify this to return None in some cases. Then nothing will
     get logged to files, only to console.
     """
-    time_str = datetime.utcnow().strftime('%Y-%m-%dT%H-%M-%S-%f')
+    time_str = datetime.utcnow().strftime('%Y-%m-%dT%H-%M')
     log_dir = '~/dev/log/%s/' % time_str
     log_dir = os.path.expanduser(log_dir)
     os.makedirs(log_dir, exist_ok=True)
