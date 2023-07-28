@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi import HTTPException
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver

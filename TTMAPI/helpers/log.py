@@ -19,7 +19,10 @@ CONSOLE_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 # FILE_LEVELS should be the tuples of log levels with the corresponding log
 # file name
-FILE_LEVELS = [(logging.DEBUG, 'debug.log'), (logging.INFO, 'info.log')]
+FILE_LEVELS = [
+    (logging.DEBUG, 'debug.log'),
+    (logging.INFO, 'info.log'),
+    (logging.ERROR, 'error.log')]
 FILE_FORMAT = '%(asctime)s - %(host)s - %(name)s - %(levelname)s - %(message)s'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S%z'
 
