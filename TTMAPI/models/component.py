@@ -7,12 +7,14 @@ from TTMAPI.models.aception import Aception
 class Component(BaseModel):
     name: str
     phrases: List[str]
+    description: str
 
     bestCharPercent: int = 0
     mostCharsMatched: int = 0
     matchedAceptions: List[Aception] = []
     aceptions: List[Aception] = []
-    mark: int = 0
+
+    result: int = 0
 
     def TextMatch(self, trainText: str):
 
@@ -33,12 +35,12 @@ class Component(BaseModel):
     def SetPolar(self):
         for aception in self.matchedAceptions:
             if aception.isNegative:
-                if self.mark == 1 or self.mark == 2:
-                    self.mark = 2
+                if self.result == 1 or self.result == 2:
+                    self.result = 2
                 else:
-                    self.mark = -1
+                    self.result = -1
             else:
-                if self.mark == -1 or self.mark == 2:
-                    self.mark = 2
+                if self.result == -1 or self.result == 2:
+                    self.result = 2
                 else:
-                    self.mark = 1
+                    self.result = 1

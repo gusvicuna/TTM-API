@@ -1,7 +1,8 @@
 def componentSchema(item) -> dict:
     return {
         "name": item.name,
-        "phrases": item.phrases
+        "phrases": item.phrases,
+        "description": item.description
     }
 
 
@@ -9,6 +10,7 @@ def matchedComponentSchema(item) -> dict:
     return {
         "name": item.name,
         "phrases": item.phrases,
+        "description": item.description,
         "bestCharPercent": item.bestCharPercent,
         "mostCharsMatched": item.mostCharsMatched,
         "matchedAceptions": item.matchedAceptions,

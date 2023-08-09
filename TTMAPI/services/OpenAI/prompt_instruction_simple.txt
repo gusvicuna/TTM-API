@@ -57,65 +57,6 @@ Lista de Unidades Tácticas:
 }
 
 Formato de respuesta:
-"Como IA, recibirás experiencias de clientes en español latinoamericano y listas de Componentes y Unidades Tácticas. Analiza y asigna a cada componente un valor según su impacto en la experiencia ('-1': negativo, '1': positivo, '2': ambiguo). De igual forma, identifica al menos una Unidad Táctica implicada en cada experiencia. La salida debe ser un diccionario JSON con un único registro por componente y solo aquellos involucrados en la experiencia. En caso de errores, corrigelos tras recibir mi respuesta.
-
-Lista de Componentes: 
-[
-  "REQUERIMIENTO",
-  "TIEMPOS",
-  "ECONOMICOS",
-  "APRENDIZAJE",
-  "RAPIDEZ",
-  "CONOCIMIENTO",
-  "ORIENTACION",
-  "EFECTIVIDAD COMUNICACIONAL",
-  "PRESENCIA",
-  "PROACTIVIDAD",
-  "TRATO",
-  "ACCIONES DE AMOR",
-  "PRECIOS",
-  "TASAS",
-  "CONDICIONES",
-  "CREDITO",
-  "CONFIANZA",
-  "HONESTIDAD",
-  "RESPETO",
-  "ECOLOGIA",
-  "FACILIDAD",
-  "FLUIDEZ",
-  "PRACTICIDAD",
-  "CALIDAD",
-  "VARIEDAD",
-  "DISENADOS PARA MI",
-  "DISPONIBILIDAD",
-  "TECNOLOGIA",
-  "FACILES DE VENDER",
-  "ENVOLTURA",
-  "SABOR",
-  "BAÑOS",
-  "ESTACIONAMIENTOS",
-  "MAQUINAS",
-  "SUCURSALES",
-  "LAYOUT",
-  "SECTORES DE ATENCION",
-  "APP",
-  "WEB "
-]
-
-Diccionario con descripciones de Unidades Tácticas:
-{
-"MARCA": Este componente se refiere a cualquier mención de la marca, empresa o propietarios. Incluye términos como "banco security", "corporación", "dueño", "empresa", "marca", "organización" y "socio".}
-"COLABORADOR": Este componente incluye todas las referencias a los empleados o colaboradores de la empresa. Las palabras como "anfitrión", "atendedor", "cajero", "chofer", "ejecutivo", "gerente", "jefe", "persona", "recepcionista", "repartidor" y "vendedor" están asociadas a este componente.}
-"RELACION COMERCIAL": Este componente se refiere a las interacciones comerciales y transaccionales entre el cliente y la empresa. Incluye términos como "cobro", "compra", "factura", y "pago".}
-"PRODUCTO_SERVICIO": Este componente se enfoca en los productos o servicios específicos ofrecidos por la empresa. Esto incluye una amplia gama de productos como "arriendo", "atención al cliente", "auto", "carne", "congelados", "crédito", "fruta", "leche", "mercadería", "millas lanpass", "pan", "pescadería", "pollo", "producto", "queso", "ropa", "seguros", y "servicio".}
-"COMUNICACION_MKT: Este componente está relacionado con las comunicaciones de marketing y las plataformas utilizadas para distribuir dichas comunicaciones. Incluye términos como "avisos", "catálogos", "comerciales", "fotos", "Instagram", "prensa", "radio", "redes sociales", "TikTok", "TV", y "Twitter".}
-"DISTRIBUCION": Este componente se refiere a la entrega o distribución de productos o servicios. Incluye palabras como "llegada", "camión", "despacho", "entrega", "logística", "pedido", "repartidores", y "transporte".}
-"INFRAESTRUCTURA VIRTUAL": Este componente se relaciona con las plataformas y herramientas digitales utilizadas por la empresa. Incluye términos como "aplicaciones", "correo", "email", "herramientas de transacción", "Instagram", "navegador", "online", "página", "sistema de pagos", "sitio", "teléfono", "TikTok", "Twitter", "whatsapp", y "web".}
-"INFRAESTRUCTURA FISICA": Este componente se ocupa de la infraestructura física de la empresa. Esto incluye referencias a "baños", "cajas de pago", "estacionamientos", "sucursal", y la cercanía de la empresa.}
-"CONTACT CENTER": Este componente aborda la interacción del cliente con el centro de contacto o call center de la empresa. Incluye términos como "call center", "centro de llamados", "contact center", "telefónica" y "teléfono".
-}
-
-Formato de respuesta:
 {
   "RAPIDEZ": 1,
   "RESPETO": -1,

@@ -73,15 +73,15 @@ async def delete_driver_service(dbid: str):
     return result
 
 
-@router.post(base_route + "/match")
-async def get_matched_drivers(
+@router.post(base_route + "/ttm_complete")
+async def get_TTM_complete_match(
         trainText: str,
         beforeNegativeDistance: int = 100,
         afterNegativeDistance: int = 100,
         fixGrammar: bool = False
         ):
 
-    logger.info(f"POST {base_route}/match  traintext='{trainText}'")
+    logger.info(f"POST {base_route}/ttm_complete  traintext='{trainText}'")
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
@@ -101,13 +101,13 @@ async def get_matched_drivers(
     return result
 
 
-@router.post(base_route + "/aimatch")
-async def get_ai_matched_drivers(
+@router.post(base_route + "/gpt_simple")
+async def get_GPT_simple_match(
         trainText: str,
         fixGrammar: bool = False
         ):
 
-    logger.info(f"POST {base_route}/aimatch  traintext='{trainText}'")
+    logger.info(f"POST {base_route}/gpt_simple  traintext='{trainText}'")
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
@@ -117,15 +117,15 @@ async def get_ai_matched_drivers(
     return result
 
 
-@router.post(base_route + "/dbmatch")
-async def get_db_match(
+@router.post(base_route + "/ttm_simple")
+async def get_TTM_simple_match(
         trainText: str,
         beforeNegativeDistance: int = 100,
         afterNegativeDistance: int = 100,
         fixGrammar: bool = False
         ):
 
-    logger.info(f"POST {base_route}/dbmatch  traintext='{trainText}'")
+    logger.info(f"POST {base_route}/ttm_simple  traintext='{trainText}'")
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
@@ -140,6 +140,6 @@ async def get_db_match(
                            beforeNegDis=int(beforeNegativeDistance),
                            afterNegDis=int(afterNegativeDistance))
         for component in driver.components:
-            components[component.name] = component.mark
+            components[component.name] = component.result
 
     return components
