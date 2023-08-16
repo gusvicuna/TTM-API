@@ -3,18 +3,15 @@ from fastapi import APIRouter
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.driver import\
-    driverSchema, driversSchema, matchedDriversSchema
+    driverSchema, driversSchema
 from TTMAPI.services import driver_service
-from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
-from TTMAPI.services.OpenAI.process_comment import gpt_process
-
 
 router = APIRouter()
 logger = get_logger(__name__)
 base_route = "/drivers"
 
 
-@router.get(base_route)
+@router.get("")
 async def find_all_drivers():
     logger.info("GET" + base_route)
 
@@ -22,7 +19,7 @@ async def find_all_drivers():
     return driversSchema(result)
 
 
-@router.get(base_route + '/{dbid}')
+@router.get('/{dbid}')
 async def find_driver_by_name(dbid: str):
     logger.info(f"GET {base_route}/{dbid}")
 
@@ -35,7 +32,7 @@ async def find_driver_by_name(dbid: str):
     return result
 
 
-@router.post(base_route)
+@router.post("")
 async def create_driver(driver: Driver):
     driver = driverSchema(driver)
     logger.info(f"POST {base_route}  driver={driver}")
@@ -46,7 +43,7 @@ async def create_driver(driver: Driver):
     return result
 
 
-@router.put(base_route + '/{dbid}')
+@router.put('/{dbid}')
 async def update_driver(dbid: str, driver: Driver):
     driver = driverSchema(driver)
     logger.info(f"PUT {base_route}/{dbid}  driver={driver}")
@@ -63,83 +60,11 @@ async def update_driver(dbid: str, driver: Driver):
     return result
 
 
-@router.delete(base_route + '/{dbid}')
-async def delete_driver_service(dbid: str):
+@router.delete('/{dbid}')
+async def delete_driver(dbid: str):
     logger.info(f"DELETE {base_route}/{dbid}")
 
     result = driver_service.delete_driver(
         dbid=dbid,
         logger=logger)
     return result
-
-
-@router.post(base_route + "/ttm_complete")
-async def get_TTM_complete_match(
-        trainText: str,
-        beforeNegativeDistance: int = 100,
-        afterNegativeDistance: int = 100,
-        fixGrammar: bool = False
-        ):
-
-    logger.info(f"POST {base_route}/ttm_complete  traintext='{trainText}'")
-
-    if (fixGrammar):
-        trainText = fix_grammar(traintext=trainText)
-        logger.debug(f"fixed traintext ='{trainText}'")
-
-    drivers_cursor = driver_service.get_all_drivers(
-        logger=logger)
-    drivers = []
-    for driver_cursor in drivers_cursor:
-        driver = Driver(**driver_cursor)
-        driver.AnalyzeText(trainText=trainText,
-                           beforeNegDis=int(beforeNegativeDistance),
-                           afterNegDis=int(afterNegativeDistance))
-        drivers.append(driver)
-
-    result = matchedDriversSchema(drivers)
-    return result
-
-
-@router.post(base_route + "/gpt_simple")
-async def get_GPT_simple_match(
-        trainText: str,
-        fixGrammar: bool = False
-        ):
-
-    logger.info(f"POST {base_route}/gpt_simple  traintext='{trainText}'")
-
-    if (fixGrammar):
-        trainText = fix_grammar(traintext=trainText)
-        logger.debug(f"fixed traintext ='{trainText}'")
-
-    result = gpt_process(trainText, logger=logger)
-    return result
-
-
-@router.post(base_route + "/ttm_simple")
-async def get_TTM_simple_match(
-        trainText: str,
-        beforeNegativeDistance: int = 100,
-        afterNegativeDistance: int = 100,
-        fixGrammar: bool = False
-        ):
-
-    logger.info(f"POST {base_route}/ttm_simple  traintext='{trainText}'")
-
-    if (fixGrammar):
-        trainText = fix_grammar(traintext=trainText)
-        logger.info(f"fixed traintext ='{trainText}'")
-
-    drivers_cursor = driver_service.get_all_drivers(
-        logger=logger)
-    components = {}
-    for driver_cursor in drivers_cursor:
-        driver = Driver(**driver_cursor)
-        driver.AnalyzeText(trainText=trainText,
-                           beforeNegDis=int(beforeNegativeDistance),
-                           afterNegDis=int(afterNegativeDistance))
-        for component in driver.components:
-            components[component.name] = component.result
-
-    return components

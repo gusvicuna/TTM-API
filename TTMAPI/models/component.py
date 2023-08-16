@@ -14,7 +14,8 @@ class Component(BaseModel):
     matchedAceptions: List[Aception] = []
     aceptions: List[Aception] = []
 
-    result: int = 0
+    ttm_result: int = 0
+    gpt_result: int = 0
 
     def TextMatch(self, trainText: str):
 
@@ -35,12 +36,12 @@ class Component(BaseModel):
     def SetPolar(self):
         for aception in self.matchedAceptions:
             if aception.isNegative:
-                if self.result == 1 or self.result == 2:
-                    self.result = 2
+                if self.ttm_result == 1 or self.ttm_result == 2:
+                    self.ttm_result = 2
                 else:
-                    self.result = -1
+                    self.ttm_result = -1
             else:
-                if self.result == -1 or self.result == 2:
-                    self.result = 2
+                if self.ttm_result == -1 or self.ttm_result == 2:
+                    self.ttm_result = 2
                 else:
-                    self.result = 1
+                    self.ttm_result = 1

@@ -15,6 +15,8 @@ def matchedComponentSchema(item) -> dict:
         "mostCharsMatched": item.mostCharsMatched,
         "matchedAceptions": item.matchedAceptions,
         "aceptions": item.aceptions,
+        "ttm_result": item.ttm_result,
+        "gpt_result": item.gpt_result
     }
 
 
