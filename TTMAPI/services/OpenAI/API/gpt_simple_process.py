@@ -9,22 +9,30 @@ openai.api_key = config["OPENAI_API_KEY"]
 
 
 def gpt_simple_process(traintext: str, drivers, logger):
-    components_result = {}
+    components = {}
+    uts = {}
     for driver in drivers:
-        for component in driver.components:
-            components_result[component.name] = 0
+        if not driver.isUT:
+            for component in driver.components:
+                components[component.name] = component.description
+        else:
+            for component in driver.components:
+                uts[component.name] = component.description
 
-    prompt_instruction = "TTMAPI/services/OpenAI/prompt_instruction_simple.txt"
+    prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
+        "prompt_instruction_simple.txt"
+    with open(prompt_instruction_file, 'r') as file:
+        prompt_instruction: str = file.read()
+
+    system_instruction = prompt_instruction +\
+        f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
+    print(system_instruction)
 
     try:
-
-        with open(prompt_instruction, 'r') as file:
-            prompt_instruction: str = file.read()
-
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": prompt_instruction},
+                {"role": "system", "content": system_instruction},
                 {"role": "user", "content": traintext}],
             temperature=0.2,
             max_tokens=814,
@@ -37,10 +45,15 @@ def gpt_simple_process(traintext: str, drivers, logger):
         logger.info(f"gptresponse: {result}")
 
         json_result = json.loads(result)
-        for key in json_result:
-            if key in components_result:
-                components_result[key] = json_result[key]
-        return components_result
     except Exception as e:
         logger.error(f"{e}, GPT: {result}")
         raise HTTPException(status_code=502, detail="Bad response from GPT")
+
+    results = {}
+    for driver in drivers:
+        for component in driver.components:
+            results[component.name] = 0
+    for key in json_result:
+        if key in results:
+            results[key] = json_result[key]
+    return results

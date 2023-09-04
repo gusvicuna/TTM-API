@@ -4,7 +4,7 @@ from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.driver import\
     driverSchema, driversSchema
-from TTMAPI.services import driver_service
+from TTMAPI.services import MongoDB
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -15,7 +15,7 @@ base_route = "/drivers"
 async def find_all_drivers():
     logger.info("GET" + base_route)
 
-    result = driver_service.get_all_drivers(logger=logger)
+    result = MongoDB.get_all_drivers(logger=logger)
     return driversSchema(result)
 
 
@@ -23,7 +23,7 @@ async def find_all_drivers():
 async def find_driver_by_name(dbid: str):
     logger.info(f"GET {base_route}/{dbid}")
 
-    driver_cursor = driver_service.get_driver_by_id_service(
+    driver_cursor = MongoDB.get_driver_by_id_service(
         dbid=dbid,
         logger=logger)
 
@@ -37,7 +37,7 @@ async def create_driver(driver: Driver):
     driver = driverSchema(driver)
     logger.info(f"POST {base_route}  driver={driver}")
 
-    result = driver_service.create_new_driver(
+    result = MongoDB.create_new_driver(
         driver=driver,
         logger=logger)
     return result
@@ -48,7 +48,7 @@ async def update_driver(dbid: str, driver: Driver):
     driver = driverSchema(driver)
     logger.info(f"PUT {base_route}/{dbid}  driver={driver}")
 
-    driver_result = driver_service.update_driver(
+    driver_result = MongoDB.update_driver(
         driver=driver,
         dbid=dbid,
         logger=logger)
@@ -64,7 +64,7 @@ async def update_driver(dbid: str, driver: Driver):
 async def delete_driver(dbid: str):
     logger.info(f"DELETE {base_route}/{dbid}")
 
-    result = driver_service.delete_driver(
+    result = MongoDB.delete_driver(
         dbid=dbid,
         logger=logger)
     return result

@@ -5,16 +5,19 @@ from TTMAPI.models.aception import Aception
 
 
 class Component(BaseModel):
+    # Main Attributes
     name: str
     phrases: List[str]
     description: str
 
+    # TTM attributes
     bestCharPercent: int = 0
     mostCharsMatched: int = 0
     matchedAceptions: List[Aception] = []
     aceptions: List[Aception] = []
-
     ttm_result: int = 0
+
+    # GPT attributes
     gpt_result: int = 0
 
     def TextMatch(self, trainText: str):

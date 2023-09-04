@@ -11,6 +11,7 @@ class Driver(BaseModel):
     positives: Component
     negatives: Component
     objects: Component
+    isUT: bool
 
     def AnalyzeText(self,
                     trainText: str,
