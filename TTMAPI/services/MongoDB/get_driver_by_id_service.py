@@ -1,9 +1,9 @@
-from TTMAPI.config.db import getDB
+from TTMAPI.config.db import getMongo
 from fastapi import HTTPException
 
 
 def get_driver_by_id_service(dbid: str, logger):
-    db = getDB()
+    db = getMongo()
     try:
         driver_cursor = db["drivers"].find_one({"dbid": dbid})
     except Exception as e:

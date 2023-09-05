@@ -113,7 +113,8 @@ async def create_description(
         component_name: str
         ):
 
-    logger.info(f"POST {base_route}/create_description  component_name='{component_name}'")
+    logger.info(f"POST {base_route}/create_description" +
+                " component_name='{component_name}'")
 
     drivers_cursor = MongoDB.get_all_drivers(logger=logger)
     drivers = []

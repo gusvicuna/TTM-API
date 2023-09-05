@@ -1,9 +1,9 @@
-from TTMAPI.config.db import getDB
+from TTMAPI.config.db import getMongo
 from fastapi import HTTPException
 
 
 def delete_driver_service(dbid: str, logger):
-    db = getDB()
+    db = getMongo()
     try:
         driver_cursor = db["drivers"].find_one({"dbid": dbid})
         if driver_cursor is not None:

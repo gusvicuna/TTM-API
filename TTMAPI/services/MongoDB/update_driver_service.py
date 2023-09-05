@@ -1,10 +1,10 @@
-from TTMAPI.config.db import getDB
+from TTMAPI.config.db import getMongo
 from TTMAPI.models.driver import Driver
 from fastapi import HTTPException
 
 
 def update_driver_service(driver: Driver, dbid: str, logger):
-    collection = getDB().drivers
+    collection = getMongo().drivers
 
     driver_cursor = collection.find_one({"dbid": dbid})
     if driver_cursor is not None:

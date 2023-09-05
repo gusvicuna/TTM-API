@@ -6,6 +6,8 @@ matplotlib
 pymongo
 numpy
 openai
+psycopg2
 pytest
 python-dotenv
+sqlalchemy
 uvicorn[standard]==0.20.0
