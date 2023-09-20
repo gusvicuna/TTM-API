@@ -4,14 +4,14 @@ from TTMAPI.models.component import Component
 
 
 class Driver(BaseModel):
-    _id: int
-    dbid: str
-    name: str
-    components: List[Component]
-    positives: Component
-    negatives: Component
-    objects: Component
-    isUT: bool
+    id: int = 0
+    dbid: str = 0
+    name: str = "no name"
+    components: List[Component] = []
+    positives: Component = []
+    negatives: Component = []
+    objects: Component = []
+    isUT: bool = False
 
     def AnalyzeText(self,
                     trainText: str,

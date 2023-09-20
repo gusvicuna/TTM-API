@@ -8,6 +8,7 @@ from TTMAPI.services.PostgreSQL.upsert_component_service import (
     upsert_component)
 from TTMAPI.services.PostgreSQL.upsert_driver_service import upsert_driver
 from TTMAPI.services.PostgreSQL.upsert_survey_service import upsert_survey
+from TTMAPI.services.PostgreSQL.process_answer_service import process_answer
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -24,7 +25,7 @@ async def create_surveys(
     (drivers, components, aceptions, and answers).
     """
 
-    # logger.info(f"POST {base_route}/surveys/ items={data}")
+    logger.info(f"POST {base_route}/surveys/ items={data}")
 
     answer_tokens = []
     try:
@@ -78,3 +79,11 @@ async def create_surveys(
         raise
 
     return answer_tokens
+
+
+@router.post("/process_answer", status_code=status.HTTP_200_OK)
+async def process_answer_by_token(
+        data: str = Body(...),
+        session=Depends(getPostgreSQL)
+        ):
+    process_answer(session=session, token=data, logger=logger)

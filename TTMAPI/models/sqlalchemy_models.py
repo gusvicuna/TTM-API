@@ -108,33 +108,58 @@ class Answer(Base):
         onupdate=datetime.utcnow)
 
 
+class AnswerComponent(Base):
+    __tablename__ = "answer_components"
+    answer_token = Column(
+        String,
+        ForeignKey('answers.token'),
+        primary_key=True,
+        index=True)
+    component_id = Column(Integer, ForeignKey('components.id'), nullable=False)
+    driver_id = Column(
+        Integer,
+        ForeignKey('components.driver_id'),
+        nullable=False)
+    survey_id = Column(
+        Integer,
+        ForeignKey('components.survey_id'),
+        nullable=False)
+    gpt_process = Column(Integer, nullable=False)
+    ttm_process = Column(Integer, nullable=False)
+
+
 # Relationships
 Survey.drivers = relationship(
     "Driver",
     back_populates="survey",
-    foreign_keys=[Driver.survey_id])
+    foreign_keys=[Driver.survey_id]
+)
 Survey.answers = relationship(
     "Answer",
     back_populates="survey",
-    foreign_keys=[Answer.survey_id])
+    foreign_keys=[Answer.survey_id]
+)
 
 Driver.survey = relationship(
     "Survey",
     back_populates="drivers",
-    foreign_keys=[Driver.survey_id])
+    foreign_keys=[Driver.survey_id]
+)
 Driver.components = relationship(
     'Component',
     back_populates='driver',
     primaryjoin="and_(Driver.id==Component.driver_id," +
     " Driver.survey_id==Component.survey_id)",
-    foreign_keys=[Component.driver_id, Component.survey_id])
+    foreign_keys=[Component.driver_id, Component.survey_id]
+)
 
 Component.driver = relationship(
     "Driver",
     back_populates="components",
     primaryjoin="and_(Component.driver_id==Driver.id," +
     " Component.survey_id==Driver.survey_id)",
-    foreign_keys=[Component.driver_id, Component.survey_id])
+    foreign_keys=[Component.driver_id, Component.survey_id]
+)
 Component.aceptions = relationship(
     "Aception",
     back_populates="component",
@@ -144,7 +169,19 @@ Component.aceptions = relationship(
     foreign_keys=[
         Aception.component_id,
         Aception.driver_id,
-        Aception.survey_id])
+        Aception.survey_id]
+)
+Component.answer_components = relationship(
+    "AnswerComponent",
+    back_populates="component",
+    primaryjoin="and_(AnswerComponent.component_id==Component.id, " +
+    "AnswerComponent.driver_id==Component.driver_id," +
+    " AnswerComponent.survey_id==Component.survey_id)",
+    foreign_keys=[
+        AnswerComponent.component_id,
+        AnswerComponent.driver_id,
+        AnswerComponent.survey_id]
+)
 
 Aception.component = relationship(
     "Component",
@@ -155,9 +192,33 @@ Aception.component = relationship(
     foreign_keys=[
         Aception.component_id,
         Aception.driver_id,
-        Aception.survey_id])
+        Aception.survey_id]
+)
 
 Answer.survey = relationship(
     "Survey",
     back_populates="answers",
-    foreign_keys=[Answer.survey_id])
+    foreign_keys=[Answer.survey_id]
+)
+Answer.answer_components = relationship(
+    "AnswerComponent",
+    back_populates="answer",
+    foreign_keys=[AnswerComponent.answer_token]
+)
+
+AnswerComponent.answer = relationship(
+    "Answer",
+    back_populates="answer_components",
+    foreign_keys=[AnswerComponent.answer_token]
+)
+AnswerComponent.component = relationship(
+    "Component",
+    back_populates="answer_components",
+    primaryjoin="and_(AnswerComponent.component_id==Component.id, " +
+    "AnswerComponent.driver_id==Component.driver_id," +
+    " AnswerComponent.survey_id==Component.survey_id)",
+    foreign_keys=[
+        AnswerComponent.component_id,
+        AnswerComponent.driver_id,
+        AnswerComponent.survey_id]
+)

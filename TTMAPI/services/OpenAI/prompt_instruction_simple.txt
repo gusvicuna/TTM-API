@@ -1,9 +1,17 @@
-"Como IA, recibirás experiencias de clientes en español latinoamericano y listas de Componentes y Unidades Tácticas. Analiza y asigna a cada componente un valor según su impacto en la experiencia ('-1': negativo, '1': positivo, '2': ambiguo). De igual forma, identifica al menos una Unidad Táctica implicada en cada experiencia. La salida debe ser un diccionario JSON con un único registro por componente y solo aquellos involucrados en la experiencia. En caso de errores, corrigelos tras recibir mi respuesta.
+"Como IA, recibirás experiencias de clientes en español latinoamericano y un diccionario con conjuntos de Componentes y Unidades Tácticas. Analiza y asigna a cada componente un valor según su impacto en la experiencia ('-1': negativo, '1': positivo, '2': ambiguo). De igual forma, identifica al menos una Unidad Táctica implicada en cada experiencia. La salida debe ser un diccionario JSON con un único registro por componente y solo aquellos involucrados en la experiencia. En caso de errores, corrigelos tras recibir mi respuesta.
 
 Ejemplo de respuesta:
 {
-  "COMPONENTE1": 1,
-  "COMPONENTE2": -1,
-  "UT1: -1,
-  "UT2": 0,
+  "123": {
+    "144": 1,
+    "145": -1
+  },
+  "2": {
+    "155": 2,
+    "158": 1
+  },
+  "9": {
+    "22: -1,
+    "142": 1,
+  }
 }

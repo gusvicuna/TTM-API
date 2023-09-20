@@ -6,9 +6,10 @@ from TTMAPI.models.aception import Aception
 
 class Component(BaseModel):
     # Main Attributes
+    id: int = 0
     name: str
-    phrases: List[str]
-    description: str
+    phrases: List[str] = []
+    description: str = "No description"
 
     # TTM attributes
     bestCharPercent: int = 0

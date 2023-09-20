@@ -5,9 +5,9 @@ from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.driver import matchedDriversSchema
 from TTMAPI.services import MongoDB
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
-from TTMAPI.services.OpenAI.API.gpt_simple_process import\
+from TTMAPI.services.OpenAI.gpt_simple_process import\
     gpt_simple_process
-from TTMAPI.services.OpenAI.API.generate_description import\
+from TTMAPI.services.OpenAI.generate_description import\
     generate_description
 
 router = APIRouter()

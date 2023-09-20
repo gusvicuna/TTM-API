@@ -8,16 +8,24 @@ config = dotenv_values("settings.env")
 openai.api_key = config["OPENAI_API_KEY"]
 
 
-def gpt_simple_process(traintext: str, drivers, logger):
+def gpt_simple_process(answer: str, drivers, logger):
     components = {}
     uts = {}
     for driver in drivers:
         if not driver.isUT:
+            components[driver.id] = {}
             for component in driver.components:
-                components[component.name] = component.description
+                components[driver.id][component.id] = {
+                    "name": component.name,
+                    "description": component.description
+                }
         else:
+            uts[driver.id] = {}
             for component in driver.components:
-                uts[component.name] = component.description
+                uts[driver.id][component.id] = {
+                    "name": component.name,
+                    "description": component.description
+                }
 
     prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
         "prompt_instruction_simple.txt"
@@ -26,14 +34,21 @@ def gpt_simple_process(traintext: str, drivers, logger):
 
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
-    print(system_instruction)
+
+    logger.info(f"\nGPT Instruction:\n{system_instruction}")
+
+    results = {}
+    for driver in drivers:
+        results[driver.id] = {}
+        for component in driver.components:
+            results[driver.id][component.id] = 0
 
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_instruction},
-                {"role": "user", "content": traintext}],
+                {"role": "user", "content": answer}],
             temperature=0.2,
             max_tokens=814,
             top_p=0.4,
@@ -45,15 +60,15 @@ def gpt_simple_process(traintext: str, drivers, logger):
         logger.info(f"gptresponse: {result}")
 
         json_result = json.loads(result)
+
     except Exception as e:
         logger.error(f"{e}, GPT: {result}")
         raise HTTPException(status_code=502, detail="Bad response from GPT")
 
-    results = {}
-    for driver in drivers:
-        for component in driver.components:
-            results[component.name] = 0
-    for key in json_result:
-        if key in results:
-            results[key] = json_result[key]
+    for driver_result in json_result:
+        for component_result in json_result[driver_result]:
+            if int(driver_result) in results:
+                if int(component_result) in results[int(driver_result)]:
+                    results[int(driver_result)][int(component_result)] =\
+                        json_result[driver_result][component_result]
     return results
