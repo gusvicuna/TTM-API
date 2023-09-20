@@ -1,4 +1,5 @@
 autopep8==2.0.2
+APScheduler
 fastapi==0.95.0
 flake8==6.0.0
 gunicorn

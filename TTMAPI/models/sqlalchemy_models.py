@@ -99,6 +99,7 @@ class Answer(Base):
     token = Column(String, primary_key=True, index=True)
     answer_text = Column(Text, nullable=False)
     has_been_processed = Column(Boolean, nullable=False, default=False)
+    did_have_an_error = Column(Boolean, default=False)
     survey_id = Column(Integer, ForeignKey('surveys.id'), nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(

@@ -35,8 +35,6 @@ def gpt_simple_process(answer: str, drivers, logger):
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
-    logger.info(f"\nGPT Instruction:\n{system_instruction}")
-
     results = {}
     for driver in drivers:
         results[driver.id] = {}

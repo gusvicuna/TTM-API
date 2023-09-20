@@ -25,6 +25,6 @@ def getMongo():
 def getPostgreSQL():
     db = SessionLocal()
     try:
-        yield db
+        return db
     finally:
         db.close()
