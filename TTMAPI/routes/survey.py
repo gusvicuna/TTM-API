@@ -2,6 +2,8 @@ from fastapi import APIRouter, Body, Depends, status
 
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
+from TTMAPI.services.PostgreSQL.get_processed_answers_service import (
+    get_processed_answer)
 from TTMAPI.services.PostgreSQL.upsert_aception_service import upsert_aception
 from TTMAPI.services.PostgreSQL.upsert_answer_service import upsert_answer
 from TTMAPI.services.PostgreSQL.upsert_component_service import (
@@ -87,3 +89,20 @@ async def process_answer_by_token(
         session=Depends(getPostgreSQL)
         ):
     process_answer(session=session, token=data, logger=logger)
+
+
+@router.post("/processed_answers")
+async def get_processed_answers(
+        data: list = Body(...),
+        session=Depends(getPostgreSQL)
+        ):
+
+    logger.info(f"GET {base_route}/processed_answers items={data}")
+
+    results = []
+    for token in data:
+        results.append(get_processed_answer(
+            token=token,
+            session=session,
+            logger=logger))
+    return results
