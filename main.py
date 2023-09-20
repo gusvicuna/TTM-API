@@ -26,7 +26,7 @@ app.add_middleware(
 )
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(process_answers, trigger="interval", seconds=30)
+scheduler.add_job(process_answers, trigger="interval", seconds=120)
 scheduler.start()
 
 
