@@ -3,10 +3,10 @@ from TTMAPI.models.driver import Driver
 from fastapi import HTTPException
 
 
-def update_driver_service(driver: Driver, dbid: str, logger):
+def update_driver_service(driver: Driver, driver_id: str, logger):
     collection = getMongo().drivers
 
-    driver_cursor = collection.find_one({"dbid": dbid})
+    driver_cursor = collection.find_one({"id": driver_id})
     if driver_cursor is not None:
 
         try:
@@ -17,10 +17,10 @@ def update_driver_service(driver: Driver, dbid: str, logger):
                     component["phrases"].remove(" ")
 
             collection.replace_one(
-                {"dbid": dbid},
+                {"id": driver_id},
                 driver)
 
-            return collection.find_one({"dbid": dbid})
+            return collection.find_one({"id": driver_id})
         except Exception as e:
             logger.error(f"Error: {e}")
             raise HTTPException(status_code=500, detail=e)

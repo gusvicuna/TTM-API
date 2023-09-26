@@ -2,15 +2,15 @@ from TTMAPI.config.db import getMongo
 from fastapi import HTTPException
 
 
-def get_driver_by_id_service(dbid: str, logger):
+def get_driver_by_id_service(driver_id: str, logger):
     db = getMongo()
     try:
-        driver_cursor = db["drivers"].find_one({"dbid": dbid})
+        driver_cursor = db["drivers"].find_one({"id": driver_id})
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail=e)
 
-    if driver_cursor is not None:
-        return driver_cursor
-    else:
+    if not driver_cursor:
         raise HTTPException(status_code=404, detail="Driver not found")
+
+    return driver_cursor

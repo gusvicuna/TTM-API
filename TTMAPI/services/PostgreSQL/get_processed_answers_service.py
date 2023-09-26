@@ -75,7 +75,8 @@ def get_processed_answer(token, session, logger):
                                     answer_token=token,
                                     component_id=ut_comp.id).first()
                         except Exception as e:
-                            logger.error(f"AnswerComponent not found. Error: {e}")
+                            logger.error(
+                                f"AnswerComponent not found. Error: {e}")
                             raise HTTPException(status_code=500, detail=e)
                         ut_comp_result["resultado"] =\
                             ut_answer_component.gpt_process

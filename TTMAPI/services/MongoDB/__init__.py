@@ -11,17 +11,20 @@ def get_all_drivers(logger):
     return get_all_drivers_service(logger=logger)
 
 
-def get_driver_by_id(dbid: str, logger):
-    return get_driver_by_id_service(dbid=dbid, logger=logger)
+def get_driver_by_id(driver_id: int, logger):
+    return get_driver_by_id_service(driver_id=driver_id, logger=logger)
 
 
 def create_new_driver(driver: Driver, logger):
     return create_new_driver_service(driver=driver, logger=logger)
 
 
-def update_driver(driver: Driver, dbid: str, logger):
-    return update_driver_service(driver=driver, dbid=dbid, logger=logger)
+def update_driver(driver: Driver, driver_id: int, logger):
+    return update_driver_service(
+        driver=driver,
+        driver_id=driver_id,
+        logger=logger)
 
 
-def delete_driver(dbid: str, logger):
-    return delete_driver_service(dbid=dbid, logger=logger)
+def delete_driver(driver_id: int, logger):
+    return delete_driver_service(driver_id=driver_id, logger=logger)

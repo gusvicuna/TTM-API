@@ -2,13 +2,11 @@ from fastapi import APIRouter
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
-from TTMAPI.schemas.driver import matchedDriversSchema
+from TTMAPI.schemas.driver import getMatchedDriversSchema
 from TTMAPI.services import MongoDB
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 from TTMAPI.services.OpenAI.gpt_simple_process import\
     gpt_simple_process
-from TTMAPI.services.OpenAI.generate_description import\
-    generate_description
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -52,9 +50,9 @@ async def post_playground_process(
             logger=logger)
         for driver in drivers:
             for component in driver.components:
-                component.gpt_result = gpt_result[component.name]
+                component.gpt_result = gpt_result[driver.id][component.id]
 
-    result = matchedDriversSchema(drivers)
+    result = getMatchedDriversSchema(drivers)
     return result
 
 
@@ -106,35 +104,3 @@ async def get_GPT_simple_match(
 
     result = gpt_simple_process(trainText, drivers=drivers, logger=logger)
     return result
-
-
-@router.post("/create_description")
-async def create_description(
-        component_name: str
-        ):
-
-    logger.info(f"POST {base_route}/create_description" +
-                " component_name='{component_name}'")
-
-    drivers_cursor = MongoDB.get_all_drivers(logger=logger)
-    drivers = []
-    for driver_cursor in drivers_cursor:
-        driver = Driver(**driver_cursor)
-        drivers.append(driver)
-
-    for driver in drivers:
-        for component in driver.components:
-            if component.name == component_name:
-                selected_component = component
-
-    selected_component.description = generate_description(
-        name=selected_component.name,
-        phrases=selected_component.phrases,
-        logger=logger)
-    for driver in drivers:
-        for component in driver.components:
-            if component.name == component_name:
-                MongoDB.update_driver(
-                    driver=driver.dict(),
-                    dbid=driver.dbid,
-                    logger=logger)

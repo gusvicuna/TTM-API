@@ -12,14 +12,14 @@ def gpt_simple_process(answer: str, drivers, logger):
     components = {}
     uts = {}
     for driver in drivers:
-        if not driver.isUT:
+        if driver.driver_type == "driver":
             components[driver.id] = {}
             for component in driver.components:
                 components[driver.id][component.id] = {
                     "name": component.name,
                     "description": component.description
                 }
-        else:
+        elif driver.driver_type == "ut":
             uts[driver.id] = {}
             for component in driver.components:
                 uts[driver.id][component.id] = {
@@ -35,6 +35,8 @@ def gpt_simple_process(answer: str, drivers, logger):
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
+    user_experience = "experiencia: " + answer
+
     results = {}
     for driver in drivers:
         results[driver.id] = {}
@@ -46,7 +48,7 @@ def gpt_simple_process(answer: str, drivers, logger):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_instruction},
-                {"role": "user", "content": answer}],
+                {"role": "user", "content": user_experience}],
             temperature=0.2,
             max_tokens=814,
             top_p=0.4,

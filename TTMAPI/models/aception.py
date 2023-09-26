@@ -11,7 +11,6 @@ class Aception(BaseModel):
     startingPosMatch: int = 0
     endingPosMatch: int = 0
     isNegative: bool = False
-    davinciMatch: int = 0
 
     def __str__(self) -> str:
         return f"{self.text}"

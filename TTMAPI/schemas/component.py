@@ -1,4 +1,7 @@
-def componentSchema(item) -> dict:
+from TTMAPI.models.component import Component
+
+
+def createComponentSchema(item: Component) -> dict:
     return {
         "name": item.name,
         "phrases": item.phrases,
@@ -6,8 +9,18 @@ def componentSchema(item) -> dict:
     }
 
 
-def matchedComponentSchema(item) -> dict:
+def getComponentSchema(item: Component) -> dict:
     return {
+        "id": item.id,
+        "name": item.name,
+        "phrases": item.phrases,
+        "description": item.description
+    }
+
+
+def getMatchedComponentSchema(item: Component) -> dict:
+    return {
+        "id": item.id,
         "name": item.name,
         "phrases": item.phrases,
         "description": item.description,
@@ -20,9 +33,13 @@ def matchedComponentSchema(item) -> dict:
     }
 
 
-def componentsSchema(entity) -> list:
-    return [componentSchema(item) for item in entity]
+def createComponentsSchema(entity) -> list:
+    return [createComponentSchema(item) for item in entity]
 
 
-def matchedComponentsSchema(entity) -> list:
-    return [matchedComponentSchema(item) for item in entity]
+def getComponentsSchema(entity) -> list:
+    return [getComponentSchema(item) for item in entity]
+
+
+def getMatchedComponentsSchema(entity) -> list:
+    return [getMatchedComponentSchema(item) for item in entity]

@@ -1,36 +1,51 @@
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.component import (
-    componentsSchema,
-    matchedComponentsSchema,
-    componentSchema,
-    matchedComponentSchema)
+    createComponentSchema,
+    createComponentsSchema,
+    getComponentsSchema,
+    getMatchedComponentsSchema,
+    getComponentSchema,
+    getMatchedComponentSchema)
 
 
-def driverSchema(item: Driver) -> dict:
+def createDriverSchema(item: Driver) -> dict:
     return {
-        "dbid": item.dbid,
         "name": item.name,
-        "components": componentsSchema(item.components),
-        "positives": componentSchema(item.positives),
-        "negatives": componentSchema(item.negatives),
-        "objects": componentSchema(item.objects)
+        "type": item.driver_type,
+        "components": createComponentsSchema(item.components),
+        "positives": createComponentSchema(item.positives),
+        "negatives": createComponentSchema(item.negatives),
+        "objects": createComponentSchema(item.objects)
     }
 
 
-def matchedDriverSchema(item: Driver) -> dict:
+def getDriverSchema(item: Driver) -> dict:
     return {
-        "dbid": item.dbid,
+        "id": item.id,
         "name": item.name,
-        "components": matchedComponentsSchema(item.components),
-        "positives": componentSchema(item.positives),
-        "negatives": matchedComponentSchema(item.negatives),
-        "objects": matchedComponentSchema(item.objects)
+        "type": item.driver_type,
+        "components": getComponentsSchema(item.components),
+        "positives": getComponentSchema(item.positives),
+        "negatives": getComponentSchema(item.negatives),
+        "objects": getComponentSchema(item.objects)
     }
 
 
-def driversSchema(entity) -> list:
-    return [driverSchema(Driver(**item)) for item in entity]
+def getMatchedDriverSchema(item: Driver) -> dict:
+    return {
+        "id": item.id,
+        "name": item.name,
+        "type": item.driver_type,
+        "components": getMatchedComponentsSchema(item.components),
+        "positives": getComponentSchema(item.positives),
+        "negatives": getMatchedComponentSchema(item.negatives),
+        "objects": getMatchedComponentSchema(item.objects)
+    }
 
 
-def matchedDriversSchema(entity) -> list:
-    return [matchedDriverSchema(item) for item in entity]
+def getDriversSchema(entity) -> list:
+    return [getDriverSchema(Driver(**item)) for item in entity]
+
+
+def getMatchedDriversSchema(entity) -> list:
+    return [getMatchedDriverSchema(item) for item in entity]
