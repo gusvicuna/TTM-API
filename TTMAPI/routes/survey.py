@@ -83,12 +83,11 @@ async def create_surveys(
     return answer_tokens
 
 
-@router.post("/process_answer", status_code=status.HTTP_200_OK)
+@router.get("/process_answer", status_code=status.HTTP_200_OK)
 async def process_answer_by_token(
-        data: str = Body(...),
         session=Depends(getPostgreSQL)
         ):
-    process_answer(session=session, token=data, logger=logger)
+    return process_answer(session=session, logger=logger)
 
 
 @router.post("/processed_answers")

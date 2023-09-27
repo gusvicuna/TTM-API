@@ -86,3 +86,5 @@ def process_answer(session, logger):
     session.commit()
 
     logger.info(f"Answer {answer.token} correctly processed.")
+
+    return answer
