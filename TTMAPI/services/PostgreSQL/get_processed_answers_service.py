@@ -11,9 +11,7 @@ def get_processed_answer(token, session, logger):
     if not answer:
         logger.error(f"Answer {token} not found")
         results["status"] = "not found"
-        raise HTTPException(
-            status_code=400,
-            detail=f"Answer {token} not found")
+        return results
 
     if answer.has_been_processed:
         if answer.did_have_an_error:
@@ -50,18 +48,11 @@ def get_processed_answer(token, session, logger):
                 logger.error(f"AnswerComponent not found. Error: {e}")
                 raise HTTPException(status_code=500, detail=e)
 
-            post_result = 0
-            if answer_component.gpt_process == -1:
-                post_result = 2
-            elif answer_component.gpt_process == 2:
-                post_result = 0
-            else:
-                post_result = answer_component.gpt_process
-            component_result["resultado"] = post_result
+            component_result["resultado"] = answer_component.gpt_process
 
             # TODO: Modificar luego de arreglar codificación con UTs
             component_result["ut"] = []
-            if post_result != 0:
+            if answer_component.gpt_process != 0:
                 for ut in uts:
                     ut_result = {}
                     ut_result["ut_id"] = ut.id

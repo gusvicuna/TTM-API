@@ -16,7 +16,7 @@ def process_answer(session, logger):
         return
 
     if not answer:
-        logger.info("No quedan answer por procesar.")
+        logger.info("No quedan respuestas por procesar.")
         return
 
     logger.info(f"Processing answer with token: {answer.token}")
@@ -29,8 +29,7 @@ def process_answer(session, logger):
     try:
         for sql_driver in sql_drivers:
             driver = Driver(id=sql_driver.id, name=sql_driver.name)
-            if (sql_driver.type == "ut"):
-                driver.isUT = True
+            driver.driver_type = sql_driver.type
             for sql_component in sql_driver.components:
                 component = Component(
                     name=sql_component.name,
