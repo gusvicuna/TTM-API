@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
+from TTMAPI.jobs.create_descriptions_job import create_descriptions
 
 from TTMAPI.jobs.process_answers_job import process_answers
 from TTMAPI.routes.driver import router as driver_router
@@ -26,7 +27,8 @@ app.add_middleware(
 )
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(process_answers, trigger="interval", seconds=120)
+scheduler.add_job(process_answers, trigger="interval", seconds=60)
+scheduler.add_job(create_descriptions, trigger="interval", seconds=240)
 scheduler.start()
 
 

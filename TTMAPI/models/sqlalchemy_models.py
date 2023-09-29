@@ -18,6 +18,7 @@ class Survey(Base):
     __tablename__ = "surveys"
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, nullable=True)
+    has_been_described = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(
         DateTime,

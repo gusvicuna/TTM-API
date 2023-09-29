@@ -48,11 +48,15 @@ def get_processed_answer(token, session, logger):
                 logger.error(f"AnswerComponent not found. Error: {e}")
                 raise HTTPException(status_code=500, detail=e)
 
-            component_result["resultado"] = answer_component.gpt_process
+            if answer_component.ttm_process != 0:
+                resultado = answer_component.ttm_process
+            else:
+                resultado = answer_component.gpt_process
+            component_result["resultado"] = resultado
 
             # TODO: Modificar luego de arreglar codificación con UTs
             component_result["ut"] = []
-            if answer_component.gpt_process != 0:
+            if resultado != 0:
                 for ut in uts:
                     ut_result = {}
                     ut_result["ut_id"] = ut.id

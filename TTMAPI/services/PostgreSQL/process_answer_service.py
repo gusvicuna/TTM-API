@@ -1,3 +1,4 @@
+from typing import List
 from TTMAPI.models.component import Component
 from TTMAPI.models.driver import Driver
 from TTMAPI.models.sqlalchemy_models import Answer, Survey
@@ -7,21 +8,34 @@ from TTMAPI.services.PostgreSQL.upsert_answer_component_service import\
 
 
 def process_answer(session, logger):
-
     try:
-        answer: Answer = session.query(Answer).filter_by(
-            has_been_processed=False).first()
+        surveys: List[Survey] = session.query(Survey).filter_by(
+            has_been_described=True
+        )
     except Exception as e:
-        logger.error(f"Error obteniendo answer. Error: {e}")
+        logger.error(f"Error obteniendo encuestas. Error: {e}")
         return
 
-    if not answer:
-        logger.info("No quedan respuestas por procesar.")
+    if not surveys:
+        logger.info("No se encuentran encuestas ya descritas.")
+        return
+
+    survey: Survey = None
+    for survey_sql in surveys:
+        answer: Answer = None
+        for answer_sql in survey_sql.answers:
+            if not answer_sql.has_been_processed:
+                answer = answer_sql
+
+        if answer:
+            survey = survey_sql
+            break
+
+    if not survey:
+        logger.info("No se encuentran respuestas sin procesar.")
         return
 
     logger.info(f"Processing answer with token: {answer.token}")
-
-    survey: Survey = answer.survey
     sql_drivers = survey.drivers
 
     drivers = []

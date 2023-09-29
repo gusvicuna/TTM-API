@@ -2,6 +2,7 @@ from fastapi import APIRouter, Body, Depends, status
 
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
+from TTMAPI.jobs.create_descriptions_job import create_descriptions
 from TTMAPI.services.PostgreSQL.get_processed_answers_service import (
     get_processed_answer)
 from TTMAPI.services.PostgreSQL.upsert_aception_service import upsert_aception
@@ -88,6 +89,13 @@ async def process_answer_by_token(
         session=Depends(getPostgreSQL)
         ):
     return process_answer(session=session, logger=logger)
+
+
+@router.get("/describe_survey", status_code=status.HTTP_200_OK)
+async def describe_survey(
+        session=Depends(getPostgreSQL)
+        ):
+    return create_descriptions()
 
 
 @router.post("/processed_answers")

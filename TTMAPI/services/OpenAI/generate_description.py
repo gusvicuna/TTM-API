@@ -1,6 +1,5 @@
 import openai
 from dotenv import dotenv_values
-from fastapi import HTTPException
 
 config = dotenv_values("settings.env")
 
@@ -16,7 +15,7 @@ def generate_description(name, phrases, logger):
     component = {}
     component["name"] = name
     component["phrases"] = phrases
-    
+
     print(component)
 
     try:
@@ -36,5 +35,5 @@ def generate_description(name, phrases, logger):
         logger.info(f"gptresponse: {result}")
     except Exception as e:
         logger.error(f"{e}, GPT: {result}")
-        raise HTTPException(status_code=502, detail="Bad response from GPT")
+        return name
     return result
