@@ -45,7 +45,7 @@ def get_processed_answer(token, session, logger):
         driver_result["components"] = []
         for component in driver.components:
             try:
-                result = session.execute(
+                answer_component_result = session.execute(
                     text("SELECT * FROM answer_components" +
                          " WHERE answer_token = :token" +
                          " AND component_id = :component_id" +
@@ -58,27 +58,24 @@ def get_processed_answer(token, session, logger):
                         "survey_id": survey.id}
                 ).fetchone()
 
-                if result:
-                    answer_component_data = {
-                        'answer_token': result[0],
-                        'component_id': result[1],
-                        'driver_id': result[2],
-                        'survey_id': result[3],
-                        'gpt_process': result[4],
-                        'ttm_process': result[5]
-                    }
-                    answer_component = AnswerComponent(**answer_component_data)
-                else:
-                    print("Direct query found nothing.")
-
             except Exception as e:
                 logger.error(f"Error getting answerComponent. Error: {e}")
                 raise HTTPException(status_code=500, detail=e)
 
-            if not answer_component:
+            if not answer_component_result:
                 logger.error("AnswerComponent not found.")
                 raise HTTPException(status_code=500,
                                     detail="AnswerComponent not found.")
+
+            answer_component_data = {
+                    'answer_token': answer_component_result[0],
+                    'component_id': answer_component_result[1],
+                    'driver_id': answer_component_result[2],
+                    'survey_id': answer_component_result[3],
+                    'gpt_process': answer_component_result[4],
+                    'ttm_process': answer_component_result[5]
+                }
+            answer_component = AnswerComponent(**answer_component_data)
 
             if answer_component.ttm_process != 0:
                 resultado = answer_component.ttm_process
@@ -90,7 +87,7 @@ def get_processed_answer(token, session, logger):
             component_result = {}
             component_result["component_id"] = answer_component.component_id
             component_result["resultado"] = resultado
-            component_result["ut"] = []
+            component_result["uts"] = []
             # TODO: Modificar luego de arreglar codificación con UTs
             for ut in uts:
                 ut_result = {}
@@ -100,23 +97,50 @@ def get_processed_answer(token, session, logger):
                     ut_comp_result = {}
                     ut_comp_result["component_id"] = ut_comp.id
                     try:
-                        ut_answer_component =\
-                            session.query(AnswerComponent).filter_by(
-                                answer_token=token,
-                                component_id=ut_comp.id).first()
+                        answer_component_result = session.execute(
+                            text("SELECT * FROM answer_components" +
+                                 " WHERE answer_token = :token" +
+                                 " AND component_id = :component_id" +
+                                 " AND driver_id = :driver_id" +
+                                 " AND survey_id = :survey_id"),
+                            {
+                                "token": token,
+                                "component_id": ut_comp.id,
+                                "driver_id": ut.id,
+                                "survey_id": survey.id}
+                        ).fetchone()
+
                     except Exception as e:
                         logger.error(
-                            f"AnswerComponent not found. Error: {e}")
+                            f"Error getting UTAnswerComponent. Error: {e}")
                         raise HTTPException(status_code=500, detail=e)
+
+                    if not answer_component_result:
+                        logger.error("UTAnswerComponent not found.")
+                        raise HTTPException(
+                            status_code=500,
+                            detail="UTAnswerComponent not found.")
+
+                    answer_component_data = {
+                            'answer_token': answer_component_result[0],
+                            'component_id': answer_component_result[1],
+                            'driver_id': answer_component_result[2],
+                            'survey_id': answer_component_result[3],
+                            'gpt_process': answer_component_result[4],
+                            'ttm_process': answer_component_result[5]
+                        }
+                    ut_answer_component = AnswerComponent(
+                        **answer_component_data)
+                    logger.info(ut_answer_component.gpt_process)
                     if ut_answer_component.ttm_process != 0:
                         ut_comp_result["resultado"] =\
-                            answer_component.ttm_process
+                            ut_answer_component.ttm_process
                     else:
                         ut_comp_result["resultado"] =\
-                            answer_component.gpt_process
-                    # if ut_comp_result["resultado"] != 0:
+                            ut_answer_component.gpt_process
+                    if ut_comp_result["resultado"] != 0:
                         ut_result["components"].append(ut_comp_result)
-                component_result["ut"].append(ut_result)
+                component_result["uts"].append(ut_result)
 
             driver_result["components"].append(component_result)
         results["codificacion"].append(driver_result)
