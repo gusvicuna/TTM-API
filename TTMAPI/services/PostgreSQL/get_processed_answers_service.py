@@ -131,18 +131,22 @@ def get_processed_answer(token, session, logger):
                         }
                     ut_answer_component = AnswerComponent(
                         **answer_component_data)
-                    logger.info(ut_answer_component.gpt_process)
                     if ut_answer_component.ttm_process != 0:
                         ut_comp_result["resultado"] =\
                             ut_answer_component.ttm_process
                     else:
                         ut_comp_result["resultado"] =\
                             ut_answer_component.gpt_process
+
                     if ut_comp_result["resultado"] != 0:
                         ut_result["components"].append(ut_comp_result)
-                component_result["uts"].append(ut_result)
-
+                if ut_result["components"]:
+                    component_result["uts"].append(ut_result)
+            if not component_result["uts"]:
+                results["status"] = "en duda"
             driver_result["components"].append(component_result)
-        results["codificacion"].append(driver_result)
-
+        if driver_result["components"]:
+            results["codificacion"].append(driver_result)
+    if not results["codificacion"]:
+        results["status"] = "en duda"
     return results
