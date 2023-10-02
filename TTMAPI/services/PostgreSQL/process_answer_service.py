@@ -47,8 +47,8 @@ def process_answer(session, logger):
             for sql_component in sql_driver.components:
                 component = Component(
                     name=sql_component.name,
-                    id=sql_component.id
-                    # description=component_sql.description,
+                    id=sql_component.id,
+                    description=sql_component.description,
                     )
                 for aception in sql_component.aceptions:
                     component.phrases.append(aception.phrase)
