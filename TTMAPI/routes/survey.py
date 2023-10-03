@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Depends, status
+from fastapi import APIRouter, Body, Depends, HTTPException, status
 
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
@@ -81,6 +81,9 @@ async def create_surveys(
         logger.error(f"Failed to create surveys: {e}")
         raise
 
+    finally:
+        session.close()
+
     return answer_tokens
 
 
@@ -88,7 +91,13 @@ async def create_surveys(
 async def process_answer_by_token(
         session=Depends(getPostgreSQL)
         ):
-    return process_answer(session=session, logger=logger)
+    try:
+        result = process_answer(session=session, logger=logger)
+    except Exception as e:
+        raise HTTPException(detail=e)
+    finally:
+        session.close()
+    return result
 
 
 @router.get("/describe_survey", status_code=status.HTTP_200_OK)
@@ -107,9 +116,12 @@ async def get_processed_answers(
     logger.info(f"GET {base_route}/processed_answers items={data}")
 
     results = []
-    for token in data:
-        results.append(get_processed_answer(
-            token=token,
-            session=session,
-            logger=logger))
+    try:
+        for token in data:
+            results.append(get_processed_answer(
+                token=token,
+                session=session,
+                logger=logger))
+    finally:
+        session.close()
     return results

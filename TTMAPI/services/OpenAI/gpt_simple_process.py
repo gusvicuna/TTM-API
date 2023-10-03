@@ -35,7 +35,7 @@ def gpt_simple_process(answer: str, drivers, logger):
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
-    user_experience = "experiencia: " + answer
+    user_experience = "Procesa la siguiente experiencia: " + answer
 
     results = {}
     for driver in drivers:

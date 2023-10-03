@@ -9,3 +9,4 @@ logger = get_logger(__name__)
 def process_answers():
     session = getPostgreSQL()
     process_answer(session=session, logger=logger)
+    session.close()

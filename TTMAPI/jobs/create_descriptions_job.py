@@ -33,5 +33,6 @@ def create_descriptions():
 
     survey.has_been_described = True
     session.commit()
+    session.close()
 
     return survey
