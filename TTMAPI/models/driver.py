@@ -15,18 +15,23 @@ class Driver(BaseModel):
     def AnalyzeText(self,
                     trainText: str,
                     beforeNegDis: int,
-                    afterNegDis: int):
-
+                    afterNegDis: int,
+                    complete: bool):
+        has_a_match = False
         for component in self.components:
             component.TextMatch(trainText=trainText)
             if len(component.matchedAceptions) > 0:
-                self.positives.TextMatch(trainText=trainText)
-                self.objects.TextMatch(trainText=trainText)
-                self.CheckNegatives(
-                    trainText,
-                    beforeNegDis,
-                    afterNegDis,
-                    component)
+                has_a_match = True
+                if complete:
+                    self.positives.TextMatch(trainText=trainText)
+                    self.objects.TextMatch(trainText=trainText)
+                    self.CheckNegatives(
+                        trainText,
+                        beforeNegDis,
+                        afterNegDis,
+                        component)
+        if self.driver_type == "ut" and not has_a_match:
+            self.components[0].ttm_result = 1
 
     def CheckNegatives(
             self,

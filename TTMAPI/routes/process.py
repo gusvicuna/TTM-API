@@ -40,7 +40,8 @@ async def post_playground_process(
             driver.AnalyzeText(
                 trainText=trainText,
                 beforeNegDis=int(beforeNegativeDistance),
-                afterNegDis=int(afterNegativeDistance))
+                afterNegDis=int(afterNegativeDistance),
+                complete=True)
         drivers.append(driver)
 
     if gpt_process:
@@ -77,7 +78,8 @@ async def get_TTM_simple_match(
         driver = Driver(**driver_cursor)
         driver.AnalyzeText(trainText=trainText,
                            beforeNegDis=int(beforeNegativeDistance),
-                           afterNegDis=int(afterNegativeDistance))
+                           afterNegDis=int(afterNegativeDistance),
+                           complete=True)
         for component in driver.components:
             components[component.name] = component.ttm_result
 

@@ -28,7 +28,7 @@ def gpt_simple_process(answer: str, drivers, logger):
                 }
 
     prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
-        "prompt_instruction_simple.txt"
+        "gpt_process_prompt.txt"
     with open(prompt_instruction_file, 'r') as file:
         prompt_instruction: str = file.read()
 
