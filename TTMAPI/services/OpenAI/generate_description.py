@@ -16,7 +16,7 @@ def generate_description(name, phrases, logger):
     component["name"] = name
     component["phrases"] = phrases
 
-    print(component)
+    logger.info(f"Component: {component['name']}")
 
     try:
         response = openai.ChatCompletion.create(
@@ -34,6 +34,6 @@ def generate_description(name, phrases, logger):
 
         logger.info(f"gptresponse: {result}")
     except Exception as e:
-        logger.error(f"{e}, GPT: {result}")
+        logger.error(f"Error: {e}, GPT: {result}")
         return name
     return result

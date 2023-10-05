@@ -19,6 +19,7 @@ class Survey(Base):
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, nullable=True)
     has_been_described = Column(Boolean, nullable=False, default=False)
+    did_have_an_error = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(
         DateTime,
