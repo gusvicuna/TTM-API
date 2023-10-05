@@ -9,6 +9,8 @@ logger = get_logger(__name__)
 
 def create_descriptions():
     session = getPostgreSQL()
+
+    logger.info("Executing create_descriptions job")
     result = None
     try:
         result = cd(session=session, logger=logger)

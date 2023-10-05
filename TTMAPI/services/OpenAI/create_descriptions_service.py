@@ -26,6 +26,7 @@ def create_descriptions(session, logger):
                     phrases=phrases,
                     logger=logger)
 
+        logger.info("Finished creating descriptions.")
         survey.has_been_described = True
         session.commit()
     except Exception as e:
