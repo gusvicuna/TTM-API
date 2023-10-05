@@ -20,6 +20,7 @@ class Driver(BaseModel):
         has_a_match = False
         for component in self.components:
             component.TextMatch(trainText=trainText)
+            component.SetPolar()
             if len(component.matchedAceptions) > 0:
                 has_a_match = True
                 if complete:

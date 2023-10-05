@@ -11,7 +11,7 @@ def process_answer(session, logger):
     try:
         surveys: List[Survey] = session.query(Survey).filter_by(
             has_been_described=True
-        )
+        ).all()
     except Exception as e:
         logger.error(f"Error obteniendo encuestas. Error: {e}")
         return
@@ -52,9 +52,12 @@ def process_answer(session, logger):
                     )
                 for aception in sql_component.aceptions:
                     component.phrases.append(aception.phrase)
-                component.TextMatch(answer.answer_text)
-                component.SetPolar()
                 driver.components.append(component)
+            driver.AnalyzeText(
+                trainText=answer.answer_text,
+                beforeNegDis=0,
+                afterNegDis=0,
+                complete=False)
             drivers.append(driver)
     except Exception as e:
         logger.error(f"Error with TTM process. Error: {e}")
