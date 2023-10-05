@@ -33,7 +33,7 @@ def generate_description(name, phrases, logger):
         result = response['choices'][0]['message']['content']
 
         logger.info(f"gptresponse: {result}")
+        return result
     except Exception as e:
         logger.error(f"Error: {e}, GPT: {result}")
         return name
-    return result
