@@ -14,11 +14,11 @@ def process_answer(session, logger):
         ).all()
     except Exception as e:
         logger.error(f"Error obteniendo encuestas. Error: {e}")
-        return
+        return f"Error obteniendo encuestas. Error: {e}"
 
     if not surveys:
         logger.info("No se encuentran encuestas ya descritas.")
-        return
+        return "No se encuentran encuestas ya descritas."
 
     survey: Survey = None
     for survey_sql in surveys:
@@ -33,7 +33,7 @@ def process_answer(session, logger):
 
     if not survey:
         logger.info("No se encuentran respuestas sin procesar.")
-        return
+        return "No se encuentran respuestas sin procesar."
 
     logger.info(f"Processing answer with token: {answer.token}")
     sql_drivers = survey.drivers
@@ -64,7 +64,7 @@ def process_answer(session, logger):
         answer.did_have_an_error = True
         answer.has_been_processed = True
         session.commit()
-        return
+        return f"Error with TTM process. Error: {e}"
 
     try:
         gpt_results = gpt_simple_process(
@@ -83,7 +83,7 @@ def process_answer(session, logger):
         answer.did_have_an_error = True
         answer.has_been_processed = True
         session.commit()
-        return
+        return f"Error with GPT process. Error: {e}"
 
     try:
         for driver in drivers:
@@ -96,7 +96,7 @@ def process_answer(session, logger):
                     token=answer.token)
     except Exception as e:
         logger.error(f"Error upserting answer_components. Error: {e}")
-        return
+        return f"Error upserting answer_components. Error: {e}"
 
     answer.did_have_an_error = False
     answer.has_been_processed = True
