@@ -108,4 +108,4 @@ async def create_description(
         driver_id=driver.id,
         logger=logger)
     driver = Driver(**driver_cursor)
-    return driver
+    return selected_component.description
