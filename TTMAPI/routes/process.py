@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
@@ -45,13 +45,20 @@ async def post_playground_process(
         drivers.append(driver)
 
     if gpt_process:
-        gpt_result = gpt_simple_process(
-            trainText,
-            drivers=drivers,
-            logger=logger)
+        try:
+            gpt_result = gpt_simple_process(
+                trainText,
+                drivers=drivers,
+                logger=logger)
+        except Exception as e:
+            logger.error(f"Error procesing gpt on playground. Error: {e}")
+            raise HTTPException(status_code=502, detail=e)
         for driver in drivers:
-            for component in driver.components:
-                component.gpt_result = gpt_result[driver.id][component.id]
+            if driver.id in gpt_result:
+                for component in driver.components:
+                    if component.id in gpt_result[driver.id]:
+                        component.gpt_result =\
+                            gpt_result[driver.id][component.id]
 
     result = getMatchedDriversSchema(drivers)
     return result
