@@ -129,6 +129,24 @@ class AnswerComponent(Base):
         nullable=False)
     gpt_process = Column(Integer, nullable=False)
     ttm_process = Column(Integer, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow)
+
+
+class ErrorProcess(Base):
+    __tablename__ = "error_process"
+    id = Column(Integer, primary_key=True, index=True)
+    answer_token = Column(
+        String,
+        ForeignKey('answers.token'),
+        primary_key=True,
+        index=True)
+    error_details = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
 
 # Relationships

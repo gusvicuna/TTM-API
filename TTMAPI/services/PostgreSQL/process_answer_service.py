@@ -5,6 +5,8 @@ from TTMAPI.models.sqlalchemy_models import Answer, Survey
 from TTMAPI.services.OpenAI.gpt_simple_process import gpt_simple_process
 from TTMAPI.services.PostgreSQL.upsert_answer_component_service import\
     upsert_answer_component
+from TTMAPI.services.PostgreSQL.insert_error_process_service import (
+    insert_error_process)
 
 
 def process_answer(session, logger):
@@ -60,11 +62,16 @@ def process_answer(session, logger):
                 complete=False)
             drivers.append(driver)
     except Exception as e:
-        logger.error(f"Error with TTM process. Error: {e}")
+        error_text = f"Error with TTM process. Error: {e}"
+        logger.error(error_text)
         answer.did_have_an_error = True
         answer.has_been_processed = True
-        session.commit()
-        return f"Error with TTM process. Error: {e}"
+        insert_error_process(
+            session=session,
+            answer_token=answer.token,
+            error_details=error_text,
+            logger=logger)
+        return error_text
 
     try:
         gpt_results = gpt_simple_process(
@@ -79,11 +86,16 @@ def process_answer(session, logger):
                     obj for obj in driver.components if obj.id == component_id)
                 component.gpt_result = gpt_results[driver_id][component_id]
     except Exception as e:
-        logger.error(f"Error with GPT process. Error: {e}")
+        error_text = f"Error with GPT process. Error: {e}"
+        logger.error(error_text)
         answer.did_have_an_error = True
         answer.has_been_processed = True
-        session.commit()
-        return f"Error with GPT process. Error: {e}"
+        insert_error_process(
+            session=session,
+            answer_token=answer.token,
+            error_details=error_text,
+            logger=logger)
+        return error_text
 
     try:
         for driver in drivers:
@@ -95,8 +107,16 @@ def process_answer(session, logger):
                     driver_id=driver.id,
                     token=answer.token)
     except Exception as e:
-        logger.error(f"Error upserting answer_components. Error: {e}")
-        return f"Error upserting answer_components. Error: {e}"
+        error_text = f"Error upserting answer_components. Error: {e}"
+        logger.error(error_text)
+        answer.did_have_an_error = True
+        answer.has_been_processed = True
+        insert_error_process(
+            session=session,
+            answer_token=answer.token,
+            error_details=error_text,
+            logger=logger)
+        return error_text
 
     answer.did_have_an_error = False
     answer.has_been_processed = True
