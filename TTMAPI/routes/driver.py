@@ -79,13 +79,13 @@ async def delete_driver(driver_id: int):
     return result
 
 
-@router.post("/{driver_id}/components/{component_id}/describe")
+@router.get("/{driver_id}/components/{component_id}/describe")
 async def create_description(
         driver_id: int,
         component_id: int
         ):
 
-    logger.info(f"POST {base_route}/create_description" +
+    logger.info(f"GET {base_route}/create_description" +
                 f" driver={driver_id}" +
                 f" component={component_id}")
 
