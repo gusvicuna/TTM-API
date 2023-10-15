@@ -2,7 +2,7 @@
  Analiza y asigna a cada componente un valor según su impacto en la experiencia ('-1': negativo, '1': positivo, '2': ambiguo).
  De igual forma, identifica siempre al menos una Unidad Táctica implicada en cada experiencia. En caso de no encontrar ninguna, marca la de nombre "Marca".
  La salida debe ser un diccionario JSON con un único registro por componente y solo aquellos involucrados en la experiencia.
- En caso de errores, corrigelos tras recibir mi respuesta.
+ No asumas nada que no aparezca textualmente, solo toma la información explícita.
 
 Ejemplo de respuesta:
 {
