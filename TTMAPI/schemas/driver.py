@@ -11,7 +11,7 @@ from TTMAPI.schemas.component import (
 def createDriverSchema(item: Driver) -> dict:
     return {
         "name": item.name,
-        "type": item.driver_type,
+        "driver_type": item.driver_type,
         "components": createComponentsSchema(item.components),
         "positives": createComponentSchema(item.positives),
         "negatives": createComponentSchema(item.negatives),
@@ -23,7 +23,7 @@ def getDriverSchema(item: Driver) -> dict:
     return {
         "id": item.id,
         "name": item.name,
-        "type": item.driver_type,
+        "driver_type": item.driver_type,
         "components": getComponentsSchema(item.components),
         "positives": getComponentSchema(item.positives),
         "negatives": getComponentSchema(item.negatives),
@@ -35,7 +35,7 @@ def getMatchedDriverSchema(item: Driver) -> dict:
     return {
         "id": item.id,
         "name": item.name,
-        "type": item.driver_type,
+        "driver_type": item.driver_type,
         "components": getMatchedComponentsSchema(item.components),
         "positives": getComponentSchema(item.positives),
         "negatives": getMatchedComponentSchema(item.negatives),

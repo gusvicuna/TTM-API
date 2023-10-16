@@ -8,6 +8,15 @@ config = dotenv_values("settings.env")
 openai.api_key = config["OPENAI_API_KEY"]
 
 
+def create_empty_results(drivers):
+    results = {}
+    for driver in drivers:
+        results[driver.id] = {}
+        for component in driver.components:
+            results[driver.id][component.id] = 0
+    return results
+
+
 def gpt_simple_process(answer: str, drivers, logger):
     components = {}
     uts = {}
@@ -37,11 +46,7 @@ def gpt_simple_process(answer: str, drivers, logger):
 
     user_experience = "Procesa la siguiente experiencia: " + answer
 
-    results = {}
-    for driver in drivers:
-        results[driver.id] = {}
-        for component in driver.components:
-            results[driver.id][component.id] = 0
+    results = create_empty_results(drivers)
 
     try:
         response = openai.ChatCompletion.create(
