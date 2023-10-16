@@ -37,7 +37,7 @@ def getMatchedDriverSchema(item: Driver) -> dict:
         "name": item.name,
         "driver_type": item.driver_type,
         "components": getMatchedComponentsSchema(item.components),
-        "positives": getComponentSchema(item.positives),
+        "positives": getMatchedComponentSchema(item.positives),
         "negatives": getMatchedComponentSchema(item.negatives),
         "objects": getMatchedComponentSchema(item.objects)
     }
