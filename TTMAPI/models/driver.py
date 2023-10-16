@@ -31,8 +31,10 @@ class Driver(BaseModel):
                         beforeNegDis,
                         afterNegDis,
                         component)
-        if self.driver_type == "ut" and not has_a_match:
-            self.components[0].ttm_result = 1
+        if self.name == "LIKE & UT" and not has_a_match:
+            for component in self.components:
+                if component.name == "MARCA":
+                    component.ttm_result = 1
 
     def CheckNegatives(
             self,
@@ -41,7 +43,6 @@ class Driver(BaseModel):
             afterNegDis: int,
             component: Component):
 
-        component.SetPolar()
         for aception in component.matchedAceptions:
             ini_neg_pos: int =\
                         max(0, aception.startingPosMatch - beforeNegDis)
@@ -52,3 +53,4 @@ class Driver(BaseModel):
             for negative in self.negatives.aceptions:
                 if negative.didItMatch:
                     aception.isNegative = not aception.isNegative
+            component.SetPolar()

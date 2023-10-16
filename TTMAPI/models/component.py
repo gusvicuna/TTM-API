@@ -38,14 +38,16 @@ class Component(BaseModel):
                 self.matchedAceptions.append(aception)
 
     def SetPolar(self):
+        polar_result = 0
         for aception in self.matchedAceptions:
             if aception.isNegative:
-                if self.ttm_result == 1 or self.ttm_result == 2:
-                    self.ttm_result = 2
+                if polar_result == 1 or polar_result == 2:
+                    polar_result = 2
                 else:
-                    self.ttm_result = -1
+                    polar_result = -1
             else:
-                if self.ttm_result == -1 or self.ttm_result == 2:
-                    self.ttm_result = 2
+                if polar_result == -1 or polar_result == 2:
+                    polar_result = 2
                 else:
-                    self.ttm_result = 1
+                    polar_result = 1
+        self.ttm_result = polar_result
