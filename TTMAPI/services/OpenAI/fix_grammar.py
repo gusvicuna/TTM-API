@@ -5,7 +5,7 @@ config = dotenv_values("settings.env")
 
 openai.api_key = config["OPENAI_API_KEY"]
 
-prompt_instruction = "Corrige la ortografía y gramática."
+prompt_instruction = "Corrige la ortografía, gramática y puntuación."
 
 
 def fix_grammar(traintext: str):
