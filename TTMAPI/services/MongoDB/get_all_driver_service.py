@@ -3,9 +3,13 @@ from fastapi import HTTPException
 
 
 def get_all_drivers_service(logger):
+    """
+    Get all drivers from MongoDB.
+    Order them by driver_type.
+    """
     db = getMongo()
     try:
-        drivers_cursor = db["drivers"].find()
+        drivers_cursor = db["drivers"].find().sort("driver_type", 1)
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail=e)
