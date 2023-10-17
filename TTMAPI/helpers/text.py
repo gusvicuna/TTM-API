@@ -17,8 +17,9 @@ def Clean(text: str) -> str:
     text = text.replace("í", "i")
     text = text.replace("ó", "o")
     text = text.replace("ú", "u")
-    text = text.replace(".", "")
-    text = text.replace(",", "")
-    text = text.replace(":", "")
+    text = text.replace(".", " ")
+    text = text.replace(",", " ")
+    text = text.replace(":", " ")
+    text = text.replace("\n", " ")
     text = text.upper()
     return text
