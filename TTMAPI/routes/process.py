@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
-from TTMAPI.schemas.driver import getMatchedDriversSchema
+from TTMAPI.schemas.process import getProcessedExperienceSchema
 from TTMAPI.services import MongoDB
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 from TTMAPI.services.OpenAI.gpt_simple_process import\
@@ -60,7 +60,9 @@ async def post_playground_process(
                         component.gpt_result =\
                             gpt_result[driver.id][component.id]
 
-    result = getMatchedDriversSchema(drivers)
+    result = getProcessedExperienceSchema(
+        driver=drivers,
+        experience=trainText)
     return result
 
 
