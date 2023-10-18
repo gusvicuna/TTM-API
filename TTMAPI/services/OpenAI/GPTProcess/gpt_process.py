@@ -17,7 +17,7 @@ def create_empty_results(drivers):
     return results
 
 
-def gpt_simple_process(answer: str, drivers, logger):
+def gpt_process(answer: str, drivers, logger):
     components = {}
     uts = {}
     for driver in drivers:
@@ -37,9 +37,15 @@ def gpt_simple_process(answer: str, drivers, logger):
                 }
 
     prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
-        "gpt_process_prompt.txt"
-    with open(prompt_instruction_file, 'r') as file:
+        "GPTProcess/gpt_process_prompt.txt"
+    prompt_example_file = "TTMAPI/services/OpenAI/" +\
+        "GPTProcess/gpt_process_example.txt"
+
+    with open(prompt_instruction_file, 'r', encoding='utf-8') as file:
         prompt_instruction: str = file.read()
+    with open(prompt_example_file, 'r', encoding='utf-8') as file:
+        prompt_example: str = file.read()
+    prompt_instruction += "\n" + prompt_example
 
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
@@ -64,10 +70,15 @@ def gpt_simple_process(answer: str, drivers, logger):
 
         logger.info(f"gptresponse: {result}")
 
-        json_result = json.loads(result)
+        try:
+            json_result = json.loads(result)
+        except json.JSONDecodeError:
+            logger.error(f"JSON Decode Error for result: {result}")
+            raise HTTPException(
+                status_code=502, detail="Bad JSON format in GPT response")
 
     except Exception as e:
-        logger.error(f"{e}, GPT: {result}")
+        logger.error(f"General Error: {e}, GPT: {result}")
         raise HTTPException(status_code=502, detail="Bad response from GPT")
 
     for driver_result in json_result:

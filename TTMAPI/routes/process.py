@@ -1,12 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.process import getProcessedExperienceSchema
 from TTMAPI.services import MongoDB
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
-from TTMAPI.services.OpenAI.gpt_simple_process import\
-    gpt_simple_process
+from TTMAPI.services.OpenAI.GPTProcess.gpt_process import\
+    gpt_process
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -14,18 +14,18 @@ base_route = "/process"
 
 
 @router.post("/playground_process")
-async def post_playground_process(
+async def playground_process(
         trainText: str,
         beforeNegativeDistance: int = 15,
         afterNegativeDistance: int = 0,
-        ttm_process: bool = True,
-        gpt_process: bool = False,
+        ttm: bool = True,
+        gpt: bool = True,
         fixGrammar: bool = False
         ):
 
     logger.info(
         f"POST {base_route}/playground_process traintext='{trainText}' " +
-        " ttm_process={ttm_process} gpt_process={gpt_process}")
+        f" ttm={ttm} gpt={gpt}")
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
@@ -36,7 +36,7 @@ async def post_playground_process(
     drivers = []
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
-        if ttm_process:
+        if ttm:
             driver.AnalyzeText(
                 trainText=trainText,
                 beforeNegDis=int(beforeNegativeDistance),
@@ -44,15 +44,11 @@ async def post_playground_process(
                 complete=True)
         drivers.append(driver)
 
-    if gpt_process:
-        try:
-            gpt_result = gpt_simple_process(
-                trainText,
-                drivers=drivers,
-                logger=logger)
-        except Exception as e:
-            logger.error(f"Error procesing gpt on playground. Error: {e}")
-            raise HTTPException(status_code=502, detail=e)
+    if gpt:
+        gpt_result = gpt_process(
+            answer=trainText,
+            drivers=drivers,
+            logger=logger)
         for driver in drivers:
             if driver.id in gpt_result:
                 for component in driver.components:
@@ -113,5 +109,5 @@ async def get_GPT_simple_match(
         driver = Driver(**driver_cursor)
         drivers.append(driver)
 
-    result = gpt_simple_process(trainText, drivers=drivers, logger=logger)
+    result = gpt_process(trainText, drivers=drivers, logger=logger)
     return result

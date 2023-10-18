@@ -8,9 +8,15 @@ openai.api_key = config["OPENAI_API_KEY"]
 
 def generate_description(name, phrases, logger):
     prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
-        "description_generation_prompt.txt"
-    with open(prompt_instruction_file, 'r') as file:
+        "/DescriptionGeneration/description_generation_prompt.txt"
+    prompt_example_file = "TTMAPI/services/OpenAI/" +\
+        "/DescriptionGeneration/description_generation_example.txt"
+
+    with open(prompt_instruction_file, 'r', encoding='utf-8') as file:
         prompt_instruction: str = file.read()
+    with open(prompt_example_file, 'r', encoding='utf-8') as file:
+        prompt_example: str = file.read()
+    prompt_instruction += "\n" + prompt_example
 
     component = {}
     component["name"] = name

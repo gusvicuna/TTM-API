@@ -7,6 +7,7 @@ from TTMAPI.jobs.process_answers_job import process_answers
 from TTMAPI.routes.driver import router as driver_router
 from TTMAPI.routes.process import router as process_router
 from TTMAPI.routes.survey import router as survey_router
+from TTMAPI.routes.prompt import router as prompt_router
 
 
 app = FastAPI()
@@ -14,6 +15,7 @@ app = FastAPI()
 app.include_router(driver_router, prefix="/drivers")
 app.include_router(process_router, prefix="/process")
 app.include_router(survey_router, prefix='/surveys')
+app.include_router(prompt_router, prefix='/prompt')
 
 origins = [
     "http://localhost:4200/"

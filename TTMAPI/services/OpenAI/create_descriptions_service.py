@@ -1,5 +1,6 @@
 from TTMAPI.models.sqlalchemy_models import Survey
-from TTMAPI.services.OpenAI.generate_description import generate_description
+from TTMAPI.services.OpenAI.DescriptionGeneration.generate_description import (
+    generate_description)
 
 
 def create_descriptions(session, logger):

@@ -1,0 +1,5 @@
+Crea una descripción estilo diccionario de un componente enfocándote en sus características, basándote en las acepciones proporcionadas y dando prioridad a las más significativas.
+Estas acepciones, con símbolos específicos, reflejan características del componente en relación con un producto o servicio.
+'@' puede reemplazarse por 'o' o 'a', paréntesis indica posibles conjugaciones, con '/' para múltiples opciones, y '-' denota una percepción negativa.
+Dada una entrada { 'name': <Componente>, "phrases":[<phrase1>,<phrase2>,...] }, genera una salida en el formato: <your_description> con un límite de 200 caracteres. 
+Asegúrate de que estas descripciones sean lo más informativas y concisas posible, resumiendo la esencia de cada componente y sus acepciones.

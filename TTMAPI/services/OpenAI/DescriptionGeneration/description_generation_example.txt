@@ -1,0 +1,4 @@
+Ejemplo de descripción:
+Input: {'name': 'Prevención/Higiene', 'phrases': ['tose en el antebrazo', 'estornuda/tose en un pañuelo', 'mantiene distancia', 'cuida su higiene con alcohol gel', 'limpieza constante de superficies', 'utiliza saludo verbal', 'evita pagos en efectivo', 'reemplazo de firma física', 'aforo']}
+Output esperado:
+"Componente enfocado en promover la higiene y evitar la propagación de enfermedades, incentivando medidas como toser en el antebrazo, mantener distancia social, usar alcohol gel y limpiar superficies regularmente."
