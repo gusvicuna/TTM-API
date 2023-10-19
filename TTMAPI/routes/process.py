@@ -37,30 +37,24 @@ async def playground_process(
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
         if ttm:
-            try:
-                driver.AnalyzeText(
-                    trainText=trainText,
-                    beforeNegDis=int(beforeNegativeDistance),
-                    afterNegDis=int(afterNegativeDistance),
-                    complete=True)
-            except Exception as e:
-                logger.error(e)
+            driver.AnalyzeText(
+                trainText=trainText,
+                beforeNegDis=int(beforeNegativeDistance),
+                afterNegDis=int(afterNegativeDistance),
+                complete=True)
         drivers.append(driver)
 
     if gpt:
-        try:
-            gpt_result = gpt_process(
-                answer=trainText,
-                drivers=drivers,
-                logger=logger)
-            for driver in drivers:
-                if driver.id in gpt_result:
-                    for component in driver.components:
-                        if component.id in gpt_result[driver.id]:
-                            component.gpt_result =\
-                                gpt_result[driver.id][component.id]
-        except Exception as e:
-            logger.error(e)
+        gpt_result = gpt_process(
+            answer=trainText,
+            drivers=drivers,
+            logger=logger)
+        for driver in drivers:
+            if driver.id in gpt_result:
+                for component in driver.components:
+                    if component.id in gpt_result[driver.id]:
+                        component.gpt_result =\
+                            gpt_result[driver.id][component.id]
 
     result = getProcessedExperienceSchema(
         driver=drivers,

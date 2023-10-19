@@ -73,7 +73,8 @@ def gpt_process(answer: str, drivers, logger):
         raise HTTPException(status_code=502, detail="Error with GPT")
 
     try:
-        json_result = json.loads(result)
+        corrected_result = result.replace("'", "\"")
+        json_result = json.loads(corrected_result)
 
     except Exception as e:
         logger.error(f"General Error: {e}, GPT: {result}")
