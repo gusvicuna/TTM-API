@@ -1,28 +1,31 @@
 import openai
 from dotenv import dotenv_values
 
+from TTMAPI.models.prompt import Prompt
+from TTMAPI.services.MongoDB import get_prompt
+
 config = dotenv_values("settings.env")
 
 openai.api_key = config["OPENAI_API_KEY"]
 
 
 def generate_description(name, phrases, logger):
-    prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
-        "/DescriptionGeneration/description_generation_prompt.txt"
-    prompt_example_file = "TTMAPI/services/OpenAI/" +\
-        "/DescriptionGeneration/description_generation_example.txt"
 
-    with open(prompt_instruction_file, 'r', encoding='utf-8') as file:
-        prompt_instruction: str = file.read()
-    with open(prompt_example_file, 'r', encoding='utf-8') as file:
-        prompt_example: str = file.read()
-    prompt_instruction += "\n" + prompt_example
+    prompt_cursor = get_prompt(prompt_id=2, logger=logger)
+    prompt = Prompt(**prompt_cursor)
+    prompt_modifiable_instruction = prompt.modifiable_instruction
+    prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
+
+    prompt_instruction = prompt_modifiable_instruction +\
+        "\n" + prompt_unmodifiable_instruction
+
+    logger.debug(f"Prompt: {prompt_instruction}")
 
     component = {}
     component["name"] = name
     component["phrases"] = phrases
 
-    logger.info(f"Component: {component['name']}")
+    logger.debug(f"Component: {component['name']}")
 
     try:
         response = openai.ChatCompletion.create(
@@ -37,9 +40,9 @@ def generate_description(name, phrases, logger):
             presence_penalty=0
         )
         result = response['choices'][0]['message']['content']
-
-        logger.info(f"gptresponse: {result}")
-        return result
     except Exception as e:
-        logger.error(f"Error: {e}, GPT: {result}")
+        logger.error(f"Error with GPT: {e}")
         return name
+
+    logger.info(f"gptresponse: {result}")
+    return result

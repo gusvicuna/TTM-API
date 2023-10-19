@@ -1,6 +1,11 @@
 from fastapi import APIRouter
 
 from TTMAPI.helpers.log import get_logger
+from TTMAPI.models.prompt import Prompt
+from TTMAPI.services.MongoDB import (
+    get_prompt_service,
+    update_prompt_service
+)
 
 
 router = APIRouter()
@@ -11,41 +16,21 @@ base_route = "/prompt"
 @router.get("/{prompt_id}")
 async def get_prompt_instruction(prompt_id: int):
     """
-    Get text from gpt_process_prompt.txt or description_generation.txt
-    and return it as a string
+    Get prompt from get_prompt_service.py and return it
     """
-    logger.info(f"GET {base_route}/{prompt_id}")
-
-    file_path = "TTMAPI/services/OpenAI/"
-
-    if (prompt_id == 1):
-        file_path += "GPTProcess/gpt_process_prompt.txt"
-    elif (prompt_id == 2):
-        file_path += "DescriptionGeneration/description_generation_prompt.txt"
-
-    with open(file_path, "r", encoding='utf-8') as f:
-        prompt = f.read()
-
-    logger.debug(f"Prompt: {prompt}")
-
+    prompt_cursor = get_prompt_service(prompt_id=prompt_id, logger=logger)
+    prompt = Prompt(**prompt_cursor)
     return prompt
 
 
 @router.put("/{prompt_id}")
-async def modify_prompt_instruction(prompt_id: int, prompt_text: str):
+async def update_prompt_instruction(prompt_id: int, prompt: Prompt):
     """
-    Modify text from gpt_process_prompt.txt or description_generation.txt
+    Update prompt from update_prompt_service.py and return it
     """
-    logger.info(f"PUT {base_route}/{prompt_id} with body: {prompt_text}")
-
-    file_path = "TTMAPI/services/OpenAI/"
-
-    if (prompt_id == 1):
-        file_path += "GPTProcess/gpt_process_prompt.txt"
-    elif (prompt_id == 2):
-        file_path += "DescriptionGeneration/description_generation_prompt.txt"
-
-    with open(file_path, "w", encoding='utf-8') as f:
-        f.write(prompt_text)
-
-    return prompt_text
+    prompt_cursor = update_prompt_service(
+        prompt_id=prompt_id,
+        prompt=prompt,
+        logger=logger)
+    prompt = Prompt(**prompt_cursor)
+    return prompt

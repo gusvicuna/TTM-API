@@ -7,7 +7,7 @@ from TTMAPI.schemas.driver import (
     getDriverSchema,
     getDriversSchema)
 from TTMAPI.services import MongoDB
-from TTMAPI.services.OpenAI.DescriptionGeneration.generate_description import (
+from TTMAPI.services.OpenAI.generate_description import (
     generate_description)
 
 router = APIRouter()

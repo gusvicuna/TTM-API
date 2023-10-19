@@ -2,7 +2,7 @@ from typing import List
 from TTMAPI.models.component import Component
 from TTMAPI.models.driver import Driver
 from TTMAPI.models.sqlalchemy_models import Answer, Survey
-from TTMAPI.services.OpenAI.GPTProcess.gpt_process import (
+from TTMAPI.services.OpenAI.gpt_process import (
     gpt_process)
 from TTMAPI.services.PostgreSQL.upsert_answer_component_service import\
     upsert_answer_component

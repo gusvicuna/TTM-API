@@ -2,6 +2,9 @@ import openai
 import json
 from dotenv import dotenv_values
 from fastapi import HTTPException
+from TTMAPI.models.prompt import Prompt
+
+from TTMAPI.services.MongoDB import get_prompt_service
 
 config = dotenv_values("settings.env")
 
@@ -35,17 +38,13 @@ def gpt_process(answer: str, drivers, logger):
                     "name": component.name,
                     "description": component.description
                 }
+    prompt_cursor = get_prompt_service(prompt_id=1, logger=logger)
+    prompt = Prompt(**prompt_cursor)
+    prompt_modifiable_instruction = prompt.modifiable_instruction
+    prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
 
-    prompt_instruction_file = "TTMAPI/services/OpenAI/" +\
-        "GPTProcess/gpt_process_prompt.txt"
-    prompt_example_file = "TTMAPI/services/OpenAI/" +\
-        "GPTProcess/gpt_process_example.txt"
-
-    with open(prompt_instruction_file, 'r', encoding='utf-8') as file:
-        prompt_instruction: str = file.read()
-    with open(prompt_example_file, 'r', encoding='utf-8') as file:
-        prompt_example: str = file.read()
-    prompt_instruction += "\n" + prompt_example
+    prompt_instruction = prompt_modifiable_instruction + "\n" +\
+        prompt_unmodifiable_instruction
 
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
@@ -69,13 +68,12 @@ def gpt_process(answer: str, drivers, logger):
         result = response['choices'][0]['message']['content']
 
         logger.info(f"gptresponse: {result}")
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        raise HTTPException(status_code=502, detail="Error with GPT")
 
-        try:
-            json_result = json.loads(result)
-        except json.JSONDecodeError:
-            logger.error(f"JSON Decode Error for result: {result}")
-            raise HTTPException(
-                status_code=502, detail="Bad JSON format in GPT response")
+    try:
+        json_result = json.loads(result)
 
     except Exception as e:
         logger.error(f"General Error: {e}, GPT: {result}")

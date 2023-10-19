@@ -5,7 +5,7 @@ from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.process import getProcessedExperienceSchema
 from TTMAPI.services import MongoDB
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
-from TTMAPI.services.OpenAI.GPTProcess.gpt_process import\
+from TTMAPI.services.OpenAI.gpt_process import\
     gpt_process
 
 router = APIRouter()
@@ -37,24 +37,30 @@ async def playground_process(
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
         if ttm:
-            driver.AnalyzeText(
-                trainText=trainText,
-                beforeNegDis=int(beforeNegativeDistance),
-                afterNegDis=int(afterNegativeDistance),
-                complete=True)
+            try:
+                driver.AnalyzeText(
+                    trainText=trainText,
+                    beforeNegDis=int(beforeNegativeDistance),
+                    afterNegDis=int(afterNegativeDistance),
+                    complete=True)
+            except Exception as e:
+                logger.error(e)
         drivers.append(driver)
 
     if gpt:
-        gpt_result = gpt_process(
-            answer=trainText,
-            drivers=drivers,
-            logger=logger)
-        for driver in drivers:
-            if driver.id in gpt_result:
-                for component in driver.components:
-                    if component.id in gpt_result[driver.id]:
-                        component.gpt_result =\
-                            gpt_result[driver.id][component.id]
+        try:
+            gpt_result = gpt_process(
+                answer=trainText,
+                drivers=drivers,
+                logger=logger)
+            for driver in drivers:
+                if driver.id in gpt_result:
+                    for component in driver.components:
+                        if component.id in gpt_result[driver.id]:
+                            component.gpt_result =\
+                                gpt_result[driver.id][component.id]
+        except Exception as e:
+            logger.error(e)
 
     result = getProcessedExperienceSchema(
         driver=drivers,
