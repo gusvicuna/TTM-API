@@ -7,6 +7,7 @@ from TTMAPI.services import MongoDB
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 from TTMAPI.services.OpenAI.gpt_process import\
     gpt_process
+from TTMAPI.services.OpenAI.split_process import split_process
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -20,7 +21,8 @@ async def playground_process(
         afterNegativeDistance: int = 0,
         ttm: bool = True,
         gpt: bool = True,
-        fixGrammar: bool = False
+        fixGrammar: bool = False,
+        split_phrases: bool = False
         ):
 
     logger.info(
@@ -45,10 +47,16 @@ async def playground_process(
         drivers.append(driver)
 
     if gpt:
-        gpt_result = gpt_process(
-            answer=trainText,
-            drivers=drivers,
-            logger=logger)
+        if split_phrases:
+            gpt_result = split_process(
+                answer=trainText,
+                drivers=drivers,
+                logger=logger)
+        else:
+            gpt_result = gpt_process(
+                answer=trainText,
+                drivers=drivers,
+                logger=logger)
         for driver in drivers:
             if driver.id in gpt_result:
                 for component in driver.components:
