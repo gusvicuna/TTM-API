@@ -27,17 +27,13 @@ def gpt_process(answer: str, drivers, logger):
         if driver.driver_type == "driver":
             components[driver.id] = {}
             for component in driver.components:
-                components[driver.id][component.id] = {
-                    "name": component.name,
-                    "description": component.description
-                }
+                components[driver.id][component.id] = component.description
         elif driver.driver_type == "ut":
             uts[driver.id] = {}
             for component in driver.components:
-                uts[driver.id][component.id] = {
-                    "name": component.name,
-                    "description": component.description
-                }
+                uts[driver.id][component.id] = component.description
+    # logger.debug(f"Components: {components}\nUTs: {uts}")
+
     prompt_cursor = get_prompt_service(prompt_id=1, logger=logger)
     prompt = Prompt(**prompt_cursor)
     prompt_modifiable_instruction = prompt.modifiable_instruction
@@ -55,7 +51,7 @@ def gpt_process(answer: str, drivers, logger):
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_instruction},
                 {"role": "user", "content": user_experience}],
