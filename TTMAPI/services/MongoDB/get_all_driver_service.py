@@ -9,7 +9,8 @@ def get_all_drivers_service(logger):
     """
     db = getMongo()
     try:
-        drivers_cursor = db["drivers"].find().sort("driver_type", 1)
+        drivers_cursor = db["drivers"].find().sort("id", 1)
+        drivers_cursor = drivers_cursor.sort("driver_type", 1)
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail=e)
