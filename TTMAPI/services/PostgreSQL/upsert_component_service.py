@@ -2,11 +2,13 @@ from TTMAPI.models.sqlalchemy_models import Component
 from sqlalchemy.dialects.postgresql import insert
 
 
-def upsert_component(session, component_data, driver):
+def upsert_component(session, component_data, driver, logger):
     # Preparar el statement de inserción
     stmt = insert(Component).values(
         id=component_data["id"],
         name=component_data["name"],
+        description=component_data["description"],
+        has_manual_desc=bool(component_data["description"]),
         driver_id=driver.id,
         survey_id=driver.survey_id
     )

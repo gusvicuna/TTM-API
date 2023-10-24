@@ -61,6 +61,10 @@ class Component(Base):
         index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
+    has_manual_desc = Column(
+        Boolean,
+        nullable=False,
+        default=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(
         DateTime,

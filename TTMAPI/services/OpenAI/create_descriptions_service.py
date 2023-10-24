@@ -19,6 +19,8 @@ def create_descriptions(session, logger):
     try:
         for driver in survey.drivers:
             for component in driver.components:
+                if component.has_manual_desc:
+                    continue
                 phrases = []
                 for aception in component.aceptions:
                     phrases.append(aception.phrase)
@@ -30,6 +32,7 @@ def create_descriptions(session, logger):
         logger.info("Finished creating descriptions.")
         survey.has_been_described = True
         session.commit()
+
     except Exception as e:
         logger.error(f"Error: {e}")
         survey.did_have_an_error = True

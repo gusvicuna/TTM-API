@@ -55,7 +55,8 @@ async def create_surveys(
                         component = upsert_component(
                             session=session,
                             component_data=component_data,
-                            driver=driver
+                            driver=driver,
+                            logger=logger
                         )
                         for aception_phrase in component_data.get(
                                 "aceptions", []):

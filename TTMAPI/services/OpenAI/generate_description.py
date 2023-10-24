@@ -19,8 +19,6 @@ def generate_description(name, phrases, logger):
     prompt_instruction = prompt_modifiable_instruction +\
         "\n" + prompt_unmodifiable_instruction
 
-    logger.debug(f"Prompt: {prompt_instruction}")
-
     component = {}
     component["name"] = name
     component["phrases"] = phrases
