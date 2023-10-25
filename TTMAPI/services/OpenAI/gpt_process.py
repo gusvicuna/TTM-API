@@ -21,6 +21,9 @@ def create_empty_results(drivers):
 
 
 def gpt_process(answer: str, drivers, logger):
+    # Cambiar a True para probar sin llamar a GPT
+    testing = False
+
     components = {}
     uts = {}
     for driver in drivers:
@@ -49,37 +52,40 @@ def gpt_process(answer: str, drivers, logger):
 
     results = create_empty_results(drivers)
 
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": system_instruction},
-                {"role": "user", "content": user_experience}],
-            temperature=0.2,
-            max_tokens=814,
-            top_p=0.4,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        result = response['choices'][0]['message']['content']
+    if not testing:
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": user_experience}],
+                temperature=0.2,
+                max_tokens=814,
+                top_p=0.4,
+                frequency_penalty=0,
+                presence_penalty=0
+            )
+            result = response['choices'][0]['message']['content']
 
-        logger.info(f"gptresponse: {result}")
-    except Exception as e:
-        logger.error(f"Error: {e}")
-        raise HTTPException(status_code=502, detail="Error with GPT")
+            logger.info(f"gptresponse: {result}")
+        except Exception as e:
+            logger.error(f"Error: {e}")
+            raise HTTPException(status_code=502, detail="Error with GPT")
 
-    try:
-        corrected_result = result.replace("'", "\"")
-        json_result = json.loads(corrected_result)
+        try:
+            corrected_result = result.replace("'", "\"")
+            json_result = json.loads(corrected_result)
 
-    except Exception as e:
-        logger.error(f"General Error: {e}, GPT: {result}")
-        raise HTTPException(status_code=502, detail="Bad response from GPT")
+        except Exception as e:
+            logger.error(f"General Error: {e}, GPT: {result}")
+            raise HTTPException(
+                status_code=502,
+                detail="Bad response from GPT")
 
-    for driver_result in json_result:
-        for component_result in json_result[driver_result]:
-            if int(driver_result) in results:
-                if int(component_result) in results[int(driver_result)]:
-                    results[int(driver_result)][int(component_result)] =\
-                        json_result[driver_result][component_result]
+        for driver_result in json_result:
+            for component_result in json_result[driver_result]:
+                if int(driver_result) in results:
+                    if int(component_result) in results[int(driver_result)]:
+                        results[int(driver_result)][int(component_result)] =\
+                            json_result[driver_result][component_result]
     return results
