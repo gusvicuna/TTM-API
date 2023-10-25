@@ -28,7 +28,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-start_jobs = True
+start_jobs = False
 scheduler = BackgroundScheduler()
 if start_jobs:
     scheduler.add_job(process_answers, trigger="interval", seconds=60)
