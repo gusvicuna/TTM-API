@@ -31,11 +31,11 @@ def upsert_answer_component(session, component, survey_id, driver_id, token):
 
         # Ejecutamos la instrucción
         session.execute(do_update_stmt)
-        session.flush()
+        session.commit()
     except Exception as e:
-        raise HTTPException(status_code=502, detail=e)
-
-    session.commit()
+        session.rollback()
+        error_detail = f"Error during upsert_answer_component. Detail: {e}"
+        raise HTTPException(status_code=502, detail=error_detail)
 
     # Obtenemos la answer_component actualizada
     # o la nueva answer_component creada para retornarla
