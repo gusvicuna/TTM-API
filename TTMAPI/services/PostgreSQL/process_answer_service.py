@@ -1,4 +1,6 @@
 from typing import List
+from sqlalchemy.exc import SQLAlchemyError
+
 from TTMAPI.models.component import Component
 from TTMAPI.models.driver import Driver
 from TTMAPI.models.sqlalchemy_models import Answer, Survey
@@ -17,6 +19,7 @@ def process_answer(session, logger):
         ).all()
     except Exception as e:
         logger.error(f"Error obteniendo encuestas. Error: {e}")
+        session.rollback()
         return f"Error obteniendo encuestas. Error: {e}"
 
     if not surveys:
@@ -65,13 +68,8 @@ def process_answer(session, logger):
     except Exception as e:
         error_text = f"Error with TTM process. Error: {e}"
         logger.error(error_text)
-        answer.did_have_an_error = True
-        answer.has_been_processed = True
-        insert_error_process(
-            session=session,
-            answer_token=answer.token,
-            error_details=error_text,
-            logger=logger)
+        session.rollback()
+        handle_error(session, answer, error_text, logger)
         return error_text
 
     try:
@@ -89,13 +87,7 @@ def process_answer(session, logger):
     except Exception as e:
         error_text = f"Error with GPT process. Error: {e}"
         logger.error(error_text)
-        answer.did_have_an_error = True
-        answer.has_been_processed = True
-        insert_error_process(
-            session=session,
-            answer_token=answer.token,
-            error_details=error_text,
-            logger=logger)
+        handle_error(session, answer, error_text, logger)
         return error_text
 
     try:
@@ -110,19 +102,28 @@ def process_answer(session, logger):
     except Exception as e:
         error_text = f"Error upserting answer_components. Error: {e}"
         logger.error(error_text)
-        answer.did_have_an_error = True
-        answer.has_been_processed = True
-        insert_error_process(
-            session=session,
-            answer_token=answer.token,
-            error_details=error_text,
-            logger=logger)
+        handle_error(session, answer, error_text, logger)
         return error_text
 
-    answer.did_have_an_error = False
-    answer.has_been_processed = True
-    session.commit()
+    try:
+        session.commit()
+    except SQLAlchemyError as e:  # Captura errores específicos de SQLAlchemy
+        logger.error(f"Error committing transaction. Error: {e}")
+        session.rollback()
+        return f"Error committing transaction. Error: {e}"
 
     logger.info(f"Answer {answer.token} correctly processed.")
 
     return answer
+
+
+# Función separada para manejar errores
+def handle_error(session, answer, error_text, logger):
+    answer.did_have_an_error = True
+    answer.has_been_processed = True
+    insert_error_process(
+        session=session,
+        answer_token=answer.token,
+        error_details=error_text,
+        logger=logger)
+    session.flush()
