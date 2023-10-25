@@ -10,6 +10,7 @@ from TTMAPI.services.PostgreSQL.upsert_answer_component_service import\
     upsert_answer_component
 from TTMAPI.services.PostgreSQL.insert_error_process_service import (
     insert_error_process)
+from TTMAPI.services.PostgreSQL.upsert_answer_service import upsert_answer
 
 
 def process_answer(session, logger):
@@ -106,6 +107,8 @@ def process_answer(session, logger):
         return error_text
 
     try:
+        answer.has_been_processed = True
+        answer = update_answer(session=session, answer=answer)
         session.commit()
     except SQLAlchemyError as e:  # Captura errores específicos de SQLAlchemy
         logger.error(f"Error committing transaction. Error: {e}")
@@ -126,4 +129,18 @@ def handle_error(session, answer, error_text, logger):
         answer_token=answer.token,
         error_details=error_text,
         logger=logger)
+    update_answer(session=session, answer=answer)
     session.flush()
+
+
+def update_answer(session, answer):
+    answer_data = {
+        "token": answer.token,
+        "answer": answer.answer_text,
+        "did_have_an_error": answer.did_have_an_error,
+        "has_been_processed": answer.has_been_processed,
+    }
+    return upsert_answer(
+        session=session,
+        answer_data=answer_data,
+        survey=answer.survey)
