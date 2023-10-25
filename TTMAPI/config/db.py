@@ -7,7 +7,8 @@ from sqlalchemy import create_engine
 config = dotenv_values("settings.env")
 
 engine = create_engine(config["POSTGRE_URL"])
-SessionLocal = sessionmaker(bind=engine)
+SessionLocal = sessionmaker(bind=engine,
+                            autoflush=False)
 
 
 def getMongo():
