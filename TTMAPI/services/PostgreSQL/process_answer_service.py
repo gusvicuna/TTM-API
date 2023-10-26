@@ -42,7 +42,10 @@ def process_answer(session, logger):
         logger.info("No se encuentran respuestas sin procesar.")
         return "No se encuentran respuestas sin procesar."
 
-    logger.info(f"Processing answer with token: {answer.token}")
+    logger.info(
+        "Processing answer with\n" +
+        f"Token: {answer.token}.\n" +
+        f"Text: {answer.answer_text}")
     sql_drivers = survey.drivers
 
     drivers = []
@@ -73,23 +76,23 @@ def process_answer(session, logger):
         handle_error(session, answer, error_text, logger)
         return error_text
 
-    try:
-        gpt_results = gpt_process(
+    gpt_results, exception = gpt_process(
             answer=answer.answer_text,
             drivers=drivers,
             logger=logger)
-
-        for driver_id in gpt_results:
-            driver = next(obj for obj in drivers if obj.id == driver_id)
-            for component_id in gpt_results[driver_id]:
-                component = next(
-                    obj for obj in driver.components if obj.id == component_id)
-                component.gpt_result = gpt_results[driver_id][component_id]
-    except Exception as e:
-        error_text = f"Error with GPT process. Error: {e}"
+    if exception:
+        error_text = "Error with GPT process." +\
+            f"Error: {exception}. GPT response: {gpt_results}"
         logger.error(error_text)
         handle_error(session, answer, error_text, logger)
         return error_text
+
+    for driver_id in gpt_results:
+        driver = next(obj for obj in drivers if obj.id == driver_id)
+        for component_id in gpt_results[driver_id]:
+            component = next(
+                obj for obj in driver.components if obj.id == component_id)
+            component.gpt_result = gpt_results[driver_id][component_id]
 
     try:
         for driver in drivers:

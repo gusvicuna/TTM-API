@@ -1,7 +1,6 @@
 import openai
 import json
 from dotenv import dotenv_values
-from fastapi import HTTPException
 from TTMAPI.models.prompt import Prompt
 
 from TTMAPI.services.MongoDB import get_prompt_service
@@ -53,6 +52,7 @@ def gpt_process(answer: str, drivers, logger):
     results = create_empty_results(drivers)
 
     if not testing:
+        exception = None
         try:
             response = openai.ChatCompletion.create(
                 model="gpt-4",
@@ -66,21 +66,19 @@ def gpt_process(answer: str, drivers, logger):
                 presence_penalty=0
             )
             result = response['choices'][0]['message']['content']
-
             logger.info(f"gptresponse: {result}")
         except Exception as e:
             logger.error(f"Error: {e}")
-            raise HTTPException(status_code=502, detail="Error with GPT")
+            exception = e
+            return results, exception
 
         try:
             corrected_result = result.replace("'", "\"")
             json_result = json.loads(corrected_result)
-
         except Exception as e:
             logger.error(f"General Error: {e}, GPT: {result}")
-            raise HTTPException(
-                status_code=502,
-                detail="Bad response from GPT")
+            exception = e
+            return result, exception
 
         for driver_result in json_result:
             for component_result in json_result[driver_result]:
