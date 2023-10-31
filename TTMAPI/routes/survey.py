@@ -95,7 +95,7 @@ async def process_answer_by_token(
     try:
         result = process_answer(session=session, logger=logger)
     except Exception as e:
-        raise HTTPException(detail=e)
+        raise HTTPException(detail=e, status_code=500)
     finally:
         session.close()
     return result

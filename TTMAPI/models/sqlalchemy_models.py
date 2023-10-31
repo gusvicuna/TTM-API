@@ -143,7 +143,7 @@ class AnswerComponent(Base):
 
 class ErrorProcess(Base):
     __tablename__ = "error_process"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     answer_token = Column(
         String,
         ForeignKey('answers.token'),

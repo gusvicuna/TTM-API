@@ -23,7 +23,7 @@ def generate_description(name, phrases, logger):
     component["name"] = name
     component["phrases"] = phrases
 
-    logger.debug(f"Component: {component['name']}")
+    logger.info(f"Component: {component['name']}")
 
     try:
         response = openai.ChatCompletion.create(

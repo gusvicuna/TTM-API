@@ -26,7 +26,7 @@ def gpt_process(answer: str, drivers, logger):
     components = {}
     uts = {}
     for driver in drivers:
-        if driver.driver_type == "driver":
+        if driver.driver_type == "drivers":
             components[driver.id] = {}
             for component in driver.components:
                 components[driver.id][component.id] = component.description
@@ -55,15 +55,16 @@ def gpt_process(answer: str, drivers, logger):
         exception = None
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4",
+                model="gpt-3.5-turbo-16k",
                 messages=[
                     {"role": "system", "content": system_instruction},
                     {"role": "user", "content": user_experience}],
                 temperature=0.2,
-                max_tokens=814,
+                max_tokens=150,
                 top_p=0.4,
                 frequency_penalty=0,
-                presence_penalty=0
+                presence_penalty=0,
+                stop=["Component"]
             )
             result = response['choices'][0]['message']['content']
             logger.info(f"gptresponse: {result}")
@@ -86,4 +87,4 @@ def gpt_process(answer: str, drivers, logger):
                     if int(component_result) in results[int(driver_result)]:
                         results[int(driver_result)][int(component_result)] =\
                             json_result[driver_result][component_result]
-    return results
+    return results, None
