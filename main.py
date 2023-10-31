@@ -29,7 +29,8 @@ app.add_middleware(
 )
 
 start_jobs = True
-scheduler = BackgroundScheduler()
+job_defaults = {'coalesce': False, 'max_instances': 1}
+scheduler = BackgroundScheduler(job_defaults=job_defaults)
 if start_jobs:
     scheduler.add_job(process_answers, trigger="interval", seconds=60)
     scheduler.add_job(create_descriptions, trigger="interval", seconds=240)
