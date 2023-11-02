@@ -28,9 +28,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-start_jobs = True
-job_defaults = {'coalesce': False, 'max_instances': 1}
-scheduler = BackgroundScheduler(job_defaults=job_defaults)
+start_jobs = False
+scheduler = BackgroundScheduler()
 if start_jobs:
     scheduler.add_job(process_answers, trigger="interval", seconds=60)
     scheduler.add_job(create_descriptions, trigger="interval", seconds=240)
