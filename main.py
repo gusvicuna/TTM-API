@@ -32,7 +32,7 @@ start_jobs = True
 scheduler = BackgroundScheduler()
 if start_jobs:
     scheduler.add_job(process_answers, trigger="interval", seconds=60)
-    scheduler.add_job(create_descriptions, trigger="interval", seconds=240)
+    scheduler.add_job(create_descriptions, trigger="interval", seconds=600)
     scheduler.start()
 
 
