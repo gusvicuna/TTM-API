@@ -19,7 +19,7 @@ def create_descriptions(session, logger):
     try:
         for driver in survey.drivers:
             for component in driver.components:
-                if component.has_manual_desc:
+                if component.description is not None:
                     continue
                 phrases = []
                 for aception in component.aceptions:
@@ -28,6 +28,7 @@ def create_descriptions(session, logger):
                     name=component.name,
                     phrases=phrases,
                     logger=logger)
+                session.commit()
 
         logger.info("Finished creating descriptions.")
         survey.has_been_described = True
