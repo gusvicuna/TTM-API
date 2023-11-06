@@ -8,7 +8,9 @@ def upsert_driver(session, driver_data, survey):
         id=driver_data["id"],
         name=driver_data["name"],
         type=driver_data["type"],
-        survey_id=survey.id
+        survey_id=survey.id,
+        default_ut_driver_id=driver_data["default_ut"]["driver_id"],
+        default_ut_component_id=driver_data["default_ut"]["ut_id"]
     )
 
     # Si ya existe un registro con el mismo id y survey_id,
@@ -17,7 +19,10 @@ def upsert_driver(session, driver_data, survey):
         index_elements=['id', 'survey_id'],
         set_=dict(
             name=driver_data["name"],
-            type=driver_data["type"])
+            type=driver_data["type"],
+            default_ut_driver_id=driver_data["default_ut"]["driver_id"],
+            default_ut_component_id=driver_data["default_ut"]["ut_id"]
+            )
     )
 
     # Ejecutamos la instrucción

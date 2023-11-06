@@ -20,6 +20,8 @@ class Survey(Base):
     description = Column(String, nullable=True)
     has_been_described = Column(Boolean, nullable=False, default=False)
     did_have_an_error = Column(Boolean, nullable=False, default=False)
+    default_ut_driver_id = Column(Integer, nullable=False)
+    default_ut_component_id = Column(Integer, nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(
         DateTime,
@@ -38,6 +40,8 @@ class Driver(Base):
         index=True)
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)  # puede ser 'driver', 'like' o 'ut'
+    default_ut_driver_id = Column(Integer, nullable=True)
+    default_ut_component_id = Column(Integer, nullable=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(
         DateTime,
@@ -104,6 +108,7 @@ class Answer(Base):
     __tablename__ = "answers"
     token = Column(String, primary_key=True, index=True)
     answer_text = Column(Text, nullable=False)
+    experience_type = Column(String, nullable=False)  # puede ser 'MB','B'o'M'
     has_been_processed = Column(Boolean, nullable=False, default=False)
     did_have_an_error = Column(Boolean, default=False)
     survey_id = Column(Integer, ForeignKey('surveys.id'), nullable=False)

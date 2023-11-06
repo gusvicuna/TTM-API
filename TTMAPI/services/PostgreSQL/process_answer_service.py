@@ -142,6 +142,7 @@ def update_answer(session, answer):
         "answer": answer.answer_text,
         "did_have_an_error": answer.did_have_an_error,
         "has_been_processed": answer.has_been_processed,
+        "experience": answer.experience_type
     }
     return upsert_answer(
         session=session,

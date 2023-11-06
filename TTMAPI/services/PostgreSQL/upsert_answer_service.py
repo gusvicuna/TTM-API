@@ -7,7 +7,8 @@ def upsert_answer(session, answer_data, survey):
     stmt = insert(Answer).values(
         token=answer_data["token"],
         answer_text=answer_data["answer"],
-        survey_id=survey.id
+        survey_id=survey.id,
+        experience_type=answer_data["experience"],
     )
 
     # Si ya existe un registro con el mismo token,
@@ -19,7 +20,8 @@ def upsert_answer(session, answer_data, survey):
             set_=dict(
                 answer_text=answer_data["answer"],
                 has_been_processed=answer_data["has_been_processed"],
-                did_have_an_error=answer_data["did_have_an_error"],)
+                did_have_an_error=answer_data["did_have_an_error"],
+                )
         )
 
     else:
