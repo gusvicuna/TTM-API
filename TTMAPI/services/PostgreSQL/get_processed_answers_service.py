@@ -77,10 +77,36 @@ def get_processed_answer(token, session, logger):
                 }
             answer_component = AnswerComponent(**answer_component_data)
 
-            if answer_component.ttm_process != 0:
-                resultado = answer_component.ttm_process
-            else:
-                resultado = answer_component.gpt_process
+            # Filtro de resultados segun el resultado de cada proceso
+
+            # Si la respuesta es de tipo Muy Buena, se marca positivo siempre,
+            # al menos que ambas respuestas sean -1
+            if answer.experience_type == "MB":
+                if answer_component.ttm_process == -1 and\
+                        answer_component.gpt_process == -1:
+                    resultado = -1
+                elif answer_component.ttm_process != 0 or\
+                        answer_component.gpt_process != 0:
+                    resultado = 1
+                else:
+                    resultado = 0
+            # Si la respuesta es de tipo Mala, se marca negativo siempre,
+            # al menos que ambas respuestas sean 1
+            elif answer.experience_type == "M":
+                if answer_component.ttm_process == 1 and\
+                        answer_component.gpt_process == 1:
+                    resultado = 1
+                elif answer_component.ttm_process != 0 or\
+                        answer_component.gpt_process != 0:
+                    resultado = -1
+                else:
+                    resultado = 0
+            # Si la respuesta es de tipo Buena, se marca negativo
+            elif answer.experience_type == "B":
+                if answer_component.ttm_process != 0 or\
+                        answer_component.gpt_process != 0:
+                    resultado = -1
+
             if resultado == 0:
                 continue
 
@@ -88,7 +114,6 @@ def get_processed_answer(token, session, logger):
             component_result["component_id"] = answer_component.component_id
             component_result["resultado"] = resultado
             component_result["uts"] = []
-            # TODO: Modificar luego de arreglar codificación con UTs
             for ut in uts:
                 ut_result = {}
                 ut_result["ut_id"] = ut.id
@@ -96,6 +121,7 @@ def get_processed_answer(token, session, logger):
                 for ut_comp in ut.components:
                     ut_comp_result = {}
                     ut_comp_result["component_id"] = ut_comp.id
+
                     try:
                         answer_component_result = session.execute(
                             text("SELECT * FROM answer_components" +
@@ -109,12 +135,10 @@ def get_processed_answer(token, session, logger):
                                 "driver_id": ut.id,
                                 "survey_id": survey.id}
                         ).fetchone()
-
                     except Exception as e:
                         logger.error(
                             f"Error getting UTAnswerComponent. Error: {e}")
                         raise HTTPException(status_code=500, detail=e)
-
                     if not answer_component_result:
                         logger.error("UTAnswerComponent not found.")
                         raise HTTPException(
@@ -131,19 +155,60 @@ def get_processed_answer(token, session, logger):
                         }
                     ut_answer_component = AnswerComponent(
                         **answer_component_data)
-                    if ut_answer_component.ttm_process != 0:
-                        ut_comp_result["resultado"] =\
-                            ut_answer_component.ttm_process
-                    else:
-                        ut_comp_result["resultado"] =\
-                            ut_answer_component.gpt_process
+
+                    if answer.experience_type == "MB":
+                        if ut_answer_component.ttm_process == -1 and\
+                                ut_answer_component.gpt_process == -1:
+                            ut_comp_result["resultado"] = -1
+                        elif ut_answer_component.ttm_process != 0 or\
+                                ut_answer_component.gpt_process != 0:
+                            ut_comp_result["resultado"] = 1
+                        else:
+                            ut_comp_result["resultado"] = 0
+                    elif answer.experience_type == "M":
+                        if ut_answer_component.ttm_process == 1 and\
+                                ut_answer_component.gpt_process == 1:
+                            ut_comp_result["resultado"] = 1
+                        elif ut_answer_component.ttm_process != 0 or\
+                                ut_answer_component.gpt_process != 0:
+                            ut_comp_result["resultado"] = -1
+                        else:
+                            ut_comp_result["resultado"] = 0
+                    elif answer.experience_type == "B":
+                        if ut_answer_component.ttm_process != 0 or\
+                                ut_answer_component.gpt_process != 0:
+                            ut_comp_result["resultado"] = -1
 
                     if ut_comp_result["resultado"] != 0:
                         ut_result["components"].append(ut_comp_result)
+
                 if ut_result["components"]:
                     component_result["uts"].append(ut_result)
+
+            # Si existe un default en el driver, se agrega el componente
+            if driver.default_ut_driver_id:
+                default_ut_driver = {}
+                default_ut_driver["ut_id"] = driver.default_ut_driver_id
+                default_ut_driver["components"] = []
+                default_ut_component = {}
+                default_ut_component["component_id"] =\
+                    driver.default_ut_component_id
+                default_ut_component["resultado"] = resultado
+                default_ut_driver["components"].append(default_ut_component)
+                component_result["uts"].append(default_ut_driver)
+
+            # Si no hay componentes de UT, se agrega el default
             if not component_result["uts"]:
-                results["status"] = "en duda"
+                default_ut_driver = {}
+                default_ut_driver["ut_id"] = survey.default_ut_driver_id
+                default_ut_driver["components"] = []
+                default_ut_component = {}
+                default_ut_component["component_id"] =\
+                    survey.default_ut_component_id
+                default_ut_component["resultado"] = resultado
+                default_ut_driver["components"].append(default_ut_component)
+                component_result["uts"].append(default_ut_driver)
+
             driver_result["components"].append(component_result)
         if driver_result["components"]:
             results["codificacion"].append(driver_result)
