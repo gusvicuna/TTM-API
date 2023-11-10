@@ -19,6 +19,22 @@ def create_empty_results(drivers):
     return results
 
 
+def verify_correct_result(json_data):
+    # Asegurarse de que json_data es un diccionario
+    if not isinstance(json_data, dict):
+        return False
+
+    for key, value in json_data.items():
+        # Verificar si cada valor es un diccionario
+        if not isinstance(value, dict):
+            return False
+
+        if value not in [0, 1, -1, 2]:
+            return False
+
+    return True
+
+
 def gpt_process(answer: str, model: str, drivers, logger):
     logger.info(f"Experiencia: {answer}, Model: {model}")
     # Cambiar a True para probar sin llamar a GPT
@@ -81,6 +97,10 @@ def gpt_process(answer: str, model: str, drivers, logger):
             logger.error(f"General Error: {e}, GPT: {result}")
             exception = e
             return result, exception
+
+        if not verify_correct_result(json_result):
+            logger.error(f"Formato erroneo, GPT: {result}")
+            return result, f"Formato erroneo, GPT: {result}"
 
         for driver_result in json_result:
             for component_result in json_result[driver_result]:
