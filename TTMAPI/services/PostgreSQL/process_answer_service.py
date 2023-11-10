@@ -88,20 +88,31 @@ def process_answer(session, logger):
                     model=model,
                     drivers=drivers,
                     logger=logger)
+            if exception:
+                error_text = "Error with GPT process." +\
+                    f"Error: {exception}. GPT response: {gpt_results}"
+                logger.error(error_text)
+                handle_error(session, answer, error_text, logger)
+                return error_text
         else:
-            gpt_results, exception = split_process(
-                    answer=answer.answer_text,
-                    model=model,
-                    drivers=drivers,
-                    logger=logger)
-        if exception:
-            error_text = "Error with GPT process." +\
-                f"Error: {exception}. GPT response: {gpt_results}"
-            logger.error(error_text)
-            handle_error(session, answer, error_text, logger)
-            return error_text
+            try:
+                gpt_results, exceptions = split_process(
+                        answer=answer.answer_text,
+                        model=model,
+                        drivers=drivers,
+                        logger=logger)
+            except Exception as e:
+                error_text = "Error with split GPT process." +\
+                    f"Error: {e}."
+                logger.error(error_text)
+                handle_error(session, answer, error_text, logger)
+                return error_text
         for driver_id in gpt_results:
-            driver = next(obj for obj in drivers if obj.id == driver_id)
+            driver = None
+            for obj in drivers:
+                if obj.id == driver_id:
+                    driver = obj
+                    break
             for component_id in gpt_results[driver_id]:
                 component = next(
                     obj for obj in driver.components if obj.id == component_id)

@@ -32,7 +32,6 @@ async def playground_process(
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
-        logger.debug(f"fixed traintext ='{trainText}'")
 
     drivers_cursor = MongoDB.get_all_drivers(
         logger=logger)
@@ -114,7 +113,6 @@ async def get_GPT_simple_match(
 
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
-        logger.debug(f"fixed traintext ='{trainText}'")
 
     drivers_cursor = MongoDB.get_all_drivers(logger=logger)
     drivers = []

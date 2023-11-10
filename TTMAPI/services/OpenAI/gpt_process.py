@@ -86,10 +86,6 @@ def gpt_process(answer: str, model: str, drivers, logger):
             for component_result in json_result[driver_result]:
                 if int(driver_result) in results:
                     if int(component_result) in results[int(driver_result)]:
-                        logger.debug(
-                            f"Driver: {driver_result}, " +
-                            f"Component: {component_result}")
                         results[int(driver_result)][int(component_result)] =\
                             json_result[driver_result][component_result]
-    logger.debug(f"results: {results}")
     return results, None

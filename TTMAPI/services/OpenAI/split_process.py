@@ -14,6 +14,7 @@ def create_empty_results(drivers):
 
 def split_process(answer: str, model: str, drivers, logger):
     final_result = create_empty_results(drivers)
+    exceptions = []
     # Procesa cada frase por separado
     phrases = split_in_phrases(text=answer, logger=logger)
     for phrase in phrases:
@@ -24,6 +25,7 @@ def split_process(answer: str, model: str, drivers, logger):
             logger=logger)
         if exception:
             logger.error(f"Error con GPT. Error: {exception}")
+            exceptions.append(exception)
             continue
         for driver in phrase_result:
             for component in phrase_result[driver]:
@@ -44,5 +46,5 @@ def split_process(answer: str, model: str, drivers, logger):
                 final_result[driver][component],
                 total_result[driver][component])
 
-    logger.debug(f"final_result = {final_result}")
-    return final_result
+    logger.debug(f"Final result: {final_result}, exceptions: {exceptions}")
+    return final_result, exceptions
