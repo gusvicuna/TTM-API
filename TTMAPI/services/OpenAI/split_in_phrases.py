@@ -14,7 +14,7 @@ prompt_instruction = "Separa el siguiente texto en frases." +\
 
 def split_in_phrases(text: str, logger):
     response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": prompt_instruction},
                 {"role": "user", "content": text}],

@@ -21,6 +21,7 @@ async def playground_process(
         afterNegativeDistance: int = 0,
         ttm: bool = True,
         gpt: bool = True,
+        model: str = "gpt-4",
         fixGrammar: bool = False,
         split_phrases: bool = False
         ):
@@ -51,12 +52,16 @@ async def playground_process(
             gpt_result = split_process(
                 answer=trainText,
                 drivers=drivers,
+                model=model,
                 logger=logger)
         else:
-            gpt_result = gpt_process(
+            gpt_result, exception = gpt_process(
                 answer=trainText,
+                model=model,
                 drivers=drivers,
                 logger=logger)
+            if exception:
+                raise exception
         for driver in drivers:
             if driver.id in gpt_result:
                 for component in driver.components:

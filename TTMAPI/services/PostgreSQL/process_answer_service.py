@@ -6,6 +6,7 @@ from TTMAPI.models.driver import Driver
 from TTMAPI.models.sqlalchemy_models import Answer, Survey
 from TTMAPI.services.OpenAI.gpt_process import (
     gpt_process)
+from TTMAPI.services.OpenAI.split_process import split_process
 from TTMAPI.services.PostgreSQL.upsert_answer_component_service import\
     upsert_answer_component
 from TTMAPI.services.PostgreSQL.insert_error_process_service import (
@@ -76,11 +77,23 @@ def process_answer(session, logger):
         handle_error(session, answer, error_text, logger)
         return error_text
 
-    if len(answer.answer_text.split(" ")) > 1:
-        gpt_results, exception = gpt_process(
-                answer=answer.answer_text,
-                drivers=drivers,
-                logger=logger)
+    words_in_answer = len(answer.answer_text.split(" "))
+    if words_in_answer > 2:
+        model = "gpt-4"
+        if words_in_answer < 7:
+            model = "gpt-3.5-turbo"
+        if words_in_answer < 11:
+            gpt_results, exception = gpt_process(
+                    answer=answer.answer_text,
+                    model=model,
+                    drivers=drivers,
+                    logger=logger)
+        else:
+            gpt_results, exception = split_process(
+                    answer=answer.answer_text,
+                    model=model,
+                    drivers=drivers,
+                    logger=logger)
         if exception:
             error_text = "Error with GPT process." +\
                 f"Error: {exception}. GPT response: {gpt_results}"

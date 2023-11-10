@@ -19,7 +19,8 @@ def create_empty_results(drivers):
     return results
 
 
-def gpt_process(answer: str, drivers, logger):
+def gpt_process(answer: str, model: str, drivers, logger):
+    logger.info(f"Experiencia: {answer}, Model: {model}")
     # Cambiar a True para probar sin llamar a GPT
     testing = False
 
@@ -55,7 +56,7 @@ def gpt_process(answer: str, drivers, logger):
         exception = None
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo-16k",
+                model=model,
                 messages=[
                     {"role": "system", "content": system_instruction},
                     {"role": "user", "content": user_experience}],
@@ -85,6 +86,10 @@ def gpt_process(answer: str, drivers, logger):
             for component_result in json_result[driver_result]:
                 if int(driver_result) in results:
                     if int(component_result) in results[int(driver_result)]:
+                        logger.debug(
+                            f"Driver: {driver_result}, " +
+                            f"Component: {component_result}")
                         results[int(driver_result)][int(component_result)] =\
                             json_result[driver_result][component_result]
+    logger.debug(f"results: {results}")
     return results, None
