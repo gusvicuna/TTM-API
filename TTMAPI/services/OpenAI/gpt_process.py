@@ -29,8 +29,9 @@ def verify_correct_result(json_data):
         if not isinstance(value, dict):
             return False
 
-        if value not in [0, 1, -1, 2]:
-            return False
+        for sub_key, sub_value in value.items():
+            if sub_value not in [0, 1, -1, 2]:
+                return False
 
     return True
 
