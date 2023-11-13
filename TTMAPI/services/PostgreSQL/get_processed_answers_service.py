@@ -106,6 +106,8 @@ def get_processed_answer(token, session, logger):
                 if answer_component.ttm_process != 0 or\
                         answer_component.gpt_process != 0:
                     resultado = -1
+                else:
+                    resultado = 0
 
             if resultado == 0:
                 continue
