@@ -180,6 +180,8 @@ def get_processed_answer(token, session, logger):
                         if ut_answer_component.ttm_process != 0 or\
                                 ut_answer_component.gpt_process != 0:
                             ut_comp_result["resultado"] = -1
+                        else:
+                            ut_comp_result["resultado"] = 0
 
                     if ut_comp_result["resultado"] != 0:
                         ut_result["components"].append(ut_comp_result)
