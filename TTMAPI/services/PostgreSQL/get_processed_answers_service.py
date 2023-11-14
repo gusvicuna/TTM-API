@@ -43,6 +43,8 @@ def get_processed_answer(token, session, logger):
         driver_result = {}
         driver_result["driver_id"] = driver.id
         driver_result["components"] = []
+        did_have_gpt_mark = False
+        did_have_ttm_mark = False
         for component in driver.components:
             try:
                 answer_component_result = session.execute(
@@ -76,6 +78,11 @@ def get_processed_answer(token, session, logger):
                     'ttm_process': answer_component_result[5]
                 }
             answer_component = AnswerComponent(**answer_component_data)
+
+            if answer_component.gpt_process != 0:
+                did_have_gpt_mark = True
+            if answer_component.ttm_process != 0:
+                did_have_ttm_mark = True
 
             # Filtro de resultados segun el resultado de cada proceso
 
@@ -214,7 +221,8 @@ def get_processed_answer(token, session, logger):
                 component_result["uts"].append(default_ut_driver)
 
             driver_result["components"].append(component_result)
-        if driver_result["components"]:
+
+        if did_have_ttm_mark and did_have_gpt_mark:
             results["codificacion"].append(driver_result)
     if not results["codificacion"]:
         results["status"] = "en duda"
