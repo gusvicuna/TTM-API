@@ -36,8 +36,14 @@ def verify_correct_result(json_data):
     return True
 
 
-def gpt_process(answer: str, model: str, drivers, logger):
-    logger.info(f"Experiencia: {answer}, Model: {model}")
+def gpt_process(
+        answer_text: str,
+        answer_type: str,
+        model: str,
+        drivers,
+        logger):
+    logger.info(
+        f"Experiencia: {answer_text}, type:{answer_type} , Model: {model}")
     # Cambiar a True para probar sin llamar a GPT
     testing = False
 
@@ -65,7 +71,14 @@ def gpt_process(answer: str, model: str, drivers, logger):
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
-    user_experience = "Procesa la siguiente experiencia: " + answer
+    user_experience = ""
+    if answer_type == "MB":
+        user_experience = "Mi buena experiencia se sustenta: "
+    elif answer_type == "B":
+        user_experience = "Mi experiencia podría mejorar: "
+    elif answer_type == "M":
+        user_experience = "Mi mala experiencia se sustenta: "
+    user_experience += answer_text
 
     results = create_empty_results(drivers)
 

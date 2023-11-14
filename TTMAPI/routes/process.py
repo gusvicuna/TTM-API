@@ -16,7 +16,8 @@ base_route = "/process"
 
 @router.post("/playground_process")
 async def playground_process(
-        trainText: str,
+        answer_text: str,
+        answer_type: str,
         beforeNegativeDistance: int = 15,
         afterNegativeDistance: int = 0,
         ttm: bool = True,
@@ -27,11 +28,11 @@ async def playground_process(
         ):
 
     logger.info(
-        f"POST {base_route}/playground_process traintext='{trainText}' " +
-        f" ttm={ttm} gpt={gpt}")
+        f"POST {base_route}/playground_process traintext='{answer_text}' " +
+        f"type={answer_type} ttm={ttm} gpt={gpt}")
 
     if (fixGrammar):
-        trainText = fix_grammar(traintext=trainText)
+        answer_text = fix_grammar(traintext=answer_text)
 
     drivers_cursor = MongoDB.get_all_drivers(
         logger=logger)
@@ -40,7 +41,7 @@ async def playground_process(
         driver = Driver(**driver_cursor)
         if ttm:
             driver.AnalyzeText(
-                trainText=trainText,
+                trainText=answer_text,
                 beforeNegDis=int(beforeNegativeDistance),
                 afterNegDis=int(afterNegativeDistance),
                 complete=True)
@@ -49,13 +50,15 @@ async def playground_process(
     if gpt:
         if split_phrases:
             gpt_result = split_process(
-                answer=trainText,
+                answer_text=answer_text,
+                answer_type=answer_type,
                 drivers=drivers,
                 model=model,
                 logger=logger)
         else:
             gpt_result, exception = gpt_process(
-                answer=trainText,
+                answer_text=answer_text,
+                answer_type=answer_type,
                 model=model,
                 drivers=drivers,
                 logger=logger)
@@ -70,7 +73,7 @@ async def playground_process(
 
     result = getProcessedExperienceSchema(
         driver=drivers,
-        experience=trainText)
+        experience=answer_text)
     return result
 
 
