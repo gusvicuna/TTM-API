@@ -1,6 +1,6 @@
 from TTMAPI.helpers.merge_results import merge_results
-from .gpt_process import gpt_process
-from .split_in_phrases import split_in_phrases
+from TTMAPI.services.OpenAI.gpt_process import gpt_process
+from TTMAPI.services.OpenAI.split_in_phrases import split_in_phrases
 
 
 def create_empty_results(drivers):

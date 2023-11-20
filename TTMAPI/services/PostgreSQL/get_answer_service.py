@@ -1,8 +1,7 @@
-from sqlalchemy.dialects.postgresql import insert
 from TTMAPI.models.sqlalchemy_models import Answer
 
 
-def get_answer(session, tokene, logger):
+def get_answer(session, token, logger):
     try:
         answer = session.query(Answer).filter_by(
             token=token).first()
