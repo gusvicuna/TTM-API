@@ -25,6 +25,7 @@ def split_process(
     for phrase in phrases:
         phrase_result, exception = gpt_process(
             answer_text=phrase,
+            answer_type=answer_type,
             drivers=drivers,
             model=model,
             logger=logger)

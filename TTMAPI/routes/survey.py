@@ -12,6 +12,7 @@ from TTMAPI.services.PostgreSQL.upsert_component_service import (
 from TTMAPI.services.PostgreSQL.upsert_driver_service import upsert_driver
 from TTMAPI.services.PostgreSQL.upsert_survey_service import upsert_survey
 from TTMAPI.services.PostgreSQL.process_answer_service import process_answer
+from TTMAPI.services.PostgreSQL.get_answer_service import get_answer
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -126,3 +127,21 @@ async def get_processed_answers(
     finally:
         session.close()
     return results
+
+# Create endpoit for resetting the results of a list of answers
+@router.post("/reset_answers")
+async def reset_answers(
+        data: list = Body(...),
+        session=Depends(getPostgreSQL)
+        ):
+
+    logger.info(f"POST {base_route}/reset_answers items={data}")
+
+    try:
+        for token in data:
+            answer = get_answer(session=session, token=token, logger=logger)
+            answer.has_been_processed = False
+            session.commit()
+    finally:
+        session.close()
+    return {"message": "success"}
