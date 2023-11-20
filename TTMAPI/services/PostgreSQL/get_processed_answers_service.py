@@ -147,7 +147,7 @@ def get_processed_answer(token, session, logger):
                     except Exception as e:
                         logger.error(
                             f"Error getting UTAnswerComponent. Error: {e}")
-                        raise HTTPException(status_code=500, detail=e)
+                        raise HTTPException(status_code=500, detail=e) from e
                     if not answer_component_result:
                         logger.error("UTAnswerComponent not found.")
                         raise HTTPException(
@@ -222,10 +222,15 @@ def get_processed_answer(token, session, logger):
 
             driver_result["components"].append(component_result)
 
+        logger.debug(f"driver id: {driver_result['driver_id']}. " +
+                     f"ttm mark: {did_have_ttm_mark}, " +
+                     f"  gpt mark: {did_have_gpt_mark}, " +
+                     f"both marks: {did_have_ttm_mark and did_have_gpt_mark}")
         if (did_have_ttm_mark and did_have_gpt_mark) or\
                 (len(answer.answer_text.split(" ")) < 3 and
                     driver_result["components"]):
             results["codificacion"].append(driver_result)
     if not results["codificacion"]:
         results["status"] = "en duda"
+    logger.info(f"Results: {results}")
     return results
