@@ -20,6 +20,10 @@ def Clean(text: str) -> str:
     text = text.replace(".", " ")
     text = text.replace(",", " ")
     text = text.replace(":", " ")
+    text = text.replace("!", " ")
+    text = text.replace("?", " ")
+    text = text.replace(";", " ")
+    text = text.replace("_", " ")
     text = text.replace("\n", " ")
     text = text.upper()
     return text
