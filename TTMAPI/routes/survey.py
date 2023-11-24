@@ -128,7 +128,8 @@ async def get_processed_answers(
         session.close()
     return results
 
-# Create endpoit for resetting the results of a list of answers
+
+# Endpoint for resetting the results of a list of answers
 @router.post("/reset_answers")
 async def reset_answers(
         data: list = Body(...),
