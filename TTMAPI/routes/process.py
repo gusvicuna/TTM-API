@@ -125,3 +125,11 @@ async def get_GPT_simple_match(
 
     result = gpt_process(trainText, drivers=drivers, logger=logger)
     return result
+
+
+@router.get("/create_csv_of_aceptions")
+async def create_csv_of_aceptions():
+
+    logger.info(f"GET {base_route}/create_csv_of_aceptions")
+
+    MongoDB.drivers_and_components_to_csv(logger=logger)

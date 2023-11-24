@@ -7,6 +7,7 @@ from .get_driver_by_id_service import get_driver_by_id_service
 from .create_new_driver_service import create_new_driver_service
 from .update_driver_service import update_driver_service
 from .delete_driver_service import delete_driver_service
+from .components_to_csv_service import drivers_and_components_to_csv_service
 
 
 def get_all_drivers(logger):
@@ -41,3 +42,7 @@ def update_prompt(prompt_id: int, prompt_text: str, logger):
         prompt_id=prompt_id,
         prompt_text=prompt_text,
         logger=logger)
+
+
+def drivers_and_components_to_csv(logger):
+    return drivers_and_components_to_csv_service(logger=logger)
