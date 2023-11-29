@@ -18,6 +18,7 @@ class Survey(Base):
     __tablename__ = "surveys"
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, nullable=True)
+    commerce_type = Column(String, nullable=True)
     default_ut_driver_id = Column(Integer, nullable=False)
     default_ut_component_id = Column(Integer, nullable=False)
     has_been_described = Column(Boolean, nullable=False, default=False)

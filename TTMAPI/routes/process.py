@@ -18,6 +18,7 @@ base_route = "/process"
 async def playground_process(
         answer_text: str,
         answer_type: str,
+        commerce_type: str = "comercio general",
         beforeNegativeDistance: int = 15,
         afterNegativeDistance: int = 0,
         ttm: bool = True,
@@ -52,6 +53,7 @@ async def playground_process(
             gpt_result = split_process(
                 answer_text=answer_text,
                 answer_type=answer_type,
+                commerce_type=commerce_type,
                 drivers=drivers,
                 model=model,
                 logger=logger)
@@ -59,6 +61,7 @@ async def playground_process(
             gpt_result, exception = gpt_process(
                 answer_text=answer_text,
                 answer_type=answer_type,
+                commerce_type=commerce_type,
                 model=model,
                 drivers=drivers,
                 logger=logger)

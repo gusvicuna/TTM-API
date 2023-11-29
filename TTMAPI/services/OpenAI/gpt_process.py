@@ -39,6 +39,7 @@ def verify_correct_result(json_data):
 def gpt_process(
         answer_text: str,
         answer_type: str,
+        commerce_type: str,
         model: str,
         drivers,
         logger):
@@ -71,14 +72,17 @@ def gpt_process(
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
-    user_experience = ""
+    user_experience = "Al ser cliente de un comercio " +\
+        f"enfocado en {commerce_type}, "
     if answer_type == "MB":
-        user_experience = "Mi buena experiencia se sustenta: "
+        user_experience += "mi buena experiencia se sustenta: "
     elif answer_type == "B":
-        user_experience = "Mi experiencia podría mejorar: "
+        user_experience += "mi experiencia podría mejorar: "
     elif answer_type == "M":
-        user_experience = "Mi mala experiencia se sustenta: "
+        user_experience += "mi mala experiencia se sustenta: "
     user_experience += answer_text
+
+    logger.debug(f"user_experience: {user_experience}")
 
     results = create_empty_results(drivers)
 

@@ -86,6 +86,7 @@ def process_answer(session, logger):
             gpt_results, exception = gpt_process(
                     answer_text=answer.answer_text,
                     answer_type=answer.experience_type,
+                    commerce_type=survey.commerce_type,
                     model=model,
                     drivers=drivers,
                     logger=logger)
@@ -100,6 +101,7 @@ def process_answer(session, logger):
                 gpt_results, exceptions = split_process(
                         answer_text=answer.answer_text,
                         answer_type=answer.experience_type,
+                        commerce_type=survey.commerce_type,
                         model=model,
                         drivers=drivers,
                         logger=logger)

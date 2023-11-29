@@ -15,6 +15,7 @@ def create_empty_results(drivers):
 def split_process(
         answer_text: str,
         answer_type: str,
+        commerce_type: str,
         model: str,
         drivers,
         logger):
@@ -26,6 +27,7 @@ def split_process(
         phrase_result, exception = gpt_process(
             answer_text=phrase,
             answer_type=answer_type,
+            commerce_type=commerce_type,
             drivers=drivers,
             model=model,
             logger=logger)
@@ -42,6 +44,7 @@ def split_process(
     total_result, exception = gpt_process(
         answer_text=answer_text,
         answer_type=answer_type,
+        commerce_type=commerce_type,
         drivers=drivers,
         model=model,
         logger=logger)
