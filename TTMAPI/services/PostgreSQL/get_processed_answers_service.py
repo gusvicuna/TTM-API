@@ -222,10 +222,6 @@ def get_processed_answer(token, session, logger):
 
             driver_result["components"].append(component_result)
 
-        logger.debug(f"driver id: {driver_result['driver_id']}. " +
-                     f"ttm mark: {did_have_ttm_mark}, " +
-                     f"  gpt mark: {did_have_gpt_mark}, " +
-                     f"both marks: {did_have_ttm_mark and did_have_gpt_mark}")
         if (did_have_ttm_mark and did_have_gpt_mark) or\
                 (len(answer.answer_text.split(" ")) < 3 and
                     driver_result["components"]):
