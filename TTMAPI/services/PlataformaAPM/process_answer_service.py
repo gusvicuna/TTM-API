@@ -7,11 +7,11 @@ from TTMAPI.models.sqlalchemy_models import Answer, Survey
 from TTMAPI.services.OpenAI.gpt_process import (
     gpt_process)
 from TTMAPI.services.OpenAI.split_process import split_process
-from TTMAPI.services.PostgreSQL.upsert_answer_component_service import\
+from TTMAPI.services.PlataformaAPM.upsert_answer_component_service import\
     upsert_answer_component
-from TTMAPI.services.PostgreSQL.insert_error_process_service import (
+from TTMAPI.services.PlataformaAPM.insert_error_process_service import (
     insert_error_process)
-from TTMAPI.services.PostgreSQL.upsert_answer_service import upsert_answer
+from TTMAPI.services.PlataformaAPM.upsert_answer_service import upsert_answer
 
 
 def process_answer(session, logger):

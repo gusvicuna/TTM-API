@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.process import getProcessedExperienceSchema
-from TTMAPI.services import MongoDB
+from TTMAPI.services import Playground
 from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 from TTMAPI.services.OpenAI.gpt_process import\
     gpt_process
@@ -35,7 +35,7 @@ async def playground_process(
     if (fixGrammar):
         answer_text = fix_grammar(traintext=answer_text)
 
-    drivers_cursor = MongoDB.get_all_drivers(
+    drivers_cursor = Playground.get_all_drivers(
         logger=logger)
     drivers = []
     for driver_cursor in drivers_cursor:
@@ -94,7 +94,7 @@ async def get_TTM_simple_match(
         trainText = fix_grammar(traintext=trainText)
         logger.info(f"fixed traintext ='{trainText}'")
 
-    drivers_cursor = MongoDB.get_all_drivers(
+    drivers_cursor = Playground.get_all_drivers(
         logger=logger)
     components = {}
     for driver_cursor in drivers_cursor:
@@ -120,7 +120,7 @@ async def get_GPT_simple_match(
     if (fixGrammar):
         trainText = fix_grammar(traintext=trainText)
 
-    drivers_cursor = MongoDB.get_all_drivers(logger=logger)
+    drivers_cursor = Playground.get_all_drivers(logger=logger)
     drivers = []
     for driver_cursor in drivers_cursor:
         driver = Driver(**driver_cursor)
@@ -135,4 +135,4 @@ async def create_csv_of_aceptions():
 
     logger.info(f"GET {base_route}/create_csv_of_aceptions")
 
-    MongoDB.drivers_and_components_to_csv(logger=logger)
+    Playground.drivers_and_components_to_csv(logger=logger)

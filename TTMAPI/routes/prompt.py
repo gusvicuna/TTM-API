@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.prompt import Prompt
-from TTMAPI.services.MongoDB import (
+from TTMAPI.services.Playground import (
     get_prompt_service,
     update_prompt_service
 )

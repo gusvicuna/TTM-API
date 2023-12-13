@@ -1,6 +1,6 @@
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
-from TTMAPI.services.PostgreSQL.process_answer_service import process_answer
+from TTMAPI.services.PlataformaAPM.process_answer_service import process_answer
 
 
 logger = get_logger(__name__)

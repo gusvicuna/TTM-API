@@ -3,16 +3,17 @@ from fastapi import APIRouter, Body, Depends, HTTPException, status
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.jobs.create_descriptions_job import create_descriptions
-from TTMAPI.services.PostgreSQL.get_processed_answers_service import (
+from TTMAPI.services.PlataformaAPM.get_processed_answers_service import (
     get_processed_answer)
-from TTMAPI.services.PostgreSQL.upsert_aception_service import upsert_aception
-from TTMAPI.services.PostgreSQL.upsert_answer_service import upsert_answer
-from TTMAPI.services.PostgreSQL.upsert_component_service import (
+from TTMAPI.services.PlataformaAPM.upsert_aception_service import (
+    upsert_aception)
+from TTMAPI.services.PlataformaAPM.upsert_answer_service import upsert_answer
+from TTMAPI.services.PlataformaAPM.upsert_component_service import (
     upsert_component)
-from TTMAPI.services.PostgreSQL.upsert_driver_service import upsert_driver
-from TTMAPI.services.PostgreSQL.upsert_survey_service import upsert_survey
-from TTMAPI.services.PostgreSQL.process_answer_service import process_answer
-from TTMAPI.services.PostgreSQL.get_answer_service import get_answer
+from TTMAPI.services.PlataformaAPM.upsert_driver_service import upsert_driver
+from TTMAPI.services.PlataformaAPM.upsert_survey_service import upsert_survey
+from TTMAPI.services.PlataformaAPM.process_answer_service import process_answer
+from TTMAPI.services.PlataformaAPM.get_answer_service import get_answer
 
 router = APIRouter()
 logger = get_logger(__name__)

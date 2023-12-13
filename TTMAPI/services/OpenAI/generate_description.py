@@ -2,7 +2,7 @@ import openai
 from dotenv import dotenv_values
 
 from TTMAPI.models.prompt import Prompt
-from TTMAPI.services.MongoDB import get_prompt
+from TTMAPI.services.Playground import get_prompt
 
 config = dotenv_values("settings.env")
 

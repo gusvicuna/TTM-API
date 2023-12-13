@@ -3,7 +3,7 @@ import json
 from dotenv import dotenv_values
 from TTMAPI.models.prompt import Prompt
 
-from TTMAPI.services.MongoDB import get_prompt_service
+from TTMAPI.services.Playground import get_prompt_service
 
 config = dotenv_values("settings.env")
 

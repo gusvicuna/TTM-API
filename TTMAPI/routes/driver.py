@@ -6,7 +6,7 @@ from TTMAPI.schemas.driver import (
     createDriverSchema,
     getDriverSchema,
     getDriversSchema)
-from TTMAPI.services import MongoDB
+from TTMAPI.services import Playground
 from TTMAPI.services.OpenAI.generate_description import (
     generate_description)
 
@@ -19,7 +19,7 @@ base_route = "/drivers"
 async def find_all_drivers():
     logger.info("GET" + base_route)
 
-    result = MongoDB.get_all_drivers(logger=logger)
+    result = Playground.get_all_drivers(logger=logger)
     return getDriversSchema(result)
 
 
@@ -30,7 +30,7 @@ async def create_driver(driver_input: Driver):
 
     driver_schema = createDriverSchema(driver_input)
 
-    result = MongoDB.create_new_driver(
+    result = Playground.create_new_driver(
         driver=driver_schema,
         logger=logger)
 
@@ -44,7 +44,7 @@ async def create_driver(driver_input: Driver):
 async def find_driver_by_id(driver_id: int):
     logger.info(f"GET {base_route}/{driver_id}")
 
-    driver_cursor = MongoDB.get_driver_by_id_service(
+    driver_cursor = Playground.get_driver_by_id_service(
         driver_id=driver_id,
         logger=logger)
 
@@ -58,7 +58,7 @@ async def update_driver(driver_id: int, driver: Driver):
     driver = getDriverSchema(driver)
     logger.info(f"PUT {base_route}/{driver_id}  driver={driver}")
 
-    driver_result = MongoDB.update_driver(
+    driver_result = Playground.update_driver(
         driver=driver,
         driver_id=driver_id,
         logger=logger)
@@ -74,7 +74,7 @@ async def update_driver(driver_id: int, driver: Driver):
 async def delete_driver(driver_id: int):
     logger.info(f"DELETE {base_route}/{driver_id}")
 
-    result = MongoDB.delete_driver(
+    result = Playground.delete_driver(
         driver_id=driver_id,
         logger=logger)
     return result
@@ -90,7 +90,7 @@ async def create_description(
                 f" driver={driver_id}" +
                 f" component={component_id}")
 
-    driver_cursor = MongoDB.get_driver_by_id(
+    driver_cursor = Playground.get_driver_by_id(
         driver_id=driver_id,
         logger=logger)
     driver = Driver(**driver_cursor)
@@ -104,7 +104,7 @@ async def create_description(
         phrases=selected_component.phrases,
         logger=logger)
 
-    driver_cursor = MongoDB.update_driver(
+    driver_cursor = Playground.update_driver(
         driver=driver.dict(),
         driver_id=driver.id,
         logger=logger)
