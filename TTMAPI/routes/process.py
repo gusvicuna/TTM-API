@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.process import getProcessedExperienceSchema
@@ -25,7 +26,8 @@ async def playground_process(
         gpt: bool = True,
         model: str = "gpt-4",
         fixGrammar: bool = False,
-        split_phrases: bool = False
+        split_phrases: bool = False,
+        session=Depends(getPostgreSQL)
         ):
 
     logger.info(
@@ -51,6 +53,7 @@ async def playground_process(
     if gpt:
         if split_phrases:
             gpt_result = split_process(
+                session=session,
                 answer_text=answer_text,
                 answer_type=answer_type,
                 commerce_type=commerce_type,
@@ -59,6 +62,7 @@ async def playground_process(
                 logger=logger)
         else:
             gpt_result, exception = gpt_process(
+                session=session,
                 answer_text=answer_text,
                 answer_type=answer_type,
                 commerce_type=commerce_type,
@@ -112,7 +116,8 @@ async def get_TTM_simple_match(
 @router.post("/gpt_simple")
 async def get_GPT_simple_match(
         trainText: str,
-        fixGrammar: bool = False
+        fixGrammar: bool = False,
+        session=Depends(getPostgreSQL)
         ):
 
     logger.info(f"POST {base_route}/gpt_simple  traintext='{trainText}'")
@@ -126,8 +131,17 @@ async def get_GPT_simple_match(
         driver = Driver(**driver_cursor)
         drivers.append(driver)
 
-    result = gpt_process(trainText, drivers=drivers, logger=logger)
-    return result
+    gpt_result, exception = gpt_process(
+                session=session,
+                answer_text=trainText,
+                answer_type="MB",
+                commerce_type="general",
+                model="gpt-4",
+                drivers=drivers,
+                logger=logger)
+    if exception:
+        raise exception
+    return gpt_result
 
 
 @router.get("/create_csv_of_aceptions")

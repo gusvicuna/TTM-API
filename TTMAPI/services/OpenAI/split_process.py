@@ -13,6 +13,7 @@ def create_empty_results(drivers):
 
 
 def split_process(
+        session,
         answer_text: str,
         answer_type: str,
         commerce_type: str,
@@ -25,6 +26,7 @@ def split_process(
     phrases = split_in_phrases(text=answer_text, logger=logger)
     for phrase in phrases:
         phrase_result, exception = gpt_process(
+            session=session,
             answer_text=phrase,
             answer_type=answer_type,
             commerce_type=commerce_type,
@@ -42,6 +44,7 @@ def split_process(
                     phrase_result[driver][component])
     # Procesa el texto completo y se lo suma a cada componente, como una frase
     total_result, exception = gpt_process(
+        session=session,
         answer_text=answer_text,
         answer_type=answer_type,
         commerce_type=commerce_type,

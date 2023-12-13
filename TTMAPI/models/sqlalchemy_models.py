@@ -159,6 +159,20 @@ class ErrorProcess(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
 
+class Prompt(Base):
+    __tablename__ = "prompts"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    modifiable_instruction = Column(String, nullable=False)
+    unmodifiable_instruction = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow)
+
+
 # Relationships
 Survey.drivers = relationship(
     "Driver",

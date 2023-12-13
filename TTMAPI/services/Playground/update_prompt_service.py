@@ -1,12 +1,23 @@
+from TTMAPI.models.sqlalchemy_models import Prompt
 from fastapi import HTTPException
 
-from TTMAPI.models.sqlalchemy_models import Prompt
 
-
-def get_prompt_service(session, prompt_id: str, logger):
+def update_prompt_service(
+        session,
+        modifiable_instruction: str,
+        prompt_id: str,
+        logger):
+    """
+    Update a prompt in the database
+    """
     try:
         prompt = session.query(Prompt).filter_by(
-            id=prompt_id).first()
+            id=prompt_id).update(
+                {
+                    "modifiable_instruction": modifiable_instruction,
+                }
+            )
+        session.commit()
     except Exception as e:
         session.rollback()
         logger.error(e)

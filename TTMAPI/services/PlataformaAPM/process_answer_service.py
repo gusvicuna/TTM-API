@@ -84,6 +84,7 @@ def process_answer(session, logger):
             model = "gpt-3.5-turbo"
         if words_in_answer < 11:
             gpt_results, exception = gpt_process(
+                    session=session,
                     answer_text=answer.answer_text,
                     answer_type=answer.experience_type,
                     commerce_type=survey.commerce_type,
@@ -99,6 +100,7 @@ def process_answer(session, logger):
         else:
             try:
                 gpt_results, exceptions = split_process(
+                        session=session,
                         answer_text=answer.answer_text,
                         answer_type=answer.experience_type,
                         commerce_type=survey.commerce_type,

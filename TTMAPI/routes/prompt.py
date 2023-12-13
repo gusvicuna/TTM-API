@@ -1,10 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.prompt import Prompt
 from TTMAPI.services.Playground import (
-    get_prompt_service,
-    update_prompt_service
+    get_prompt,
+    update_prompt
 )
 
 
@@ -14,25 +15,33 @@ base_route = "/prompt"
 
 
 @router.get("/{prompt_id}")
-async def get_prompt_instruction(prompt_id: int):
+async def get_prompt_instruction(
+        prompt_id: int,
+        session=Depends(getPostgreSQL)
+        ):
     """
-    Get prompt from get_prompt_service.py and return it
+    Get prompt from database and return it
     """
     logger.info(f"GET {base_route}/{prompt_id}")
-    prompt_cursor = get_prompt_service(prompt_id=prompt_id, logger=logger)
-    prompt = Prompt(**prompt_cursor)
+    prompt = get_prompt(
+        session=session,
+        prompt_id=prompt_id,
+        logger=logger)
     return prompt
 
 
 @router.put("/{prompt_id}")
-async def update_prompt_instruction(prompt_id: int, prompt: Prompt):
+async def update_prompt_instruction(
+        prompt_id: int,
+        prompt: Prompt,
+        session=Depends(getPostgreSQL)):
     """
-    Update prompt from update_prompt_service.py and return it
+    Update prompt from database and return it
     """
     logger.info(f"PUT {base_route}/{prompt_id} prompt='{prompt}'")
-    prompt_cursor = update_prompt_service(
+    prompt = update_prompt(
+        session=session,
         prompt_id=prompt_id,
-        prompt=prompt,
+        modifiable_instruction=prompt.modifiable_instruction,
         logger=logger)
-    prompt = Prompt(**prompt_cursor)
     return prompt

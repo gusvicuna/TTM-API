@@ -1,7 +1,6 @@
 import openai
 import json
 from dotenv import dotenv_values
-from TTMAPI.models.prompt import Prompt
 
 from TTMAPI.services.Playground import get_prompt_service
 
@@ -37,6 +36,7 @@ def verify_correct_result(json_data):
 
 
 def gpt_process(
+        session,
         answer_text: str,
         answer_type: str,
         commerce_type: str,
@@ -61,8 +61,10 @@ def gpt_process(
                 uts[driver.id][component.id] = component.description
     # logger.debug(f"Components: {components}\nUTs: {uts}")
 
-    prompt_cursor = get_prompt_service(prompt_id=1, logger=logger)
-    prompt = Prompt(**prompt_cursor)
+    prompt = get_prompt_service(
+        session=session,
+        prompt_id=1,
+        logger=logger)
     prompt_modifiable_instruction = prompt.modifiable_instruction
     prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
 
