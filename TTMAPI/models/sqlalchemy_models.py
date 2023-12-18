@@ -66,6 +66,8 @@ class Component(Base):
         index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
+    type = Column(String, nullable=False)
+    # puede ser 'component', 'positives', 'negatives' o 'objects'
     has_manual_desc = Column(
         Boolean,
         nullable=False,

@@ -8,6 +8,7 @@ def upsert_component(session, component_data, driver, logger):
         id=component_data["id"],
         name=component_data["name"],
         description=component_data["description"],
+        type="component",
         has_manual_desc=bool(component_data["description"]),
         driver_id=driver.id,
         survey_id=driver.survey_id
