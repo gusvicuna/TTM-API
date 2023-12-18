@@ -1,0 +1,1980 @@
+[{
+    "id": 1,
+    "type": null,
+    "description": "Playground",
+    "default_ut": {
+        "ut_id": 17,
+        "driver_id": 1
+    },
+    "drivers": [
+        {
+            "id": 1,
+            "name": "HIGIENE",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+                {
+                    "id": 2,
+                    "name": "LIMPIEZA",
+                    "aceptions": [
+                        "higien(e/ico)",
+                        "limpi(@/@s),-suci(@/@s)"
+                    ],
+                    "description": "In HIGIENE, LIMPIEZA, SANITIZADO; Ex DESORDEN, VACUNA;CUIDADO"
+                },
+                {
+                    "id": 1,
+                    "name": "PREVENCIÓN ENFERMEDADES",
+                    "aceptions": [
+                        "covid",
+                        "enfermeda(d/des)",
+                        "vacun@"
+                    ],
+                    "description": "In CUIDADO DE LA SALUD, PREVENCIÓN DE ENFERMEDADES, PROMOCIÓN DE LA SALUD; Ex DESATENCIÓN, IGNORANCIA, DESCUIDO, LIMPIEZA, SANITIZADO"
+                },
+                {
+                    "id": 3,
+                    "name": "Positives",
+                    "aceptions": [],
+                    "description": ""
+                },
+                {
+                    "id": 4,
+                    "name": "Negatives",
+                    "aceptions": [],
+                    "description": ""
+                },
+                {
+                    "id": 5,
+                    "name": "Objects",
+                    "aceptions": [],
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "CELERIDAD",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+                {
+                    "id": 1,
+                    "name": "RAPIDEZ",
+                    "aceptions": [
+                    "-demor(a/ar/an/os@/os@s)",
+                    "-esper(a/ar)",
+                    "-fil(a/as)",
+                    "Pront(@/itud)",
+                    "agi(l/les)",
+                    "ahorras tiempo",
+                    "brev(e/edad)",
+                    "celeridad",
+                    "corto",
+                    "diligente",
+                    "el mismo día",
+                    "enseguida",
+                    "etern(@/@s)",
+                    "horas punta",
+                    "inmediat(@/amente)",
+                    "instantáne@",
+                    "larg@",
+                    "lent@",
+                    "pierdes tiempo",
+                    "poco tiempo",
+                    "rapid(@/@s)",
+                    "rapidez",
+                    "tard(a/e/an/io/ar)",
+                    "velocidad"
+                    ],
+                    "description": "In RAPIDO, AGIL, BREVE, DILIGENTE, INMEDIATAMENTE, SIN ESPERA, SIN FILAS, AHORRAS TIEMPO, LENTO; Ex MOMENTO ADECUADO, A LA HORA, A TIEMPO"
+                },
+                {
+                    "id": 2,
+                    "name": "FLUIDEZ",
+                    "aceptions": [
+                    "-barreras",
+                    "-burocra(tas/cia)",
+                    "-obstaculos",
+                    "-trabas",
+                    "-tramit(e/@/es)",
+                    "direct@",
+                    "expedit(@)",
+                    "fila",
+                    "fluidez",
+                    "fluido"
+                    ],
+                    "description": "In DIRECTO, EXPEDITO, FLUIDO, SIN BUROCRACIA; Ex FÁCIL, ORGANIZADO, ACCESIBLE, PRÁCTICO, RÁPIDO"
+                },
+                {
+                    "id": 3,
+                    "name": "Positives",
+                    "aceptions": [
+                        "Muy",
+                        "Demasiado",
+                        "extra"
+                    ],
+                    "description": ""
+                },
+                {
+                    "id": 4,
+                    "name": "Negatives",
+                    "aceptions": [
+                        "lent(@/@s)",
+                        "va despacio",
+                        "tuve que"
+                    ],
+                    "description": ""
+                },
+                {
+                    "id": 5,
+                    "name": "Objects",
+                    "aceptions": [
+                        "tom(a/ar) pedid(o/os)",
+                        "entreg(a/ar) pedid(o/os)"
+                    ],
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "TRANSFERENCIA DE INFORMACIÓN",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+                {
+                "id": 1,
+                "name": "CONOCIMIENTO",
+                "aceptions": [
+                    "-sin ver",
+                    "-titubea",
+                    "Calificad@",
+                    "Competencias apropiadas",
+                    "Competente",
+                    "Informad@",
+                    "Profesio(nal/nalidad)",
+                    "adapt(@/@n)",
+                    "alineado",
+                    "analis(@/aron/an)",
+                    "bien su pega",
+                    "capacidad",
+                    "capacita(d@s/d@/cion)",
+                    "conoce(n)",
+                    "conocimiento",
+                    "demuestr@",
+                    "domin(a/io)",
+                    "experiencia",
+                    "explic@",
+                    "expon(e/er)",
+                    "habilidades",
+                    "maneja",
+                    "metodología(s)",
+                    "preparad@",
+                    "sab(e/en/ia)",
+                    "sec@"
+                ],
+                "description": "In CALIFICADO, COMPETENTE, INFORMADO, CAPACITADO, ADAPTA, EXPERIMENTADO, HABILIDOSO; Ex RAPIDO, AMABLE, IGNORANTE, HABLA BIEN"
+                },
+                {
+                "id": 2,
+                "name": "ORIENTACION",
+                "aceptions": [
+                    "Aconseja",
+                    "Aseso(r/ra/ria/rias/rar/ran/raron)",
+                    "Asiste",
+                    "Direcciona",
+                    "Guía",
+                    "Orient(@/ativa/an)",
+                    "Pasos a seguir",
+                    "Recom(endo/endar/ienda/iende/endacion)",
+                    "Sugiere",
+                    "Tramites",
+                    "dudas",
+                    "enseña",
+                    "entrega Alternativas",
+                    "entrega Opciones",
+                    "estrategia(s)"
+                ],
+                "description": "In ACONSEJA, ASESORA, ORIENTA, GUIA, DA ESTRATEGIAS; Ex AMABLE, PRESENTE, CONFIABLE, SABE"
+                },
+                {
+                "id": 3,
+                "name": "EFECTIVIDAD COMUNICACIONAL",
+                "aceptions": [
+                    "A la vista",
+                    "Acertad@",
+                    "Aclar@",
+                    "Adecuad@",
+                    "Asertiv(@/as)",
+                    "Certer@",
+                    "Clar(@/@s/idad)",
+                    "Como se debe",
+                    "Completa",
+                    "Concis@",
+                    "Concret@",
+                    "Congruente",
+                    "Convenció",
+                    "Convincente",
+                    "Correcta",
+                    "Despeja",
+                    "Destacad@",
+                    "Detallada",
+                    "Didáctic@",
+                    "Directa",
+                    "Entendible",
+                    "Entendí",
+                    "Específic(@/aron/an)",
+                    "Explicada",
+                    "Explícito",
+                    "Interesant(e/es)",
+                    "Necesaria",
+                    "Precisa",
+                    "Prolij@",
+                    "Real",
+                    "Relevante",
+                    "Resolvió",
+                    "Respondió",
+                    "Satisfecho",
+                    "Sencilla",
+                    "Simples de leer",
+                    "Sin error",
+                    "Suficiente",
+                    "Transparente",
+                    "Valiosa",
+                    "Visible",
+                    "buena comunicacion",
+                    "buena información",
+                    "comunic(@/an/aron)",
+                    "corresponde",
+                    "detallista",
+                    "entendible",
+                    "exact(@/itud)",
+                    "faciles",
+                    "habla bien",
+                    "informativ(@/@s)",
+                    "integral",
+                    "mismo precio que en la tienda",
+                    "necesari@",
+                    "queda aire",
+                    "se entiende",
+                    "se indica",
+                    "se le entiende",
+                    "simple vista",
+                    "útil"
+                ],
+                "description": "In INFORMACION EFECTIVA, COMUNICATIVA, INTERESANTE, CLARA, DETALLADA, VALIOSA, PRECISA, HABLA BIEN, CANAL DE COMUNICACION ADECUADO; Ex RAPIDO, LLAMAR, CONFIANZA"
+                },
+                {
+                    "id": 4,
+                    "name": "Positives",
+                    "aceptions": [
+                        "Muy",
+                        "Demasiado",
+                        "extra"
+                    ],
+                    "description": ""
+                },
+                {
+                    "id": 5,
+                    "name": "Negatives",
+                    "aceptions": [
+                        "lent(@/@s)",
+                        "va despacio",
+                        "tuve que"
+                    ],
+                    "description": ""
+                },
+                {
+                    "id": 6,
+                    "name": "Objects",
+                    "aceptions": [
+                        "tom(a/ar) pedid(o/os)",
+                        "entreg(a/ar) pedid(o/os)"
+                    ],
+                    "description": ""
+                }
+            ],
+            "negatives": []
+        },
+        {
+            "id": 5,
+            "name": "ESPIRITU DE ATENCION",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+                {
+                "id": 1,
+                "name": "TRATO",
+                "aceptions": [
+                    "-pesad(@/@s)",
+                    "actitud",
+                    "acucioso",
+                    "afable",
+                    "amab(ilidad/le/les/lemente)",
+                    "amen@",
+                    "amigabl(e/es)",
+                    "animad@",
+                    "aten(t@/t@s/cion)",
+                    "buena manera",
+                    "burla",
+                    "calmad@",
+                    "carismatic@",
+                    "considerad@",
+                    "cordia(l/lidad/les)",
+                    "correct@",
+                    "cortes",
+                    "da tiempo",
+                    "decente",
+                    "dije",
+                    "disposicion",
+                    "dispuest@",
+                    "dulce",
+                    "educad(@/@s)",
+                    "es agradable",
+                    "esmerad(@/@s)",
+                    "gana(s)",
+                    "genti(l/les)",
+                    "grat@",
+                    "human((@/@s)",
+                    "insisten",
+                    "invaden",
+                    "onda",
+                    "ordenad@",
+                    "paciente",
+                    "positiv@",
+                    "practicas",
+                    "predispuest@",
+                    "prepotencia",
+                    "presionan",
+                    "respetuos(@/@s)",
+                    "se molest@",
+                    "servicial",
+                    "simpatic(@/@s)",
+                    "sonri(e/endo/sa)",
+                    "trat(o/os/en/an/aron)",
+                    "tratado",
+                    "virtuos@",
+                    "voluntad",
+                    "tono"
+                ],
+                "description": "In AMABLE, CORDIAL, RESPETUOSO, BUEN TONO, SONRIE, CALMADO, EDUCADO; Ex PREOCUPADO, AYUDADOR, CARIÑOSO, ATIENDEN MUY BIEN, BUENA ATENCIÓN\n\n"
+                },
+                {
+                "id": 2,
+                "name": "ACCIONES DE AMOR",
+                "aceptions": [
+                    "-impersonal",
+                    "-pone en duda",
+                    "-puesto en duda",
+                    "acoge(n/dora/ndo/dor/ron)",
+                    "acogi(o/da)",
+                    "acomoda(n/ndo/ron)",
+                    "acompaña(n/ndo/ron)",
+                    "alentan(do/donos)",
+                    "aliementan",
+                    "alient@",
+                    "amoros@",
+                    "anim(@/an/ando/andose/aron)",
+                    "apoya(n/ndo/ron)",
+                    "asegur(@/an/ando/andose/aron)",
+                    "ayud(@/ar/an/ando/aron/arte)",
+                    "calid(@/@s)",
+                    "calid@",
+                    "calidez",
+                    "cariñ(o/os@)",
+                    "cercan@",
+                    "compren(de/den/dieron/cion/sion)",
+                    "comprom(eten/etiendo/eteiron/etiendose/iso)",
+                    "conocen",
+                    "conociendome",
+                    "considerad@,consider@(n/on)",
+                    "convers(@/Acion/ar)",
+                    "creen",
+                    "cuid(@/an/ado/ando)",
+                    "dan(do)",
+                    "dar",
+                    "dedica(d@/d@s/cion)",
+                    "detallista",
+                    "empati(a/c@/z@)",
+                    "en cuenta",
+                    "escucha(n/ndo)",
+                    "escucha(n/ndo)",
+                    "esforz@(n/ndo/ndose)",
+                    "facilita(n/ndo)",
+                    "flexi(bilidad/bilizan/bilizaron/bles)",
+                    "hace(n) sentir",
+                    "importa(s/n/ndo/ndole/)",
+                    "incentiv(@/an/ando/andose/aron)",
+                    "interes(@/an/ando/andose)",
+                    "involucr(@/an/ando/andose)",
+                    "juegan",
+                    "jugandosela",
+                    "llaman(do/dome)",
+                    "lo mejor de si",
+                    "motiv(a/an/ando/andose/ron)",
+                    "partícipe",
+                    "pendiente(s)",
+                    "personaliz(@/an/ar/ad@/ando/andose/aron)",
+                    "preguntan",
+                    "preocup(@/an/ad@/ando/andose/aron)",
+                    "prioriz(@/an/ando/andome/aron)",
+                    "puedo solicitar",
+                    "quier(e/en)",
+                    "reciprocidad",
+                    "reforz(ando/andose/aron)",
+                    "refuerz(@/an)",
+                    "regal(@/an/ando/andome/aron)",
+                    "saben de mi",
+                    "sentir comod@",
+                    "su entrega",
+                    "tiene paciencia",
+                    "tom(@/an/ando/andome/aron)"
+                ],
+                "description": "In ACOGEN, CARIÑOSO, REGALAR, ME TOMAN EN CUENTA, SOY CONSIDERADO, PREOCUPADO, AYUDA, MOTIVA, CONVERSA, ENTREGA, DEDICADO, ACOMPAÑA, ENTIENDE; Ex IMPERSONAL, AMABLE, PESADO, BURLON, MENTIROSO."
+                },
+                {
+                    "id": 3,
+                    "name": "Positives",
+                    "aceptions": [],
+                    "description": ""
+                },
+                {
+                    "id": 4,
+                    "name": "Negatives",
+                    "aceptions": [
+                        "no",
+                        "sin",
+                        "estupido",
+                        "cacho",
+                        "no tienes derecho",
+                        "tratan mal"
+                    ],
+                    "description": ""
+                },
+                {
+                    "id": 5,
+                    "name": "Objects",
+                    "aceptions": [],
+                    "description": ""
+                }
+            ],
+            "negatives": []
+        },
+        {
+            "id": 6,
+            "name": "PRESENCIA",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+            {
+                "id": 1,
+                "name": "PRESENCIA DE PERSONAS",
+                "aceptions": [
+                    "-caid@",
+                    "-cerr(o/ado)",
+                    "-rotacion",
+                    "abierto",
+                    "abordan",
+                    "abre",
+                    "accesible",
+                    "acceso",
+                    "asignado",
+                    "asiste",
+                    "atiende",
+                    "ausent(e/a)",
+                    "cerrado",
+                    "comunic@(n/r/ron)",
+                    "cono(zco/cido)",
+                    "contact(@/an/ado/aron/arl@/arl@s)",
+                    "contest(@/aron/an)",
+                    "continu(@/idad)",
+                    "deriva",
+                    "devuelve",
+                    "disponibl(e/es)",
+                    "ella misma",
+                    "en linea",
+                    "encontrable",
+                    "entrevist@(n/r/ron)",
+                    "falt@ comunicacion",
+                    "habla",
+                    "hubo respuesta",
+                    "inform(@/an/ar/aron)",
+                    "levant@",
+                    "llam(@/@n/ado/adome/aron)",
+                    "nadie",
+                    "no falt@",
+                    "para atenderme",
+                    "pasa",
+                    "present(@/e)",
+                    "presente",
+                    "reemplaz@",
+                    "respuesta",
+                    "reun(i/e/ieron)",
+                    "se cae",
+                    "siempre responde",
+                    "tenido respuesta",
+                    "todas partes",
+                    "tuve respuesta",
+                    "ubic@",
+                    "ubicable",
+                    "uptime",
+                    "visible",
+                    "visto"
+                ],
+                "description": "In PRESENTE, VISIBLE, CONOCIDO, RESPONDE, VIVO; Ex CONFIABLE, CONOCIMIENTO, RESPETO, AMABLE, ATENDER BIEN"
+            },
+            {
+                "id": 2,
+                "name": "PROACTIVIDAD",
+                "aceptions": [
+                    "-sin previo aviso",
+                    "alert@(n/r/ron)",
+                    "anticip@(n/r/ron)",
+                    "avis@(n/r/ron)",
+                    "compar@(n/r/ron)",
+                    "dinam(ico/ismo)",
+                    "iniciativa",
+                    "ofrec(e/en/cio/ieron)",
+                    "proactiv(@/s)",
+                    "proactividad",
+                    "propone(n/r)",
+                    "propusieron",
+                    "retroaliment@(n/r/ron)",
+                    "revis@(n/r/ron)",
+                    "seguimiento",
+                    "trae ejemplos",
+                    "visit(@/an/ar/aron)",
+                    "actualiz(@/an/ar/aron)"
+                ],
+                "description": "In INICIATIVA, OFRECE, PROPONE, ANTICIPA, ACTUALIZA, RETROALIMENTA, DINAMICO; Ex RESPONDER, CONOCIMIENTO, ADAPTA, CONFIANZA"
+            },
+            {
+                "id": 3,
+                "name": "PRESENCIA DE INFRAESTRUCTURA",
+                "aceptions": [
+                    "-caid@",
+                    "-cerr(o/ado)",
+                    "-cerrado",
+                    "abierto",
+                    "abre",
+                    "uptime"
+                ],
+                "description": "In DISPONIBLE, OPERATIVO, FUNCIONANDO, CAÍDO, CERRADO, INACTIVO; Ex AUSENTE, NO RESPONDE."
+            },
+            {
+                "id": 4,
+                "name": "Positives",
+                "aceptions": [],
+                "description": ""
+            },
+            {
+                "id": 5,
+                "name": "Negatives",
+                "aceptions": [
+                    "no",
+                    "sin",
+                    "tampoco",
+                    "nunca",
+                    "poco",
+                    " tuve que esperar"
+                ],
+                "description": ""
+            },
+            {
+                "id": 6,
+                "name": "Objects",
+                "aceptions": [
+                    "accesorios",
+                    "aplicaci(on/ones)",
+                    "app",
+                    "app",
+                    "canal",
+                    "chat",
+                    "colaborad(or/ores)",
+                    "complementos",
+                    "cosas",
+                    "despachos",
+                    "e-mail",
+                    "ejecutiv@",
+                    "email",
+                    "informacion",
+                    "informes",
+                    "infraestructura",
+                    "lugar",
+                    "mail",
+                    "mensajes",
+                    "pagina",
+                    "product(o/os)",
+                    "regiones",
+                    "servici(o/os)",
+                    "sitio",
+                    "sitio",
+                    "sms",
+                    "sucursal",
+                    "sucursales",
+                    "tienda",
+                    "url",
+                    "vendedor(a)",
+                    "wapp",
+                    "web",
+                    "web",
+                    "whatsapp",
+                    "wsp",
+                    "zonas rurales"
+                ],
+                "description": ""
+            }
+            ],
+            "negatives": []
+        },
+        {
+            "id": 8,
+            "name": "COMODIDAD",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+            {
+                "id": 1,
+                "name": "FACILIDAD",
+                "aceptions": [
+                    "-dific(il/ultad/ultoso)",
+                    "amigable(s)",
+                    "comod@",
+                    "espaci(o/oso)",
+                    "facil",
+                    "facilidad",
+                    "facilitar",
+                    "facilmente",
+                    "intuitiv@",
+                    "sencill@",
+                    "simple"
+                ],
+                "description": "In AMIGABLE, FÁCIL, SENCILLO, INTUITIVO; Ex PRACTICO, ACCESIBLE, ORGANIZADO, FLUIDEZ, DESORDENADO"
+            },
+            {
+                "id": 3,
+                "name": "PRACTICIDAD",
+                "aceptions": [
+                    "100% online",
+                    "a la mano",
+                    "a un tercero",
+                    "online",
+                    "pagando en efectivo",
+                    "pagar con cheque",
+                    "practico",
+                    "presenci(a/almente/alidad)"
+                ],
+                "description": "In FUNCIONAL, VDERSATIL, ADAPTABLE, ONLINE, A LA MANO, PRACTICO, EFICIENTE; Ex FÁCIL, ACCESIBLE, ORGANIZADO, FLUIDEZ"
+            },
+            {
+                "id": 4,
+                "name": "ACCESIBILIDAD",
+                "aceptions": [
+                    "acces(ible/ibilidad/o/ad@s)",
+                    "más cerca",
+                    "ubic(acion/ad@)",
+                    "vias de( llegada/ salida/ accesos)"
+                ],
+                "description": "In ACCESIBLE, ACCESIBILIDAD, ACCESO SIN OBSTÁCULOS, CERCANO, BUENA UBICACIÓN, INCLUSIVO, VIAS DE LLEGADA; Ex FÁCIL, ORGANIZADO, PRACTICO, FLUIDEZ"
+            },
+            {
+                "id": 5,
+                "name": "ORGANIZADO",
+                "aceptions": [
+                    "-desordenad(@/@s)",
+                    "-muchos elementos",
+                    "estructurado",
+                    "ordenad(@/@s)",
+                    "organizad(@/@s)"
+                ],
+                "description": "In ESTRUCTURADO, POCOS ELEMENTOS, ORDENADO, ORGANIZADO; Ex PRÁCTICO, FÁCIL, FLUIDO"
+            },
+            {
+                "id": 6,
+                "name": "Positives",
+                "aceptions": [
+                    "bue(n@/n@s(nisimo)",
+                    "buenos",
+                    "muy bien",
+                    "muy bue(n@/n@s)",
+                    "super",
+                    "las mejores",
+                    "la mejor",
+                    "el mejor",
+                    "los mejores"
+                ],
+                "description": ""
+            },
+            {
+                "id": 7,
+                "name": "Negatives",
+                "aceptions": [
+                    "no",
+                    "sin",
+                    "caro(s)",
+                    "tuve que"
+                ],
+                "description": ""
+            },
+            {
+                "id": 8,
+                "name": "Objects",
+                "aceptions": [
+                    "Invertir",
+                    "acceder",
+                    "codigo qr",
+                    "comprar",
+                    "depositar",
+                    "entrar",
+                    "navegar",
+                    "obtener",
+                    "operar",
+                    "paga(r/ando)",
+                    "pedir",
+                    "qr",
+                    "rescatar",
+                    "solucionar",
+                    "tomar",
+                    "transfe(rir/rencia/rencias)",
+                    "usar",
+                    "utilizar",
+                    "recuperar"
+                ],
+                "description": ""
+            }
+            ],
+            "negatives":[]
+        },
+        {
+            "id": 10,
+            "name": "VALORES",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+            {
+                "id": 1,
+                "name": "CONFIANZA",
+                "aceptions": [
+                  "-caja abierta",
+                  "-incertidumbre",
+                  "-inestabilidad",
+                  "-inseguridad",
+                  "Inspecciona(n/ron)",
+                  "asumen",
+                  "años de experiencia",
+                  "comprometid(@/@s)",
+                  "confi@",
+                  "confiabl(e/es)",
+                  "confianza",
+                  "confidencial(es)",
+                  "fiable",
+                  "granti(a/as)",
+                  "leales",
+                  "lealtad",
+                  "objetiv@",
+                  "paz",
+                  "prestigi(o/osa)",
+                  "profesionalismo",
+                  "responsab(le/les/ilizan)",
+                  "seguridad",
+                  "seriedad",
+                  "serios",
+                  "tranqui(la/lidad/liza/lizador)",
+                  "transparen(tes/cia)",
+                  "trayectoria"
+                ],
+                "description": "In CONFIABLE, TRANQUILO, PAZ, MIRADA OBJETIVA, AÑOS DE EXPERIENCIA, PRESTIGIO, RESPONSABILIDAD, SEGURIDAD, INTERES EN MEJORAR, ESTABILIDAD, TRANQUILIDAD; Ex CORRECTO, HACERLO BIEN, SEGURIDAD, HONESTIDAD"
+            },
+            {
+                "id": 2,
+                "name": "HONESTIDAD",
+                "aceptions": [
+                  "-distorsionad@",
+                  "-engaña(n/ron)",
+                  "-estafa(n/ron)",
+                  "-induc(en/ir)",
+                  "-omiten",
+                  "-roba(n/ron)",
+                  "-se toman los jugos",
+                  "Honrad(@/ez)",
+                  "Probidad",
+                  "Sincer@(s)",
+                  "dicen la verdad",
+                  "dicen verdad",
+                  "honest(@/@s/dad)",
+                  "just(@/@s/icia)"
+                ],
+                "description": "In HONRADO, PROBIDAD, SINCEROS, VERDAD; Ex DISTORSIONADO, ENGAÑA(N/RON), ROBA(N/RON)\n"
+            },
+            {
+                "id": 3,
+                "name": "RESPETO",
+                "aceptions": [
+                  "-discrimin(@/an/aron)",
+                  "Abiert(@s)",
+                  "Respet(@/ar/an/uos@/uos@s)",
+                  "invasiv(@/@s)",
+                  "pluralista(s)"
+                ],
+                "description": "In RESPETUOSO, NO INVASIVO, RESPETAN, TOLERANTE, EDUCADO, CIVILIZADO; PLURALISTA; Ex CONFIABLE, HONESTO, ECOLOGISTA"
+            },
+            {
+                "id": 4,
+                "name": "ECOLOGÍA",
+                "aceptions": [
+                  "amigable medioambiente",
+                  "autosustentable(s)",
+                  "ecologic@(s)",
+                  "ecología",
+                  "sustentable(s)"
+                ],
+                "description": "In AMIGABLE MEDIOAMBIENTE, AUTOSUSTENTABLE, ECOLOGICO; Ex RESPETUOSO, CONFIABLE, HONESTO"
+            },
+            {
+              "id": 5,
+              "name": "Positives",
+              "aceptions": [
+                "mucha"
+              ],
+              "description": ""
+            },
+            {
+              "id": 6,
+              "name": "Negatives",
+              "aceptions": [
+                "no",
+                "sin",
+                "caro(s)",
+                "cero",
+                "0"
+              ],
+              "description": ""
+            },
+            {
+              "id": 7,
+              "name": "Objects",
+              "aceptions": [],
+              "description": ""
+            }
+        ],
+        "negatives":[]
+        },
+        {
+            "id": 11,
+            "name": "PRODUCTOS/SERVICIOS",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+              {
+                "id": 1,
+                "name": "CALIDAD",
+                "aceptions": [
+                  "-carne esta dura",
+                  "-perdiendo el vacio",
+                  "buena comida",
+                  "buenos productos",
+                  "calidad de( imagen/ sonido)",
+                  "comida( como en casa/buena)",
+                  "condiciones",
+                  "dañad@",
+                  "de primera",
+                  "ediondo",
+                  "esta buena",
+                  "estado",
+                  "frescos",
+                  "ingredientes,calidad",
+                  "la mejor( comida/ pizza/ hamburguesa)",
+                  "mejores pizzas",
+                  "muy buen(@/@s)",
+                  "muy buenos productos",
+                  "pan es bueno",
+                  "producto bueno",
+                  "productos de calidad",
+                  "quedan( bien/ maravillos(@/@s)",
+                  "rot@",
+                  "son buen@s"
+                ],
+                "description": "In BUENA COMIDA, BUENOS PRODUCTOS, SON BUENOS, FRESCOS, BUEN ESTADO, SERVICIO SIN DEFECTOS, BUENOS SANDWICH, BUEN COMPLETO; Ex ME ENCANTA, BUEN SABOR, RICO, BONITO, AMABLE, SABROSO, ME GUSTA, RICO"
+              },
+              {
+                "id": 2,
+                "name": "VARIEDAD",
+                "aceptions": [
+                  "-mas marcas",
+                  "distint(@/@s)",
+                  "divers@",
+                  "gama",
+                  "nuevos productos",
+                  "rotativ(o/os)",
+                  "surtid(@/@s)",
+                  "tipos",
+                  "todos los gustos",
+                  "vari(a/ados/an)",
+                  "variedad"
+                ],
+                "description": "In VARIEDAD DE PRODUCTOS, DISEÑOS DE TODOS LOS GUSTOS, DIVERSIDAD, AMPLIA GAMA; Ex TAMAÑO, TECNOLOGÍA, SABOR"
+              },
+              {
+                "id": 3,
+                "name": "DISEÑADOS PARA MI",
+                "aceptions": [
+                  "diseñad(@/@s)",
+                  "identific(a/an)"
+                ],
+                "description": "In PERSONALIZADO, ADAPTADO, A MEDIDA; Ex GENÉRICO, ESTÁNDAR, COMÚN"
+              },
+              {
+                "id": 4,
+                "name": "DISPONIBILIDAD",
+                "aceptions": [
+                  "  inventario",
+                  "-no habian productos",
+                  "-solo dos",
+                  "bien abastecidos",
+                  "disponible(s)",
+                  "falta de product(o/os)",
+                  "hay de todo",
+                  "hay mercadería",
+                  "hay product(os)",
+                  "se encuentran",
+                  "stock",
+                  "tienen producto"
+                ],
+                "description": "In DISPONIBLE, ABASTECIDO, STOCK; Ex VARIEDAD, ENVOLTURA, DISEÑO"
+              },
+              {
+                "id": 5,
+                "name": "TECNOLOGÍA",
+                "aceptions": [
+                  "innov(@/acion/ar/aron/adores)",
+                  "tecnologic(@/@s)",
+                  "tecnología"
+                ],
+                "description": "In INNOVACIÓN, TECNOLOGIA, TECNOLOGICO, INNOVADOR; Ex COSAS NUEVAS, NUEVO, ÚLTIMO MODELO, CALIDAD"
+              },
+              {
+                "id": 6,
+                "name": "FACILES DE VENDER",
+                "aceptions": [
+                  "demanda",
+                  "demandados",
+                  "requeridos",
+                  "rotan",
+                  "sale",
+                  "salen",
+                  "solicitados",
+                  "tienen rotación",
+                  "vende(n)"
+                ],
+                "description": "In DEMANDA, REQUERIDOS, SOLICITADOS, POPULARES; Ex VARIEDAD, CALIDAD, TAMAÑO"
+              },
+              {
+                "id": 7,
+                "name": "ENVOLTURA",
+                "aceptions": [
+                  "envase",
+                  "envoltura",
+                  "etiqueta",
+                  "presentacion"
+                ],
+                "description": "In ENVASE, ENVOLTURA, ETIQUETA, PRESENTACIÓN, EMBALAJE, EMPAQUE ; Ex VARIEDAD, DISPONIBILIDAD, CALIDAD"
+              },
+              {
+                "id": 8,
+                "name": "SABOR",
+                "aceptions": [
+                  "-desabrido",
+                  "delicioso",
+                  "exquisit(@/@s)",
+                  "gustan",
+                  "ric(@/@s)",
+                  "saben bien",
+                  "sabor(es)",
+                  "sabros@",
+                  "sazón"
+                ],
+                "description": "In PRODUCTOS RICOS, COMIDADAS RICAS, RICO, SABEN BIEN, GUSTAN, EXQUISITO, SAZÓN, DELICIOSO, AROMÁTICO, SABROSO; Ex CALIDAD, TAMAÑO"
+              },
+              {
+                "id": 9,
+                "name": "TAMAÑO",
+                "aceptions": [
+                  "grand(e/es)",
+                  "pequeñ(@/@s),chic(@/@s)"
+                ],
+                "description": "In GRANDE, PEQUEÑO, CHICO, ENORME, DIMINUTO, MINÚSCULO; Ex VARIEDAD, CALIDAD, ENVOLTURA"
+              },
+              {
+                "id": 10,
+                "name": "TEMPERATURA",
+                "aceptions": [
+                  "calentito",
+                  "caliente(s)",
+                  "fria"
+                ],
+                "description": "In TEMPERATURA ADECUADA, CALIENTE, CALENTITO, GRADOS, CALOR, FRIO; Ex ÁSPERO, MAL OLOR, RICO"
+              },
+              {
+                "id": 11,
+                "name": "OLOR",
+                "aceptions": [
+                  "aroma",
+                  "fragancia",
+                  "olor"
+                ],
+                "description": "In BUEN OLOR, AROMA, FRAGANCIA; Ex RICO, CALIDAD"
+              },
+              {
+                "id": 12,
+                "name": "TEXTURA",
+                "aceptions": [
+                  "rugos@",
+                  "suave"
+                ],
+                "description": "In SUAVE, RUGOSO, LISO, ÁSPERO, IRREGULAR, RESBALADIZO; Ex OLOR, SABOR, CALIDAD"
+              },
+              {
+                "id": 13,
+                "name": "DISFRUTE_DOLOR",
+                "aceptions": [
+                  "-dolor",
+                  "place(ntero/r)"
+                ],
+                "description": "In PLACER, SUFRIMIENTO, MOLESTIA, DOLOR FISICO; Ex OLOR, ME GUSTA, FACILIDAD"
+              },
+              {
+                "id": 14,
+                "name": "DISEÑO",
+                "aceptions": [
+                  "bell(@/@s)",
+                  "bonit(@/@s)",
+                  "hermos(@/@s)",
+                  "lind(@/@s)"
+                ],
+                "description": "In COSAS BONITAS, PRODUCTOS BELLOS, DECORACION HERMOSAS, DECORACION, ES BELLO, DE GUSTO, LINDO, BONITO; Ex FEO, DESAGRADABLE, DESCUIDADO"
+              },
+              {
+                "id": 15,
+                "name": "CONEXIÓN EMOCIONAL",
+                "aceptions": [
+                  "conexión"
+                ],
+                "description": "In CONEXIÓN EMOCIONAL, AFECTIVA, SENTIMENTAL; Ex RACIONAL, LÓGICA, CHISTOSA"
+            },
+            {
+              "id": 16,
+              "name": "Positives",
+              "aceptions": [
+                "es buen(@)"
+              ],
+              "description": ""
+            },
+            {
+              "id": 17,
+              "name": "Negatives",
+              "aceptions": [
+                "no",
+                "sin",
+                "mal(@/@s)",
+                "falta",
+                "cero",
+                "dañ(ado/o)"
+              ],
+              "description": ""
+            },
+            {
+              "id": 18,
+              "name": "Objects",
+              "aceptions": [
+                "alimento(s)",
+                "analisis",
+                "arriendo",
+                "atencion al cliente",
+                "auto",
+                "bencina",
+                "carn(e/es)",
+                "carne(s)",
+                "combustible",
+                "comida",
+                "congelados",
+                "credito",
+                "fruta",
+                "fruta(s)",
+                "lacteos",
+                "leche",
+                "mantequilla",
+                "mercaderia",
+                "pan",
+                "panaderia",
+                "pesca(do/deria)",
+                "poll(o/os)",
+                "pollo(s)",
+                "product(o/os)",
+                "queso",
+                "repuestos",
+                "ropa",
+                "servici(o/os)",
+                "set de paños",
+                "pan",
+                "millas lanpass",
+                "bebidas",
+                "energeticas",
+                "monster",
+                "sandwich",
+                "hotdo(g/gs)",
+                "salchich(a/as)",
+                "hamburgues(a/as)",
+                "completo",
+                "red bull",
+                "pizz(a/as)",
+                "comida",
+                "pastel de papa",
+                "postres",
+                "milanesa",
+                "informacion",
+                "imagen",
+                "sonido",
+                "musica",
+                "voz"
+              ],
+              "description": ""
+            }
+            ],
+            "negatives":[]
+        },
+        {
+            "id": 12,
+            "name": "BENEFICIO ECONOMICO",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+              {
+                "id": 1,
+                "name": "PRECIOS",
+                "aceptions": [
+                  "-alzas",
+                  "-cost(o/os/oso)",
+                  "ahorro",
+                  "al alcance",
+                  "barat(o/os)",
+                  "car(@/@s)",
+                  "carisim(@/@s)",
+                  "descuent(@/@s)",
+                  "economic(o/os)",
+                  "ofert(a/as)",
+                  "preci(o/os)",
+                  "promoci(on/ones)",
+                  "relacion precio",
+                  "valores"
+                ],
+                "description": "In BUENAS OFERTAS, BUEN PRECIO, AHORRO, BARATO, ECONÓMICO, DESCUENTO; Ex BONITO, PRECIOSO, TASA DE INTERES, CUOTAS, CREDITO"
+              },
+              {
+                "id": 2,
+                "name": "TASAS",
+                "aceptions": [
+                  "cuota",
+                  "intere(s/ses)",
+                  "prima",
+                  "tasas"
+                ],
+                "description": "In CUOTA, INTERES, COMISION, PRIMA, TASA; Ex PRECIOS, CREDITO"
+              },
+              {
+                "id": 3,
+                "name": "CONDICIONES",
+                "aceptions": [
+                  "benefici(o/os)",
+                  "cobertur(a/as)",
+                  "invitaci(on/ones)",
+                  "oportuni(dad/dades)",
+                  "regal(@/os)"
+                ],
+                "description": "In BENEFICIOS, COBERTURAS; Ex TASA DE INTERES, PRECIO, CREDITO"
+              },
+              {
+                "id": 4,
+                "name": "CRÉDITO",
+                "aceptions": [
+                  "credito",
+                  "cupo",
+                  "prestamo",
+                  "sobregiro"
+                ],
+                "description": "In PRESTAMO, CREDITO, DEUDA, TASA DE INTERES, CUOTAS; Ex  PRECIO"
+              },
+              {
+                "id": 5,
+                "name": "REGALOS",
+                "aceptions": [
+                  " regal(@/@s/aron)",
+                  "dieron champaña",
+                  "obsequ(@/@s/iaron)"
+                ],
+                "description": "In SORPRESA, DETALLE, OBSEQUIO; Ex COMPRA, VENTA, NEGOCIO"
+              },
+            {
+              "id": 6,
+              "name": "Positives",
+              "aceptions": [
+                "buen(@/@s)",
+                "excelent(e/es)",
+                "razonables"
+              ],
+              "description": ""
+            },
+            {
+              "id": 7,
+              "name": "Negatives",
+              "aceptions": [
+                "precios mas baratos",
+                "no",
+                "sin",
+                "a pesar de",
+                "car@(s)"
+              ],
+              "description": ""
+            },
+            {
+              "id": 8,
+              "name": "Objects",
+              "aceptions": [
+                "bajan",
+                "suben"
+              ],
+              "description": ""
+            }
+            ],
+            "negatives":[]
+        },
+        {
+            "id": 13,
+            "name": "CUMPLIMIENTO",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+              {
+                "id": 1,
+                "name": "REQUERIMIENTO",
+                "aceptions": [
+                  ")dieron",
+                  "-cae",
+                  "-desconforme",
+                  "-error",
+                  "-error(es)",
+                  "-fall(a/as/an)",
+                  "-falta",
+                  "-incomplet(@/@s)",
+                  "-inconvenientes",
+                  "-problem(as/a/atico)",
+                  "Acertados",
+                  "Atendi(o/eron)",
+                  "Ejecu(ta/taron]/cion)",
+                  "Exactamente",
+                  "Exacto",
+                  "Presta",
+                  "acordad(@/@s)",
+                  "administr@(n)",
+                  "altera(r/ciones)",
+                  "arreglan",
+                  "asum(en/ierons)",
+                  "atiend(e/en)",
+                  "ayuda",
+                  "cabalidad",
+                  "cambi@(n)",
+                  "carg(@/ar/aron)",
+                  "cobr(@/an/aron)",
+                  "como corresponde",
+                  "compr(e/a)",
+                  "concret@(n/ndo)",
+                  "conforme",
+                  "consigu(io/e/iendo)",
+                  "contacta",
+                  "contest(@/ar/an/aron)",
+                  "correct@(mente)",
+                  "correcto",
+                  "cotiz(a/an/aron)",
+                  "cumpl(e/ir/en/ieron/imiento/imientos/ido/idos)",
+                  "daj(@/an)",
+                  "dan",
+                  "dej(@/an)",
+                  "despach@(n)",
+                  "despacha(n/ron)",
+                  "devol(ucion",
+                  "devuelv(e/en",
+                  "efic(az/cia)",
+                  "efic(iencia/iente/ientes)",
+                  "encontr(e/aron/ado)",
+                  "encuentr@",
+                  "entendieron",
+                  "entreg(@/ar/as/an/ados/aron/aban)",
+                  "envi(@/an/ado/ando)",
+                  "equivocan",
+                  "esparaba",
+                  "esperado",
+                  "estabili(dad/zada)",
+                  "estable",
+                  "estipulad(@/@s)",
+                  "expectativa",
+                  "funcio(na/naron/namiento)",
+                  "gestio(n@/naron)",
+                  "habilita(@/@s)",
+                  "hac(e/en/ciendo)",
+                  "han beneficiado",
+                  "han echo",
+                  "hay todo",
+                  "hizo",
+                  "informad(@/@s)",
+                  "jubil(@/e/acion)",
+                  "jubila",
+                  "listo",
+                  "lleg(@/ad@/an/ando/aron)",
+                  "logr(@/e/ando)",
+                  "mandan",
+                  "manteniendo",
+                  "mantiene(n)",
+                  "objetivo(s)",
+                  "obtiene",
+                  "obtiene",
+                  "permanen(te/temente)",
+                  "podia",
+                  "posib(le/ilidad)",
+                  "precisa",
+                  "probe",
+                  "programad(@/@s)",
+                  "prometido",
+                  "pud(e/o/iendo)",
+                  "pued(e/o)",
+                  "real(i/z@/iza/izar)",
+                  "recarg(@/an)",
+                  "recib(i/id@)",
+                  "repusieron",
+                  "rescat(@/e/ar)",
+                  "resolver",
+                  "resolvieron",
+                  "respond(ieron/dio/diendo/e/en)",
+                  "resuelv(e/en)",
+                  "resultados",
+                  "siempre respond(e/en)",
+                  "sin falta",
+                  "solucio(n@/nan/nar)",
+                  "suficientemente",
+                  "tengo",
+                  "tenian",
+                  "tiene(n)",
+                  "todas",
+                  "total",
+                  "totalidad",
+                  "traen",
+                  "trajeron",
+                  "tuvieron",
+                  "unific(@/an)",
+                  "va",
+                  "vend(e/ido/er)",
+                  "venia",
+                  "vien(e/en)",
+                  "vieron/vio)",
+                  "vinieron"
+                ],
+                "description": "In ACERTADO, LOGRADO, OBTENGO LO QUE NECESITO, ATENDIDO, EJECUTADO, PROBE, REALIZADO, SOLUCIONADO, VENDIDO, ENTENDIERON, COMPRADO, COBRADO, DESPACHADO, ENCONTRADO, CUMPLIDO; Ex CONFIABLES, PRESENTES, PROACTIVOS"
+              },
+              {
+                "id": 2,
+                "name": "TIEMPOS",
+                "aceptions": [
+                  "a la hora",
+                  "a tiempo",
+                  "dia indicado",
+                  "fecha(s)",
+                  "horario de entrega",
+                  "horarios",
+                  "momento adecuado",
+                  "oportun@",
+                  "plazo(s)",
+                  "puntu(al/ales)"
+                ],
+                "description": "In EJECUTADO PUNTUAL, A LA HORA, A TIEMPO; Ex CONFIANZA, HONESTIDAD, CONOCIMIENTO, RAPIDEZ"
+              },
+              {
+                "id": 3,
+                "name": "ECONOMICOS",
+                "aceptions": [
+                  " optimiz(@/ar/ando)",
+                  "aumentan",
+                  "disminuyen",
+                  "gan@(n)",
+                  "ganancias",
+                  "gane",
+                  "inversion(es)",
+                  "perdi",
+                  "perdidas",
+                  "perdieron",
+                  "pierde(n)",
+                  "rentable",
+                  "retanbilidad"
+                ],
+                "description": "In ECONOMICO, RENTABLE, GANANCIAS, OPTIMIZA; Ex VENDER, COMPRAR, CONFIANZA, CONOCIMIENTO, RAPIDEZ"
+              },
+              {
+                "id": 4,
+                "name": "APRENDIZAJE",
+                "aceptions": [
+                  "Avanza",
+                  "Descubrí cosas",
+                  "Me supero",
+                  "aprend(o/i/io/e/izaje)",
+                  "comprende",
+                  "crece(r)",
+                  "informad(@/@s)",
+                  "inspir(@/ar/ador/ad@)",
+                  "practicar",
+                  "prepara",
+                  "preparacion",
+                  "recordar",
+                  "recuerdo"
+                ],
+                "description": "In APRENDO, AVANZO, DESCUBRÍR COSAS NUEVAS, SUPERARSE, INSPIRARSE, ESTOY INFORMADO, COMPRENDER, APRENDER, CRECER, PRACTICAR, SABER; Ex AMABLE, CONFIANZA, RESPETO"
+              },
+              {
+                "id": 5,
+                "name": "ENTRETENIMIENTO",
+                "aceptions": [
+                  "chistoso",
+                  "comico",
+                  "divertid(@/@s)",
+                  "entret(enid@/enid@s/ienen)",
+                  "entretenido",
+                  "entretiene",
+                  "llamativ(@/@s)",
+                  "ludic(@/@s)",
+                  "me rei",
+                  "muy divertido"
+                ],
+                "description": "In DIVERTIDO, CHISTOSO, COMICO, LLAMATIVO, DIVERTIDO; Ex SIMPATICO, AMABLE, BUENA ATENCIÓN, BUENOS, AMIGABLE"
+              },
+              {
+                "id": 6,
+                "name": "LIKE",
+                "aceptions": [
+                  " tienen feliz",
+                  "acercan",
+                  "agradabl(e/es)",
+                  "amo",
+                  "atienden (bien/muy bien)",
+                  "bacan",
+                  "bell(@/@s)",
+                  "bkn",
+                  "buen servicio",
+                  "buen(isim@/@/@s/isim@s)",
+                  "buena atención",
+                  "buena y la atención",
+                  "encanta",
+                  "espectacular",
+                  "excelente",
+                  "excelente( atencion/ servicio)",
+                  "excepcional",
+                  "gracia",
+                  "increible",
+                  "la atención",
+                  "linda",
+                  "llamativ(@/@s)",
+                  "lo mejor",
+                  "maravillos(@/@s)",
+                  "precios(o/os)",
+                  "recomendaría",
+                  "son un (7/10)",
+                  "super",
+                  "todo ok",
+                  "tremenda experiencia",
+                  "volvería"
+                ],
+                "description": "In BUENA ATENCION, EXCELENTE, ENCANTA, EXCPECIONAL, ME ENCANTA, SUPER, ME GUSTA, LLAMATIVO, ATRACTIVO, ME HACE FELIZ, VOLVERÍA, CALIDAD DE ATENCIÓN, ATIENDEN MUY BIEN, RECOMENDARÍA, BUEN SERVICIO, MARAVILLOSO, LO MEJOR; Ex AMIGABLE, AMABLE, CARIÑOSO, PRESENTE, CONOCIMIENTO, RAPIDEZ, CONFIANZA"
+              },
+              {
+                "id": 7,
+                "name": "PERSUASIÓN",
+                "aceptions": [
+                  "hace querer",
+                  "llaman a visitar",
+                  "persua(de/sion)",
+                  "seduce",
+                  "tienta"
+                ],
+                "description": "In TIENTA, LLAMAN A VISITAR, HACE QUERER, SEDUCE; Ex BONITO, AGRADABLE, CHISTOSO"
+              },
+            {
+              "id": 8,
+              "name": "Positives",
+              "aceptions": [
+                "acorde",
+                "adecuad(@/@s)",
+                "apropiad(@/@s)",
+                "exact(@/@s):complet(o/os)",
+                "muy bien",
+                "necesario",
+                "pactado(@/@s)",
+                "prudent(e/es)",
+                "como corresponde",
+                " no tan",
+                "excelente"
+              ],
+              "description": ""
+            },
+            {
+              "id": 9,
+              "name": "Negatives",
+              "aceptions": [
+                "no",
+                "ni",
+                "sin",
+                "no me gust@",
+                "mal(@/@s)",
+                "porqueria",
+                "nunca",
+                "no era",
+                "perjudic(@/an/aron)",
+                "pesimo",
+                "podrid@",
+                "demencial",
+                "no fue",
+                "mal estado",
+                "no me",
+                "sin ver",
+                "no hay",
+                "no es",
+                "malisimo",
+                "no atendio",
+                "un cacho",
+                "muy por encima",
+                "poc@",
+                "fresc(@/@s)",
+                "de 2da",
+                "malas condiciones",
+                "a pesar",
+                "quiebres",
+                "nadie",
+                "la mitad",
+                "norteo",
+                "no le",
+                "excesiv(o/os)",
+                "no he tenido",
+                "no esta lista",
+                "equivocado",
+                "falt(a/aba/aban)",
+                "llegan tarde"
+              ],
+              "description": ""
+            },
+            {
+              "id": 10,
+              "name": "Objects",
+              "aceptions": [],
+              "description": ""
+            }
+            ],
+            "negatives":[]
+        }
+    ],
+    "like": [
+        {
+            "id": 17,
+            "name": "LIKE & UT",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+              {
+                "id": 1,
+                "name": "MARCA",
+                "aceptions": [
+                  "banco security",
+                  "corporacion",
+                  "dueñ(o/os)",
+                  "empresa",
+                  "marca",
+                  "organizacion",
+                  "soci(o/os)"
+                ],
+                "description": "In BANCO, CORPORACION, EMPRESA, DUEÑO, MARCA, ORGANIZACION, NADIE EN PARTICULAR, NADA EN PARTICULAR; Ex JEFE, VENDEDOR, DISTRIBUIDOR"
+              },
+              {
+                "id": 2,
+                "name": "COLABORADOR",
+                "aceptions": [
+                  "anfitrion",
+                  "atendedor",
+                  "cajer@",
+                  "chofer",
+                  "cristobal",
+                  "ejecutiv(@)",
+                  "garzo(n/na)",
+                  "gerenta",
+                  "gerente",
+                  "guardia",
+                  "jefe",
+                  "mozo",
+                  "persona",
+                  "piloto",
+                  "porteador",
+                  "portero",
+                  "recepcionista",
+                  "repartid(or/ora)",
+                  "vended(or/ora)"
+                ],
+                "description": "In CUANDO SE HABLA ESPECIFICAMENTE A UN ATENDEDOR, MENCIONA UN NOMBRE, CAJERO, CHOFER, ANFITRION, CRISTOBAL, EJECUTIVO; Ex ELLOS, PERSONAL, LOS OTROS, EL RESTO\n"
+              },
+              {
+                "id": 3,
+                "name": "RELACION COMERCIAL",
+                "aceptions": [
+                  "cobr(o/os)",
+                  "compra",
+                  "factur(a/acion/as)",
+                  "pag(o/os)"
+                ],
+                "description": "In COBRO, COMPRA, FACTURACIÓN, PAGO, VENTA, NEGOCIACIÓN; Ex VENDEN, MARKETING, COMUNICACIÓN"
+              },
+              {
+                "id": 4,
+                "name": "PRODUCTO",
+                "aceptions": [
+                  "arriendo",
+                  "atencion al cliente",
+                  "auto",
+                  "carn(e/es)",
+                  "comida",
+                  "congelados",
+                  "credito",
+                  "fruta",
+                  "leche",
+                  "mercaderia",
+                  "millas lanpass",
+                  "pan",
+                  "panaderia",
+                  "pescaderia",
+                  "pizz(a/as)",
+                  "poll(o/os)",
+                  "product(o/os)",
+                  "queso",
+                  "ropa",
+                  "seguros",
+                  "servici(o/os)",
+                  "cosas",
+                  "cecinas",
+                  "cafe",
+                  "trabajo",
+                  "contenid(o/os)",
+                  "tatu(s/aje/ajes)",
+                  "tautau"
+                ],
+                "description": "In ALIMENTICIO, AUTO, COSAS, CONTENIDO, TRABAJO, CAFE, BIEN TRANSABLE, PRODUCTO, CONTENID, IMAGEN; Ex AMABLE, CONOCIMIENTO, CONFIANZA"
+              },
+              {
+                "id": 5,
+                "name": "COMUNICACION_MKT",
+                "aceptions": [
+                  "avisos",
+                  "catalogos",
+                  "comerciales",
+                  "fotos",
+                  "instagram",
+                  "prensa",
+                  "radio",
+                  "redes sociales",
+                  "rrss",
+                  "tiktok",
+                  "tv",
+                  "twitter"
+                ],
+                "description": "In PUBLICIDAD, PROMOCION, MARKETING; Ex VENTA, PRODUCTO, SERVICIO"
+              },
+              {
+                "id": 6,
+                "name": "DISTRIBUCION",
+                "aceptions": [
+                  "LLEG(@/an/aron/ado)",
+                  "camion",
+                  "despacho",
+                  "entreg(@/an/aron)",
+                  "logistic@",
+                  "mandan",
+                  "pedido",
+                  "repart(o/en/idores/idoras)",
+                  "transport(e/ista/istas)"
+                ],
+                "description": "In LLEGÓ, DESPACHO, ENTREGARON, LOGÍSTICA, PEDIDO, CAMIÓN; Ex PRODUCTO, EMPAQUE, COLA BORADOR"
+              },
+              {
+                "id": 7,
+                "name": "CONTACT CENTER",
+                "aceptions": [
+                  "call center",
+                  "callcenter",
+                  "centro de llamados",
+                  "contact center",
+                  "niñas",
+                  "telef(onica/onicamente)",
+                  "telefonistas",
+                  "telefono"
+                ],
+                "description": "In SERVICIO TELEFÓNICO, SOPORTE TELEFÓNICO, CALL CENTER; Ex OFICINA, RECEPCIÓN, VENTAS"
+              },
+            {
+              "id": 8,
+              "name": "Positivos",
+              "aceptions": [
+                "atendio",
+                "bue(n@/n@s(nisimo)",
+                "buena atencion",
+                "buenos",
+                "de primera",
+                "espectacular",
+                "excelent(e/es)",
+                "excelente atencion",
+                "ido mas alla",
+                "me gust@",
+                "muy bien",
+                "muy bue(n@/n@s)",
+                "por la atencion",
+                "por todo",
+                "son buen@s",
+                "super ",
+                "todo bien",
+                "todo ok",
+                "atencion de los colaboradores",
+                "buena la atencion",
+                "ha sido buena",
+                "es muy buena",
+                "buena atencion",
+                "son sec(@/@s)",
+                "recom(iendo/endada/endadas)",
+                "bueno",
+                "grato",
+                "hermos(@/@s)"
+              ],
+              "description": ""
+            },
+            {
+              "id": 9,
+              "name": "Negatives",
+              "aceptions": [
+                "todo mal",
+                "muy mal",
+                "mal",
+                "regular",
+                "malo",
+                " demoran",
+                "no siempre",
+                "dur(@/@s)"
+              ],
+              "description": ""
+            },
+            {
+              "id": 10,
+              "name": "Objects",
+              "aceptions": [],
+              "description": ""
+            }
+            ],
+            "negatives":[]
+        }
+    ],
+    "ut": [
+        {
+            "id": 18,
+            "name": "Infraestructura Física",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+              {
+                "id": 1,
+                "name": "BAÑOS",
+                "aceptions": [
+                  "baños",
+                  "duch(a/as)"
+                ],
+                "description": "In BAÑO, DUCHAS, WC, URINARIOS, LAVAMANOS; Ex SUCURSALES, CALIDAD, ESTACIONAMIENTO"
+              },
+              {
+                "id": 2,
+                "name": "ESTACIONAMIENTOS",
+                "aceptions": [
+                  "estacionamientos",
+                  "parking",
+                  "parquimetro"
+                ],
+                "description": "In ESTACIONAMIENTO, ESPACIO PARA ESTACIONAR, PARKING; Ex SUCURSAL, MARCA, DISTRIBUCIÓN"
+              },
+              {
+                "id": 3,
+                "name": "MAQUINAS",
+                "aceptions": [
+                  "cajer(o/os) automatic(o/os)",
+                  "surtid(or/ores)"
+                ],
+                "description": "In CAJERO AUTOMATICO, MAQUINA EXPENDEDORA, ROBOT, DISPENSADOR; Ex PERSONA, LOCAL, CONFIANZA"
+              },
+              {
+                "id": 4,
+                "name": "SUCURSALES",
+                "aceptions": [
+                  "loc(al/ales)",
+                  "lugar",
+                  "sucurs(al/ales)",
+                  "estétic@"
+                ],
+                "description": "In LOCAL, LUGAR, SUCURSAL; AL AIRE LIBRE,ESTÉTICO, MODERNO; Ex BUEN AMBIENTE"
+              },
+              {
+                "id": 5,
+                "name": "LAYOUT",
+                "aceptions": [
+                  "distribución de espacio",
+                  "forma del local",
+                  "espacio"
+                ],
+                "description": "In DISTRIBUCION, FORMA, ESTRUCTURA, DISTRIBUCIÓN DE ESPACIOS, ESPACIOS, ORDENAMIENTO DE PRODUCTOS; Ex BAÑOS, DESORGANIZACION, DESALINEADO"
+              },
+              {
+                "id": 6,
+                "name": "AMBIENTE",
+                "aceptions": [
+                  "ambiente",
+                  "ameno",
+                  "buena musica",
+                  "acogedor"
+                ],
+                "description": "In BUEN AMBIENTE, CALIDO, AMENO, ACOGEDOR; Ex TENSO, INCÓMODO"
+            },
+            {
+              "id": 7,
+              "name": "Positives",
+              "aceptions": [
+                "bien ubicad@",
+                "agradable"
+              ],
+              "description": ""
+            },
+            {
+              "id": 8,
+              "name": "Negatives",
+              "aceptions": [
+                "mayor espacio"
+              ],
+              "description": ""
+            },
+            {
+              "id": 9,
+              "name": "Objects",
+              "aceptions": [],
+              "description": ""
+            }
+            ],
+            "negatives":[]
+        },
+        {
+            "id": 9,
+            "name": "Infraestructura Virtual",
+            "default_ut": {
+                "ut_id": null,
+                "driver_id": null
+            },
+            "components": [
+            {
+                "id": 1,
+                "name": "APP",
+                "aceptions": [
+                  "aplicacion",
+                  "aplicativo telefono",
+                  "app(s)"
+                ],
+                "description": "In APLICACION, APLICATIVO TELEFONO, APP(S), PROGRAMA, SOFTWARE, SISTEMA OPERATIVO; Ex WEB, SITIO, REDES "
+            },
+            {
+                "id": 2,
+                "name": "WEB ",
+                "aceptions": [
+                  "pagina",
+                  "sitio",
+                  "web",
+                  "on line",
+                  "online"
+                ],
+                "description": "In WEB, SITIO, ONLINE, LANDING, PAGINA; Ex APP, APLICACIONES, LOCAL"
+            },
+            {
+                "id": 3,
+                "name": "MENSAJERIAS",
+                "aceptions": [
+                  "correo electronic(o/os)",
+                  "emai",
+                  "mail",
+                  "mensaj(e/es)",
+                  "sms",
+                  "whatsapp"
+                ],
+                "description": "In EMAIL, CORREO, SMS, CHAT; Ex APP, SITIO WEB, REDES SOCIALES, TRANSPORTE, LOGÍSTICA"
+            },
+            {
+                "id": 4,
+                "name": "REDES SOCIALES",
+                "aceptions": [
+                  "linked( in/in)",
+                  "FB",
+                  "facebook",
+                  "insta",
+                  "instagram",
+                  "tik( tok/tok)",
+                  "twitter"
+                ],
+                "description": "In REDES SOCIALES, LINKEDIN, FACEBOOK, INSTAGRAM, TIKTOK, TWITTER; Ex WHATSAPP, MESSENGER, SMS, EMAIL"
+            },
+            {
+                "id": 5,
+                "name": "Positives",
+                "aceptions": [],
+                "description": ""
+            },
+            {
+                "id": 6,
+                "name": "Negatives",
+                "aceptions": [],
+                "description": ""
+            },
+            {
+                "id": 7,
+                "name": "Objects",
+                "aceptions": [],
+                "description": ""
+              }
+            ],
+            "negatives":[]
+        }
+    ],
+    "answers": []
+    }
+]
