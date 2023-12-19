@@ -1,7 +1,6 @@
 import openai
 from dotenv import dotenv_values
 
-from TTMAPI.models.prompt import Prompt
 from TTMAPI.services.Playground import get_prompt
 
 config = dotenv_values("settings.env")
@@ -9,10 +8,12 @@ config = dotenv_values("settings.env")
 openai.api_key = config["OPENAI_API_KEY"]
 
 
-def generate_description(name, phrases, logger):
+def generate_description(session, name, phrases, logger):
 
-    prompt_cursor = get_prompt(prompt_id=2, logger=logger)
-    prompt = Prompt(**prompt_cursor)
+    prompt = get_prompt(
+        session=session,
+        prompt_id=2,
+        logger=logger)
     prompt_modifiable_instruction = prompt.modifiable_instruction
     prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
 

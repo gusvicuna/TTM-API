@@ -25,6 +25,7 @@ def create_descriptions(session, logger):
                 for aception in component.aceptions:
                     phrases.append(aception.phrase)
                 component.description = generate_description(
+                    session=session,
                     name=component.name,
                     phrases=phrases,
                     logger=logger)
