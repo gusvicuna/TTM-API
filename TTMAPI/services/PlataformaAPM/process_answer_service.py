@@ -81,7 +81,7 @@ def process_answer(session, logger):
     if words_in_answer > 2:
         model = "gpt-4"
         if words_in_answer < 7:
-            model = "gpt-3.5-turbo"
+            model = "gpt-3.5-turbo-1106"
         if words_in_answer < 11:
             gpt_results, exception = gpt_process(
                     session=session,
