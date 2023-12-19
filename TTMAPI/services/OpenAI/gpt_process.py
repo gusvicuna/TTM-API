@@ -2,7 +2,7 @@ import openai
 import json
 from dotenv import dotenv_values
 
-from TTMAPI.services.Playground import get_prompt_service
+from TTMAPI.services.Playground import get_prompt
 
 config = dotenv_values("settings.env")
 
@@ -61,7 +61,7 @@ def gpt_process(
                 uts[driver.id][component.id] = component.description
     # logger.debug(f"Components: {components}\nUTs: {uts}")
 
-    prompt = get_prompt_service(
+    prompt = get_prompt(
         session=session,
         prompt_id=1,
         logger=logger)
@@ -74,14 +74,19 @@ def gpt_process(
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
-    user_experience = "Al ser cliente de un comercio " +\
-        f"enfocado en {commerce_type}, "
+    if commerce_type is not None:
+        user_experience = "Al ser cliente de un comercio " +\
+            f"enfocado en {commerce_type}, "
+    else:
+        user_experience = "Al ser cliente de un comercio, "
+
     if answer_type == "MB":
         user_experience += "mi buena experiencia se sustenta: "
     elif answer_type == "B":
         user_experience += "mi experiencia podría mejorar: "
     elif answer_type == "M":
         user_experience += "mi mala experiencia se sustenta: "
+
     user_experience += answer_text
 
     logger.debug(f"user_experience: {user_experience}")
