@@ -23,28 +23,24 @@ def process_answer(session, logger):
         logger.error(f"Error obteniendo encuestas. Error: {e}")
         session.rollback()
         return f"Error obteniendo encuestas. Error: {e}"
-
     if not surveys:
         logger.info("No se encuentran encuestas ya descritas.")
         return "No se encuentran encuestas ya descritas."
-
     survey: Survey = None
     for survey_sql in surveys:
         answer: Answer = None
         for answer_sql in survey_sql.answers:
             if not answer_sql.has_been_processed:
                 answer = answer_sql
-
         if answer:
             survey = survey_sql
             break
-
     if not survey:
         logger.info("No se encuentran respuestas sin procesar.")
         return "No se encuentran respuestas sin procesar."
 
     logger.info(
-        "Processing answer with\n" +
+        "Procesando respuesta con\n" +
         f"Token: {answer.token}.\n" +
         f"Text: {answer.answer_text}")
     sql_drivers = survey.drivers
@@ -66,12 +62,18 @@ def process_answer(session, logger):
                 driver.components.append(component)
             driver.AnalyzeText(
                 trainText=answer.answer_text,
-                beforeNegDis=0,
+                beforeNegDis=15,
                 afterNegDis=0,
                 complete=False)
             drivers.append(driver)
+        for driver in drivers:
+            if driver.id == survey.default_ut_driver_id:
+                for component in driver.components:
+                    if component.id == survey.default_ut_component_id:
+                        component.ttm_result = 1
+                        break
     except Exception as e:
-        error_text = f"Error with TTM process. Error: {e}"
+        error_text = f"Error con TTM process. Error: {e}"
         logger.error(error_text)
         session.rollback()
         handle_error(session, answer, error_text, logger)
@@ -79,9 +81,10 @@ def process_answer(session, logger):
 
     words_in_answer = len(answer.answer_text.split(" "))
     if words_in_answer > 2:
-        model = "gpt-4"
         if words_in_answer < 7:
             model = "gpt-3.5-turbo-1106"
+        else:
+            model = "gpt-4"
         if words_in_answer < 11:
             gpt_results, exception = gpt_process(
                     session=session,
@@ -92,8 +95,8 @@ def process_answer(session, logger):
                     drivers=drivers,
                     logger=logger)
             if exception:
-                error_text = "Error with GPT process." +\
-                    f"Error: {exception}. GPT response: {gpt_results}"
+                error_text = "Error con GPT process." +\
+                    f"Error: {exception}. Respuesta GPT: {gpt_results}"
                 logger.error(error_text)
                 handle_error(session, answer, error_text, logger)
                 return error_text
@@ -108,7 +111,7 @@ def process_answer(session, logger):
                         drivers=drivers,
                         logger=logger)
             except Exception as e:
-                error_text = "Error with split GPT process." +\
+                error_text = "Error con split GPT process." +\
                     f"Error: {e}."
                 logger.error(error_text)
                 handle_error(session, answer, error_text, logger)
@@ -148,7 +151,7 @@ def process_answer(session, logger):
         session.rollback()
         return f"Error committing transaction. Error: {e}"
 
-    logger.info(f"Answer {answer.token} correctly processed.")
+    logger.info(f"Respuesta con token {answer.token} procesada correctamente.")
 
     return answer
 

@@ -17,12 +17,10 @@ class Driver(BaseModel):
                     beforeNegDis: int,
                     afterNegDis: int,
                     complete: bool):
-        has_a_match = False
         for component in self.components:
             component.TextMatch(trainText=trainText)
             component.SetPolar()
             if len(component.matchedAceptions) > 0:
-                has_a_match = True
                 if complete:
                     self.positives.TextMatch(trainText=trainText)
                     self.objects.TextMatch(trainText=trainText)
@@ -31,10 +29,6 @@ class Driver(BaseModel):
                         beforeNegDis,
                         afterNegDis,
                         component)
-        if self.name == "LIKE & UT" and not has_a_match:
-            for component in self.components:
-                if component.name == "MARCA":
-                    component.ttm_result = 1
 
     def CheckNegatives(
             self,
