@@ -1,10 +1,11 @@
 import json
-import openai
+from openai import OpenAI
 from dotenv import dotenv_values
 
 config = dotenv_values("settings.env")
 
-openai.api_key = config["OPENAI_API_KEY"]
+api_key = config["OPENAI_API_KEY"]
+client = OpenAI(api_key=api_key)
 
 prompt_instruction = "Separa el siguiente texto en frases." +\
     "Debes entregarme el resultado en una lista de strings, cada uno siendo una frase.\n" +\
@@ -13,7 +14,7 @@ prompt_instruction = "Separa el siguiente texto en frases." +\
 
 
 def split_in_phrases(text: str, logger):
-    response = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": prompt_instruction},
@@ -24,6 +25,6 @@ def split_in_phrases(text: str, logger):
             frequency_penalty=0,
             presence_penalty=0
         )
-    result = response['choices'][0]['message']['content']
+    result = completion.choices[0].message.content
     logger.debug(f"result: {result}")
     return json.loads(result)

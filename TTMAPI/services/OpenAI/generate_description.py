@@ -1,11 +1,12 @@
-import openai
+from openai import OpenAI
 from dotenv import dotenv_values
 
 from TTMAPI.services.Playground import get_prompt
 
 config = dotenv_values("settings.env")
 
-openai.api_key = config["OPENAI_API_KEY"]
+api_key = config["OPENAI_API_KEY"]
+client = OpenAI(api_key=api_key)
 
 
 def generate_description(session, name, phrases, logger):
@@ -27,7 +28,7 @@ def generate_description(session, name, phrases, logger):
     logger.info(f"Component: {component['name']}")
 
     try:
-        response = openai.ChatCompletion.create(
+        completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": prompt_instruction},
@@ -38,7 +39,7 @@ def generate_description(session, name, phrases, logger):
             frequency_penalty=0,
             presence_penalty=0
         )
-        result = response['choices'][0]['message']['content']
+        result = completion.choices[0].message.content
     except Exception as e:
         logger.error(f"Error with GPT: {e}")
         raise e

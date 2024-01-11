@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI
 import json
 from dotenv import dotenv_values
 
@@ -6,7 +6,9 @@ from TTMAPI.services.Playground import get_prompt
 
 config = dotenv_values("settings.env")
 
-openai.api_key = config["OPENAI_API_KEY"]
+api_key = config["OPENAI_API_KEY"]
+
+client = OpenAI(api_key=api_key)
 
 
 def create_empty_results(drivers):
@@ -71,6 +73,8 @@ def gpt_process(
     prompt_instruction = prompt_modifiable_instruction + "\n" +\
         prompt_unmodifiable_instruction
 
+    logger.debug(f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}")
+
     system_instruction = prompt_instruction +\
         f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
@@ -96,7 +100,8 @@ def gpt_process(
     if not testing:
         exception = None
         try:
-            response = openai.ChatCompletion.create(
+            logger.debug(f"model: {model}")
+            completion = client.chat.completions.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": system_instruction},
@@ -108,7 +113,7 @@ def gpt_process(
                 presence_penalty=0,
                 stop=["Component"]
             )
-            result = response['choices'][0]['message']['content']
+            result = completion.choices[0].message.content
             logger.info(f"gptresponse: {result}")
         except Exception as e:
             logger.error(f"Error: {e}")
