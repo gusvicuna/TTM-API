@@ -12,6 +12,7 @@ from TTMAPI.services.PlataformaAPM.upsert_answer_component_service import\
 from TTMAPI.services.PlataformaAPM.insert_error_process_service import (
     insert_error_process)
 from TTMAPI.services.PlataformaAPM.upsert_answer_service import upsert_answer
+from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 
 
 def process_answer(session, logger):
@@ -46,6 +47,11 @@ def process_answer(session, logger):
     sql_drivers = survey.drivers
 
     drivers = []
+
+    answer.answer_text = fix_grammar(
+            original_text=answer.answer_text,
+            session=session,
+            logger=logger)
 
     try:
         for sql_driver in sql_drivers:

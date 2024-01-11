@@ -1,6 +1,8 @@
 from openai import OpenAI
 from dotenv import dotenv_values
 
+from TTMAPI.services.Playground import get_prompt
+
 config = dotenv_values("settings.env")
 
 api_key = config["OPENAI_API_KEY"]
@@ -8,17 +10,24 @@ api_key = config["OPENAI_API_KEY"]
 client = OpenAI(api_key=api_key)
 
 
-def fix_grammar(traintext: str):
+def fix_grammar(original_text: str, session, logger):
+    logger.debug(f"traintext: {original_text}")
+    prompt = get_prompt(
+        session=session,
+        prompt_id=3,
+        logger=logger)
+    prompt_modifiable_instruction = prompt.modifiable_instruction
+
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "system",
-                "content": "Corrige la ortografía, gramática y puntuación."
+                "content": prompt_modifiable_instruction
             },
             {
                 "role": "user",
-                "content": traintext
+                "content": original_text
             }
         ],
         temperature=1,
@@ -27,5 +36,5 @@ def fix_grammar(traintext: str):
         frequency_penalty=0,
         presence_penalty=0
     )
-    print(completion.choices[0].message.content)
+    logger.debug(completion.choices[0].message.content)
     return completion.choices[0].message.content

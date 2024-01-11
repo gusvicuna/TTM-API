@@ -19,7 +19,7 @@ base_route = "/process"
 async def playground_process(
         answer_text: str,
         answer_type: str,
-        commerce_type: str = "comercio general",
+        commerce_type: str,
         beforeNegativeDistance: int = 15,
         afterNegativeDistance: int = 0,
         ttm: bool = True,
@@ -35,7 +35,10 @@ async def playground_process(
         f"type={answer_type} ttm={ttm} gpt={gpt}")
 
     if (fixGrammar):
-        answer_text = fix_grammar(traintext=answer_text)
+        answer_text = fix_grammar(
+            original_text=answer_text,
+            session=session,
+            logger=logger)
 
     drivers_cursor = Playground.get_all_drivers(
         logger=logger)
@@ -95,7 +98,7 @@ async def get_TTM_simple_match(
     logger.info(f"POST {base_route}/ttm_simple  traintext='{trainText}'")
 
     if (fixGrammar):
-        trainText = fix_grammar(traintext=trainText)
+        trainText = fix_grammar(original_text=trainText, session=session, logger=logger)
         logger.info(f"fixed traintext ='{trainText}'")
 
     drivers_cursor = Playground.get_all_drivers(
@@ -123,7 +126,7 @@ async def get_GPT_simple_match(
     logger.info(f"POST {base_route}/gpt_simple  traintext='{trainText}'")
 
     if (fixGrammar):
-        trainText = fix_grammar(traintext=trainText)
+        trainText = fix_grammar(original_text=trainText, session=session, logger=logger)
 
     drivers_cursor = Playground.get_all_drivers(logger=logger)
     drivers = []
