@@ -69,16 +69,19 @@ def gpt_process(
         logger=logger)
     prompt_modifiable_instruction = prompt.modifiable_instruction
     prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
+    prompt_answer_example = prompt.answer_example
 
-    prompt_instruction = prompt_modifiable_instruction + "\n" +\
-        prompt_unmodifiable_instruction
+    prompt_instruction = "###Instrucción###\n" +\
+        f"{prompt_modifiable_instruction}" +\
+        f"\n{prompt_unmodifiable_instruction}" +\
+        f"\n\n###Ejemplo de Respuesta###\n{prompt_answer_example}"
 
-    logger.debug(f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}")
+    system_instruction = f"{prompt_instruction}\n\n###Context###\n" +\
+        f"Componentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
-    system_instruction = prompt_instruction +\
-        f"\nComponentes:\n{components}\nUnidades Tácticas:\n{uts}"
+    logger.debug(f"system_instruction: {system_instruction}")
 
-    if commerce_type is not None:
+    if commerce_type is not None and commerce_type != "":
         user_experience = "Al ser cliente de un comercio " +\
             f"enfocado en {commerce_type}, "
     else:
