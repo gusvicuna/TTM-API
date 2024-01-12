@@ -7,7 +7,7 @@ from TTMAPI.schemas.driver import (
     getDriverSchema,
     getDriversSchema)
 from TTMAPI.services import Playground
-from TTMAPI.services.OpenAI.generate_description import (
+from TTMAPI.services.OpenAIServices.generate_description import (
     generate_description)
 
 router = APIRouter()

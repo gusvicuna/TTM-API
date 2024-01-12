@@ -1,6 +1,6 @@
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
-from TTMAPI.services.OpenAI.create_descriptions_service import (
+from TTMAPI.services.OpenAIServices.create_descriptions_service import (
     create_descriptions as cd)
 
 

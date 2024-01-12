@@ -5,10 +5,10 @@ from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
 from TTMAPI.schemas.process import getProcessedExperienceSchema
 from TTMAPI.services import Playground
-from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
-from TTMAPI.services.OpenAI.gpt_process import\
+from TTMAPI.services.OpenAIServices.fix_grammar import fix_grammar
+from TTMAPI.services.OpenAIServices.gpt_process import\
     gpt_process
-from TTMAPI.services.OpenAI.split_process import split_process
+from TTMAPI.services.OpenAIServices.split_process import split_process
 
 router = APIRouter()
 logger = get_logger(__name__)

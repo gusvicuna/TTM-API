@@ -4,15 +4,15 @@ from sqlalchemy.exc import SQLAlchemyError
 from TTMAPI.models.component import Component
 from TTMAPI.models.driver import Driver
 from TTMAPI.models.sqlalchemy_models import Answer, Survey
-from TTMAPI.services.OpenAI.gpt_process import (
+from TTMAPI.services.OpenAIServices.gpt_process import (
     gpt_process)
-from TTMAPI.services.OpenAI.split_process import split_process
+from TTMAPI.services.OpenAIServices.split_process import split_process
+from TTMAPI.services.OpenAIServices.fix_grammar import fix_grammar
 from TTMAPI.services.PlataformaAPM.upsert_answer_component_service import\
     upsert_answer_component
 from TTMAPI.services.PlataformaAPM.insert_error_process_service import (
     insert_error_process)
 from TTMAPI.services.PlataformaAPM.upsert_answer_service import upsert_answer
-from TTMAPI.services.OpenAI.fix_grammar import fix_grammar
 
 
 def process_answer(session, logger):
