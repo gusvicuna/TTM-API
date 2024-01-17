@@ -49,7 +49,8 @@ def process_answer(session, logger):
     drivers = []
 
     answer.answer_text = fix_grammar(
-            original_text=answer.answer_text,
+            originalText=answer.answer_text,
+            convertToChilean=False,
             session=session,
             logger=logger)
 

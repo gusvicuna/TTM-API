@@ -10,24 +10,33 @@ api_key = config["OPENAI_API_KEY"]
 client = OpenAI(api_key=api_key)
 
 
-def fix_grammar(original_text: str, session, logger):
-    logger.debug(f"traintext: {original_text}")
+def fix_grammar(
+        originalText: str,
+        convertToChilean: bool,
+        session,
+        logger):
+    logger.debug(f"traintext: {originalText}")
     prompt = get_prompt(
         session=session,
         prompt_id=3,
         logger=logger)
     prompt_modifiable_instruction = prompt.modifiable_instruction
+    prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
+
+    system_instruction = prompt_unmodifiable_instruction
+    if convertToChilean:
+        system_instruction += prompt_modifiable_instruction
 
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "system",
-                "content": prompt_modifiable_instruction
+                "content": system_instruction
             },
             {
                 "role": "user",
-                "content": original_text
+                "content": originalText
             }
         ],
         temperature=1,
