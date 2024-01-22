@@ -15,7 +15,7 @@ def fix_grammar(
         convertToChilean: bool,
         session,
         logger):
-    logger.debug(f"traintext: {originalText}")
+    logger.debug(f"fixing grammar of: {originalText}")
     prompt = get_prompt(
         session=session,
         prompt_id=3,

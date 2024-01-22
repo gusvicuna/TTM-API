@@ -85,7 +85,7 @@ def gpt_process(
         user_experience = "Al ser cliente de un comercio " +\
             f"enfocado en {commerce_type}, "
     else:
-        user_experience = "Al ser cliente de un comercio, "
+        user_experience = ""
 
     if answer_type == "MB":
         user_experience += "mi buena experiencia se sustenta: "
