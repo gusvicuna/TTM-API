@@ -88,11 +88,11 @@ def gpt_process(
         user_experience = ""
 
     if answer_type == "MB":
-        user_experience += "mi buena experiencia se sustenta: "
+        user_experience += "mi buena experiencia se sustenta en: "
     elif answer_type == "B":
-        user_experience += "mi experiencia podría mejorar: "
+        user_experience += "mi experiencia podría mejorar en: "
     elif answer_type == "M":
-        user_experience += "mi mala experiencia se sustenta: "
+        user_experience += "mi mala experiencia se sustenta en: "
 
     user_experience += answer_text
 
