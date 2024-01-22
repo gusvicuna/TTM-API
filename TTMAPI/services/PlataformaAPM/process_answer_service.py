@@ -87,7 +87,7 @@ def process_answer(session, logger):
         return error_text
 
     words_in_answer = len(answer.answer_text.split(" "))
-    if words_in_answer > 2:
+    if words_in_answer > 5:
         if words_in_answer < 7:
             model = "gpt-3.5-turbo-1106"
         else:

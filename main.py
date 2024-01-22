@@ -31,8 +31,8 @@ app.add_middleware(
 start_jobs = True
 scheduler = BackgroundScheduler()
 if start_jobs:
-    scheduler.add_job(process_answers, trigger="interval", seconds=60)
-    scheduler.add_job(create_descriptions, trigger="interval", seconds=600)
+    scheduler.add_job(process_answers, trigger="interval", seconds=30)
+    scheduler.add_job(create_descriptions, trigger="interval", seconds=300)
     scheduler.start()
 
 
