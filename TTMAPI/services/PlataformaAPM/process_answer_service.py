@@ -45,7 +45,7 @@ def process_answer(session, logger):
         f"Token: {answer.token}.\n" +
         f"Text: {answer.answer_text}")
 
-    answer.answer_text = fix_grammar(
+    fixed_answer = fix_grammar(
         originalText=answer.answer_text,
         convertToChilean=False,
         session=session,
@@ -67,7 +67,7 @@ def process_answer(session, logger):
                     component.phrases.append(aception.phrase)
                 driver.components.append(component)
             driver.AnalyzeText(
-                trainText=answer.answer_text,
+                trainText=fixed_answer,
                 beforeNegDis=15,
                 afterNegDis=0,
                 complete=False)
@@ -85,7 +85,7 @@ def process_answer(session, logger):
         handle_error(session, answer, error_text, logger)
         return error_text
 
-    words_in_answer = len(answer.answer_text.split(" "))
+    words_in_answer = len(fixed_answer.split(" "))
     if words_in_answer > 5:
         if words_in_answer < 7:
             model = "gpt-3.5-turbo-1106"
@@ -94,7 +94,7 @@ def process_answer(session, logger):
         if words_in_answer < 11:
             gpt_results, exception = gpt_process(
                     session=session,
-                    answer_text=answer.answer_text,
+                    answer_text=fixed_answer,
                     answer_type=answer.experience_type,
                     commerce_type=survey.commerce_type,
                     model=model,
@@ -110,7 +110,7 @@ def process_answer(session, logger):
             try:
                 gpt_results, exceptions = split_process(
                         session=session,
-                        answer_text=answer.answer_text,
+                        answer_text=fixed_answer,
                         answer_type=answer.experience_type,
                         commerce_type=survey.commerce_type,
                         model=model,
