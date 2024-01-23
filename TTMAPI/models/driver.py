@@ -7,9 +7,9 @@ class Driver(BaseModel):
     id: int
     name: str = "no name"
     components: List[Component] = []
-    positives: Component = []
-    negatives: Component = []
-    objects: Component = []
+    positives: Component = None
+    negatives: Component = None
+    objects: Component = None
     driver_type: str = "driver"
 
     def AnalyzeText(self,

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 from TTMAPI.models.aception import Aception
 
@@ -9,7 +9,7 @@ class Component(BaseModel):
     id: int = 0
     name: str
     phrases: List[str] = []
-    description: str = "No description"
+    description: Optional[str] = "No description"
 
     # TTM attributes
     bestCharPercent: int = 0

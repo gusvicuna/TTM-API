@@ -44,16 +44,15 @@ def process_answer(session, logger):
         "Procesando respuesta con\n" +
         f"Token: {answer.token}.\n" +
         f"Text: {answer.answer_text}")
-    sql_drivers = survey.drivers
-
-    drivers = []
 
     answer.answer_text = fix_grammar(
-            originalText=answer.answer_text,
-            convertToChilean=False,
-            session=session,
-            logger=logger)
+        originalText=answer.answer_text,
+        convertToChilean=False,
+        session=session,
+        logger=logger)
 
+    sql_drivers = survey.drivers
+    drivers = []
     try:
         for sql_driver in sql_drivers:
             driver = Driver(id=sql_driver.id, name=sql_driver.name)
