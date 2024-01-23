@@ -15,7 +15,7 @@ def fix_grammar(
         convertToChilean: bool,
         session,
         logger):
-    logger.debug(f"fixing grammar of: {originalText}")
+    logger.debug(f"Arreglando gramatica\nOriginal: {originalText}")
     prompt = get_prompt(
         session=session,
         prompt_id=3,
@@ -45,5 +45,5 @@ def fix_grammar(
         frequency_penalty=0,
         presence_penalty=0
     )
-    logger.debug(completion.choices[0].message.content)
+    logger.debug(f"Final: {completion.choices[0].message.content}")
     return completion.choices[0].message.content
