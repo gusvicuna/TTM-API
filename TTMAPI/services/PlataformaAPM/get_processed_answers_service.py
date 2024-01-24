@@ -223,7 +223,7 @@ def get_processed_answer(token, session, logger):
             driver_result["components"].append(component_result)
 
         if (did_have_ttm_mark and did_have_gpt_mark) or\
-                (len(answer.answer_text.split(" ")) < 3 and
+                (len(answer.answer_text.split(" ")) < 6 and
                     driver_result["components"]):
             results["codificacion"].append(driver_result)
     if not results["codificacion"]:
