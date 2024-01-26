@@ -230,5 +230,5 @@ def get_processed_answer(token, session, logger):
             results["codificacion"].append(driver_result)
     if not results["codificacion"]:
         results["status"] = "en duda"
-    logger.info(f"Answer: {answer.token} Results: {results}")
+    logger.info(f"Answer: {answer.token} status: {results['status']}")
     return results
