@@ -39,6 +39,7 @@ def get_processed_answer(token, session, logger):
             uts.append(driver)
 
     # Iteramos por cada driver
+    i = 1
     for driver in survey.drivers:
         if driver.type == "ut":
             continue
@@ -224,10 +225,14 @@ def get_processed_answer(token, session, logger):
 
             driver_result["components"].append(component_result)
 
-        if (did_have_ttm_mark and did_have_gpt_mark) or\
-                (len(answer.answer_text.split(" ")) < 6 and
-                    driver_result["components"]):
+        if (did_have_ttm_mark and did_have_gpt_mark):
             results["codificacion"].append(driver_result)
+        elif (len(answer.answer_text.split(" ")) < 6 and
+                driver_result["components"]):
+            results["codificacion"].append(driver_result)
+        else:
+            logger.debug(f"  {i} En duda")
+            i += 1
     if not results["codificacion"]:
         results["status"] = "en duda"
     logger.info(f"Answer: {answer.token} status: {results['status']}")
