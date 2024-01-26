@@ -120,11 +120,24 @@ async def get_processed_answers(
 
     results = []
     try:
+        i = 1
+        j = 1
+        k = 1
         for token in data:
-            results.append(get_processed_answer(
+            result = get_processed_answer(
                 token=token,
                 session=session,
-                logger=logger))
+                logger=logger)
+            if result['status'] == 'procesado':
+                logger.debug(f"Processed answer {i} of {len(data)}")
+                i += 1
+            elif result['status'] == 'en duda':
+                logger.debug(f"En duda {j} of {len(data)}")
+                j += 1
+            elif result['status'] == 'error':
+                logger.debug(f"Error {k} of {len(data)}")
+                j += 1
+            results.append(result)
     finally:
         session.close()
     return results
