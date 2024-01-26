@@ -120,9 +120,9 @@ async def get_processed_answers(
 
     results = []
     try:
-        i = 1
-        j = 1
-        k = 1
+        i = 0
+        j = 0
+        k = 0
         for token in data:
             result = get_processed_answer(
                 token=token,
