@@ -129,15 +129,14 @@ async def get_processed_answers(
                 session=session,
                 logger=logger)
             if result['status'] == 'procesado':
-                logger.debug(f"Processed answer {i} of {len(data)}")
                 i += 1
             elif result['status'] == 'en duda':
-                logger.debug(f"En duda {j} of {len(data)}")
                 j += 1
             elif result['status'] == 'error':
-                logger.debug(f"Error {k} of {len(data)}")
                 k += 1
             results.append(result)
+        logger.info(f"\nError {k}\n En duda: {j}\n Procesado: {i}\n" +
+                    f"Total: {len(data)}")
     finally:
         session.close()
     return results
