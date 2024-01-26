@@ -136,7 +136,7 @@ async def get_processed_answers(
                 j += 1
             elif result['status'] == 'error':
                 logger.debug(f"Error {k} of {len(data)}")
-                j += 1
+                k += 1
             results.append(result)
     finally:
         session.close()
