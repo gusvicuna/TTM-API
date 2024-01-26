@@ -32,11 +32,13 @@ def get_processed_answer(token, session, logger):
 
     survey = answer.survey
 
+    # Guardamos los uts primero para iterar luego..
     uts = []
     for driver in survey.drivers:
         if driver.type == "ut":
             uts.append(driver)
 
+    # Iteramos por cada driver
     for driver in survey.drivers:
         if driver.type == "ut":
             continue
@@ -59,11 +61,9 @@ def get_processed_answer(token, session, logger):
                         "driver_id": driver.id,
                         "survey_id": survey.id}
                 ).fetchone()
-
             except Exception as e:
                 logger.error(f"Error getting answerComponent. Error: {e}")
                 raise HTTPException(status_code=500, detail=e)
-
             if not answer_component_result:
                 logger.error("AnswerComponent not found.")
                 raise HTTPException(status_code=500,
@@ -123,6 +123,8 @@ def get_processed_answer(token, session, logger):
             component_result["component_id"] = answer_component.component_id
             component_result["resultado"] = resultado
             component_result["uts"] = []
+
+            # Se hace el mismo proceso para cada UT
             for ut in uts:
                 ut_result = {}
                 ut_result["ut_id"] = ut.id
@@ -211,9 +213,9 @@ def get_processed_answer(token, session, logger):
             # Si no hay componentes de UT, se agrega el default
             if not component_result["uts"]:
                 default_ut_driver = {}
+                default_ut_component = {}
                 default_ut_driver["ut_id"] = survey.default_ut_driver_id
                 default_ut_driver["components"] = []
-                default_ut_component = {}
                 default_ut_component["component_id"] =\
                     survey.default_ut_component_id
                 default_ut_component["resultado"] = resultado
@@ -228,5 +230,5 @@ def get_processed_answer(token, session, logger):
             results["codificacion"].append(driver_result)
     if not results["codificacion"]:
         results["status"] = "en duda"
-    logger.info(f"Results: {results}")
+    logger.info(f"Answer: {answer.token} Results: {results}")
     return results
