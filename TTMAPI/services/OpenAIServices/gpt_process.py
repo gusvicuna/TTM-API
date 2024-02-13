@@ -45,11 +45,17 @@ def gpt_process(
         model: str,
         drivers,
         logger):
+    """
+    Junta la instrucción con el contexto y la respuesta del usuario,
+    y llama a GPT para obtener la respuesta del sistema.
+    Retorna la respuesta del sistema y un error si lo hay.
+    """
     logger.info(
-        f"Experiencia: {answer_text}, type:{answer_type} , Model: {model}")
+        f"Experiencia: {answer_text}, Type: {answer_type}, Model: {model}")
     # Cambiar a True para probar sin llamar a GPT
     testing = False
 
+    # Separar los componentes y UTs para contexto
     components = {}
     uts = {}
     for driver in drivers:
@@ -61,9 +67,8 @@ def gpt_process(
             uts[driver.id] = {}
             for component in driver.components:
                 uts[driver.id][component.id] = component.description
-    # Descomentar para ver los componentes y UTs y usar en Playground de OpenAI
-    # logger.debug(f"Components: {components}\nUTs: {uts}")
 
+    # Obtener la instrucción del prompt y unirla de forma correcta
     prompt = get_prompt(
         session=session,
         prompt_id=1,
@@ -71,40 +76,42 @@ def gpt_process(
     prompt_modifiable_instruction = prompt.modifiable_instruction
     prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
     prompt_answer_example = prompt.answer_example
-
     prompt_instruction = "###Instrucción###\n" +\
         f"{prompt_modifiable_instruction}" +\
         f"\n{prompt_unmodifiable_instruction}" +\
         f"\n\n###Ejemplo de Respuesta###\n{prompt_answer_example}"
 
+    # Unir la instrucción con el contexto
     system_instruction = f"{prompt_instruction}\n\n###Context###\n" +\
         f"Componentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
+    # Descomentar para ver el prompt de sistema
     logger.debug(f"system_instruction: {system_instruction}")
 
+    # Definir prefijo de la experiencia del usuario según el tipo de respuesta
     if commerce_type is not None and commerce_type != "":
         user_experience = "Al ser cliente de un comercio " +\
             f"enfocado en {commerce_type}, "
     else:
         user_experience = ""
-
     if answer_type == "MB":
         user_experience += "mi buena experiencia se sustenta en: "
     elif answer_type == "B":
         user_experience += "mi experiencia podría mejorar en: "
     elif answer_type == "M":
         user_experience += "mi mala experiencia se sustenta en: "
-
     user_experience += answer_text
 
+    # Descomentar para ver el prompt de usuario
     logger.debug(f"user_experience: {user_experience}")
 
+    # Crear resultados vacíos para llenar con GPT
     results = create_empty_results(drivers)
 
+    # Llamar a GPT
     if not testing:
         exception = None
         try:
-            logger.debug(f"model: {model}")
             completion = client.chat.completions.create(
                 model=model,
                 response_format={"type": "json_oject"},
