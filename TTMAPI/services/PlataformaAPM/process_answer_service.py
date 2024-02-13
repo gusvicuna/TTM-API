@@ -16,6 +16,7 @@ from TTMAPI.services.PlataformaAPM.upsert_answer_service import upsert_answer
 
 
 def process_answer(session, logger):
+    # Se busca una respuesta sin procesar
     try:
         surveys: List[Survey] = session.query(Survey).filter_by(
             has_been_described=True
@@ -39,18 +40,20 @@ def process_answer(session, logger):
     if not survey:
         logger.info("No se encuentran respuestas sin procesar.")
         return "No se encuentran respuestas sin procesar."
-
     logger.info(
         "Procesando respuesta con\n" +
         f"Token: {answer.token}.\n" +
         f"Text: {answer.answer_text}")
 
+    # Se corrige la gramática de la respuesta
     fixed_answer = fix_grammar(
         originalText=answer.answer_text,
         convertToChilean=False,
         session=session,
         logger=logger)
 
+    # Se convierten los drivers de la encuesta a drivers de la API,
+    # y se procesa la respuesta con TTM para cada uno
     sql_drivers = survey.drivers
     drivers = []
     try:
@@ -72,6 +75,7 @@ def process_answer(session, logger):
                 afterNegDis=0,
                 complete=False)
             drivers.append(driver)
+        # Se marca el componente default de TTM
         for driver in drivers:
             if driver.id == survey.default_ut_driver_id:
                 for component in driver.components:
@@ -85,9 +89,11 @@ def process_answer(session, logger):
         handle_error(session, answer, error_text, logger)
         return error_text
 
+    # Se procesa la respuesta con GPT
+    # el tipo de proceso dependiendo de la cantidad de palabras
     words_in_answer = len(fixed_answer.split(" "))
     if words_in_answer > 5:
-        if words_in_answer < 7:
+        if words_in_answer <= 7:
             model = "gpt-3.5-turbo-1106"
         else:
             model = "gpt-4"
@@ -133,6 +139,7 @@ def process_answer(session, logger):
                     obj for obj in driver.components if obj.id == component_id)
                 component.gpt_result = gpt_results[driver_id][component_id]
 
+    # Se guardan los resultados en la base de datos
     try:
         for driver in drivers:
             for component in driver.components:
@@ -148,6 +155,7 @@ def process_answer(session, logger):
         handle_error(session, answer, error_text, logger)
         return error_text
 
+    # Se marca la respuesta como procesada
     try:
         answer.has_been_processed = True
         answer = update_answer(session=session, answer=answer)

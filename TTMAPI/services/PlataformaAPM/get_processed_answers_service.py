@@ -4,22 +4,27 @@ from TTMAPI.models.sqlalchemy_models import Answer, AnswerComponent
 
 
 def get_processed_answer(token, session, logger):
+    """
+    Se obtiene la información de una respuesta procesada dado un token.
+    El formato de respuesta está definido por el equipo de Plataforma APM.
+    """
     results = {}
     results["token"] = token
     results["codificacion"] = []
 
+    # Se obtiene la respuesta con el token
     try:
         answer = session.query(Answer).filter_by(
             token=token).first()
     except Exception as e:
-        logger.error(f"Error trying to get answer. Error: {e}")
+        logger.error(f"Error intentando obtener respuesta. Error: {e}")
         raise HTTPException(status_code=500, detail=e)
-
     if not answer:
-        logger.error(f"Answer {token} not found")
+        logger.error(f"Respuesta con token {token} no encontrada")
         results["status"] = "not found"
         return results
 
+    # Se verifica si la respuesta fue procesada y si tuvo errores
     if answer.has_been_processed:
         if answer.did_have_an_error:
             results["status"] = "error"
@@ -62,10 +67,10 @@ def get_processed_answer(token, session, logger):
                         "survey_id": survey.id}
                 ).fetchone()
             except Exception as e:
-                logger.error(f"Error getting answerComponent. Error: {e}")
+                logger.error(f"Error obteniendo AnswerComponent. Error: {e}")
                 raise HTTPException(status_code=500, detail=e)
             if not answer_component_result:
-                logger.error("AnswerComponent not found.")
+                logger.error("AnswerComponent no encontrada.")
                 raise HTTPException(status_code=500,
                                     detail="AnswerComponent not found.")
 
@@ -84,8 +89,7 @@ def get_processed_answer(token, session, logger):
             if answer_component.ttm_process != 0:
                 did_have_ttm_mark = True
 
-            # Filtro de resultados segun el resultado de cada proceso
-
+            # Filtro de resultados segun el resultado de cada proceso:
             # Si la respuesta es de tipo Muy Buena, se marca positivo siempre,
             # al menos que ambas respuestas sean -1
             if answer.experience_type == "MB":
@@ -198,7 +202,8 @@ def get_processed_answer(token, session, logger):
                 if ut_result["components"]:
                     component_result["uts"].append(ut_result)
 
-            # Si existe un default en el driver, se agrega el componente
+            # Si existe un componente ut default en el driver, se guarda en el
+            # resultado
             if driver.default_ut_driver_id:
                 default_ut_driver = {}
                 default_ut_driver["ut_id"] = driver.default_ut_driver_id
@@ -224,11 +229,17 @@ def get_processed_answer(token, session, logger):
 
             driver_result["components"].append(component_result)
 
+        # Si tuvo marca de TTM y GPT, se agrega a la codificación
         if (did_have_ttm_mark and did_have_gpt_mark):
             results["codificacion"].append(driver_result)
+        # Si no tuvo marca de TTM o GPT, se agrega a la codificación si
+        # la respuesta es corta
         elif (len(answer.answer_text.split(" ")) < 6 and
                 driver_result["components"]):
             results["codificacion"].append(driver_result)
+        # En caso contrario, no se guarda en la codificación
+
+    # Si no tuvo ninguna codificación, se marca en duda
     if not results["codificacion"]:
         results["status"] = "en duda"
     logger.info(f"Answer: {answer.token} status: {results['status']}")

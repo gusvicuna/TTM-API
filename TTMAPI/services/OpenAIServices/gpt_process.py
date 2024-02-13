@@ -61,6 +61,7 @@ def gpt_process(
             uts[driver.id] = {}
             for component in driver.components:
                 uts[driver.id][component.id] = component.description
+    # Descomentar para ver los componentes y UTs y usar en Playground de OpenAI
     # logger.debug(f"Components: {components}\nUTs: {uts}")
 
     prompt = get_prompt(
@@ -106,6 +107,7 @@ def gpt_process(
             logger.debug(f"model: {model}")
             completion = client.chat.completions.create(
                 model=model,
+                response_format={"type": "json_oject"},
                 messages=[
                     {"role": "system", "content": system_instruction},
                     {"role": "user", "content": user_experience}],
