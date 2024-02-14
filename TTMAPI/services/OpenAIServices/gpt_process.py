@@ -114,7 +114,6 @@ def gpt_process(
         try:
             completion = client.chat.completions.create(
                 model=model,
-                response_format={"type": "json_oject"},
                 messages=[
                     {"role": "system", "content": system_instruction},
                     {"role": "user", "content": user_experience}],

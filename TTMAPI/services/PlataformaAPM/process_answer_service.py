@@ -49,6 +49,7 @@ def process_answer(session, logger):
     fixed_answer = fix_grammar(
         originalText=answer.answer_text,
         convertToChilean=False,
+        traductionToSpanish=True,
         session=session,
         logger=logger)
 

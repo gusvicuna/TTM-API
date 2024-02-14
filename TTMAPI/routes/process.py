@@ -27,6 +27,7 @@ async def playground_process(
         model: str = "gpt-4",
         fixGrammar: bool = False,
         convertToChilean: bool = False,
+        traductionToSpanish: bool = True,
         split_phrases: bool = False,
         session=Depends(getPostgreSQL)
         ):
@@ -39,6 +40,7 @@ async def playground_process(
         answer_text = fix_grammar(
             originalText=answer_text,
             convertToChilean=convertToChilean,
+            traductionToSpanish=traductionToSpanish,
             session=session,
             logger=logger)
 
@@ -104,6 +106,7 @@ async def get_TTM_simple_match(
         trainText = fix_grammar(
             originalText=trainText,
             convertToChilean=False,
+            traductionToSpanish=False,
             session=session,
             logger=logger)
         logger.info(f"fixed traintext ='{trainText}'")
@@ -136,6 +139,7 @@ async def get_GPT_simple_match(
         trainText = fix_grammar(
             originalText=trainText,
             convertToChilean=False,
+            traductionToSpanish=False,
             session=session,
             logger=logger)
 

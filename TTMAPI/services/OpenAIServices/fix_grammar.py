@@ -13,19 +13,26 @@ client = OpenAI(api_key=api_key)
 def fix_grammar(
         originalText: str,
         convertToChilean: bool,
+        traductionToSpanish: bool,
         session,
         logger):
-    logger.debug(f"Arreglando gramatica\nOriginal: {originalText}")
+    logger.info(f"Arreglando gramatica. Original: {originalText}")
     prompt = get_prompt(
         session=session,
         prompt_id=3,
         logger=logger)
     prompt_modifiable_instruction = prompt.modifiable_instruction
     prompt_unmodifiable_instruction = prompt.unmodifiable_instruction
+    prompt_traduce_instruction =\
+        " Traduce el texto del usuario al español latino. "
 
     system_instruction = prompt_unmodifiable_instruction
+    if traductionToSpanish:
+        system_instruction += prompt_traduce_instruction
     if convertToChilean:
         system_instruction += prompt_modifiable_instruction
+
+    logger.debug(f"System: {system_instruction}")
 
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
