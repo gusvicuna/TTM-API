@@ -1,6 +1,6 @@
-from fastapi import HTTPException
-from sqlalchemy import text
-from TTMAPI.models.sqlalchemy_models import Answer, AnswerComponent
+from TTMAPI.services.PlataformaAPM.get_answer_service import get_answer
+from TTMAPI.services.PlataformaAPM.get_answer_component_service import (
+    get_answer_component_service)
 
 
 def get_processed_answer(token, session, logger):
@@ -13,16 +13,7 @@ def get_processed_answer(token, session, logger):
     results["codificacion"] = []
 
     # Se obtiene la respuesta con el token
-    try:
-        answer = session.query(Answer).filter_by(
-            token=token).first()
-    except Exception as e:
-        logger.error(f"Error intentando obtener respuesta. Error: {e}")
-        raise HTTPException(status_code=500, detail=e)
-    if not answer:
-        logger.error(f"Respuesta con token {token} no encontrada")
-        results["status"] = "not found"
-        return results
+    answer = get_answer(session, token, logger)
 
     # Se verifica si la respuesta fue procesada y si tuvo errores
     if answer.has_been_processed:
@@ -50,46 +41,19 @@ def get_processed_answer(token, session, logger):
         driver_result = {}
         driver_result["driver_id"] = driver.id
         driver_result["components"] = []
-        did_have_gpt_mark = False
-        did_have_ttm_mark = False
+        # Creamos los conjuntos de resultados de componentes para TTM y GPT
+        gpt_component_result = []
+        ttm_component_result = []
         for component in driver.components:
-            try:
-                answer_component_result = session.execute(
-                    text("SELECT * FROM answer_components" +
-                         " WHERE answer_token = :token" +
-                         " AND component_id = :component_id" +
-                         " AND driver_id = :driver_id" +
-                         " AND survey_id = :survey_id"),
-                    {
-                        "token": token,
-                        "component_id": component.id,
-                        "driver_id": driver.id,
-                        "survey_id": survey.id}
-                ).fetchone()
-            except Exception as e:
-                logger.error(f"Error obteniendo AnswerComponent. Error: {e}")
-                raise HTTPException(status_code=500, detail=e)
-            if not answer_component_result:
-                logger.error("AnswerComponent no encontrada.")
-                raise HTTPException(status_code=500,
-                                    detail="AnswerComponent not found.")
+            component_result_gpt = {}
+            component_result_ttm = {}
+            component_result_gpt["component_id"] = component.id
+            component_result_ttm["component_id"] = component.id
+            # Obtenemos la información de la respuesta del componente
+            answer_component = get_answer_component_service(
+                session, token, component, driver, survey, logger)
 
-            answer_component_data = {
-                    'answer_token': answer_component_result[0],
-                    'component_id': answer_component_result[1],
-                    'driver_id': answer_component_result[2],
-                    'survey_id': answer_component_result[3],
-                    'gpt_process': answer_component_result[4],
-                    'ttm_process': answer_component_result[5]
-                }
-            answer_component = AnswerComponent(**answer_component_data)
-
-            if answer_component.gpt_process != 0:
-                did_have_gpt_mark = True
-            if answer_component.ttm_process != 0:
-                did_have_ttm_mark = True
-
-            # Filtro de resultados segun el resultado de cada proceso:
+            # Polaridad de marca segun el tipo de respuesta:
             # Si la respuesta es de tipo Muy Buena, se marca positivo siempre,
             # al menos que ambas respuestas sean -1
             if answer.experience_type == "MB":
@@ -120,13 +84,17 @@ def get_processed_answer(token, session, logger):
                 else:
                     resultado = 0
 
-            if resultado == 0:
+            if component_result_ttm["resultado"] == 0 and\
+                    component_result_gpt["resultado"] == 0:
                 continue
 
-            component_result = {}
-            component_result["component_id"] = answer_component.component_id
-            component_result["resultado"] = resultado
-            component_result["uts"] = []
+            if answer_component.gpt_process != 0:
+                component_result_gpt["resultado"] = resultado
+            if answer_component.ttm_process != 0:
+                component_result_ttm["resultado"] = resultado
+
+            component_result_ttm["uts"] = []
+            component_result_gpt["uts"] = []
 
             # Se hace el mismo proceso para cada UT
             for ut in uts:
@@ -136,40 +104,8 @@ def get_processed_answer(token, session, logger):
                 for ut_comp in ut.components:
                     ut_comp_result = {}
                     ut_comp_result["component_id"] = ut_comp.id
-
-                    try:
-                        answer_component_result = session.execute(
-                            text("SELECT * FROM answer_components" +
-                                 " WHERE answer_token = :token" +
-                                 " AND component_id = :component_id" +
-                                 " AND driver_id = :driver_id" +
-                                 " AND survey_id = :survey_id"),
-                            {
-                                "token": token,
-                                "component_id": ut_comp.id,
-                                "driver_id": ut.id,
-                                "survey_id": survey.id}
-                        ).fetchone()
-                    except Exception as e:
-                        logger.error(
-                            f"Error getting UTAnswerComponent. Error: {e}")
-                        raise HTTPException(status_code=500, detail=e) from e
-                    if not answer_component_result:
-                        logger.error("UTAnswerComponent not found.")
-                        raise HTTPException(
-                            status_code=500,
-                            detail="UTAnswerComponent not found.")
-
-                    answer_component_data = {
-                            'answer_token': answer_component_result[0],
-                            'component_id': answer_component_result[1],
-                            'driver_id': answer_component_result[2],
-                            'survey_id': answer_component_result[3],
-                            'gpt_process': answer_component_result[4],
-                            'ttm_process': answer_component_result[5]
-                        }
-                    ut_answer_component = AnswerComponent(
-                        **answer_component_data)
+                    ut_answer_component = get_answer_component_service(
+                        session, token, ut_comp, ut, survey, logger)
 
                     if answer.experience_type == "MB":
                         if ut_answer_component.ttm_process == -1 and\
@@ -200,7 +136,8 @@ def get_processed_answer(token, session, logger):
                         ut_result["components"].append(ut_comp_result)
 
                 if ut_result["components"]:
-                    component_result["uts"].append(ut_result)
+                    component_result_ttm["uts"].append(ut_result)
+                    component_result_gpt["uts"].append(ut_result)
 
             # Si existe un componente ut default en el driver, se guarda en el
             # resultado
@@ -213,10 +150,12 @@ def get_processed_answer(token, session, logger):
                     driver.default_ut_component_id
                 default_ut_component["resultado"] = resultado
                 default_ut_driver["components"].append(default_ut_component)
-                component_result["uts"].append(default_ut_driver)
+                component_result_ttm["uts"].append(default_ut_driver)
+                component_result_gpt["uts"].append(default_ut_driver)
 
             # Si no hay componentes de UT, se agrega el default
-            if not component_result["uts"]:
+            # (chequeamos el conjunto de TTM ya que es el mismo para ambos)
+            if not component_result_ttm["uts"]:
                 default_ut_driver = {}
                 default_ut_component = {}
                 default_ut_driver["ut_id"] = survey.default_ut_driver_id
@@ -225,17 +164,24 @@ def get_processed_answer(token, session, logger):
                     survey.default_ut_component_id
                 default_ut_component["resultado"] = resultado
                 default_ut_driver["components"].append(default_ut_component)
-                component_result["uts"].append(default_ut_driver)
+                component_result_ttm["uts"].append(default_ut_driver)
+                component_result_gpt["uts"].append(default_ut_driver)
 
-            driver_result["components"].append(component_result)
+            # Se agregan los resultados a los conjuntos de resultados
+            if answer_component.gpt_process != 0:
+                gpt_component_result.append(component_result_gpt)
+            if answer_component.ttm_process != 0:
+                ttm_component_result.append(component_result_ttm)
 
-        # Si tuvo marca de TTM y GPT, se agrega a la codificación
-        if (did_have_ttm_mark and did_have_gpt_mark):
+        # Si tuvo marca de TTM y menos de 6 palabras,
+        # se agrega el conjunto TTM
+        if (len(answer.answer_text.split(" ")) < 6 and ttm_component_result):
+            driver_result["components"] = ttm_component_result
             results["codificacion"].append(driver_result)
-        # Si no tuvo marca de TTM o GPT, se agrega a la codificación si
-        # la respuesta es corta
-        elif (len(answer.answer_text.split(" ")) < 6 and
-                driver_result["components"]):
+        # Si tuvo marca de TTM y GPT,
+        # se agrega el conjunto TTM
+        elif (ttm_component_result and gpt_component_result):
+            driver_result["components"] = ttm_component_result
             results["codificacion"].append(driver_result)
         # En caso contrario, no se guarda en la codificación
 
