@@ -1,6 +1,6 @@
 from sqlalchemy import text
 from fastapi import HTTPException
-from TTMAPI.models import AnswerComponent
+from TTMAPI.models.sqlalchemy_models import AnswerComponent
 
 
 def get_answer_component_service(
