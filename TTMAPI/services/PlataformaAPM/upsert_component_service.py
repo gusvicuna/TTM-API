@@ -9,6 +9,7 @@ def upsert_component(session, component_data, driver, logger):
         name=component_data["name"],
         description=component_data["description"],
         type="component",
+        ttm_priority=component_data["ttm_priority"],
         has_manual_desc=bool(component_data["description"]),
         driver_id=driver.id,
         survey_id=driver.survey_id
@@ -18,7 +19,12 @@ def upsert_component(session, component_data, driver, logger):
     # actualizamos los datos relevantes
     do_update_stmt = stmt.on_conflict_do_update(
         index_elements=['id', 'driver_id', 'survey_id'],
-        set_=dict(name=component_data["name"])
+        set_=dict(
+            name=component_data["name"],
+            description=component_data["description"],
+            ttm_priority=component_data["ttm_priority"],
+            has_manual_desc=bool(component_data["description"]),
+            )
     )
 
     # Ejecutamos la instrucción
