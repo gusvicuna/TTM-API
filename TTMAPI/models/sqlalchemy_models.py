@@ -67,7 +67,8 @@ class Component(Base):
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
     type = Column(String, nullable=False)
-    # puede ser 'component', 'positives', 'negatives' o 'objects'
+    # type puede ser 'component', 'positives', 'negatives' o 'objects'
+    ttm_priority = Column(Boolean, nullable=True, default=False)
     has_manual_desc = Column(
         Boolean,
         nullable=False,
