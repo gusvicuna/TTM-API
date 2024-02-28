@@ -57,6 +57,8 @@ async def playground_process(
                 complete=True)
         drivers.append(driver)
 
+    in_tokens = 0
+    out_tokens = 0
     if gpt:
         if split_phrases:
             gpt_result, exceptions, in_tokens, out_tokens = split_process(

@@ -18,5 +18,5 @@ def playgroundResponseSchema(
         "drivers": getMatchedDriversSchema(driver),
         "tokens": input_tokens + output_tokens,
         "price": round((input_tokens * k_token_value_input / 1000) +
-                       (output_tokens * k_token_value_output / 1000), 2)
+                       (output_tokens * k_token_value_output / 1000), 4)
     }
