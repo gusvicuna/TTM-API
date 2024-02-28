@@ -1,8 +1,9 @@
 from TTMAPI.schemas.driver import (getMatchedDriversSchema)
 
 
-def getProcessedExperienceSchema(driver: list, experience: str):
+def playgroundResponseSchema(driver: list, experience: str, tokens: int):
     return {
         "experience": experience,
-        "drivers": getMatchedDriversSchema(driver)
+        "drivers": getMatchedDriversSchema(driver),
+        "tokens": tokens
     }

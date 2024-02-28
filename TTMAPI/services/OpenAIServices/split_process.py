@@ -22,10 +22,11 @@ def split_process(
         logger):
     final_result = create_empty_results(drivers)
     exceptions = []
+    total_tokens = 0
     # Procesa cada frase por separado
     phrases = split_in_phrases(text=answer_text, logger=logger)
     for phrase in phrases:
-        phrase_result, exception = gpt_process(
+        phrase_result, exception, tokens = gpt_process(
             session=session,
             answer_text=phrase,
             answer_type=answer_type,
@@ -37,13 +38,14 @@ def split_process(
             logger.error(f"Error con GPT. Error: {exception}")
             exceptions.append(exception)
             continue
+        total_tokens += tokens
         for driver in phrase_result:
             for component in phrase_result[driver]:
                 final_result[driver][component] = merge_results(
                     final_result[driver][component],
                     phrase_result[driver][component])
     # Procesa el texto completo y se lo suma a cada componente, como una frase
-    total_result, exception = gpt_process(
+    total_result, exception, tokens = gpt_process(
         session=session,
         answer_text=answer_text,
         answer_type=answer_type,
@@ -53,11 +55,11 @@ def split_process(
         logger=logger)
     if exception:
         logger.error(f"Error con GPT. Error: {exception}")
+    total_tokens += tokens
     for driver in total_result:
         for component in total_result[driver]:
             final_result[driver][component] = merge_results(
                 final_result[driver][component],
                 total_result[driver][component])
 
-    logger.debug(f"Final result: {final_result}, exceptions: {exceptions}")
-    return final_result, exceptions
+    return final_result, exceptions, total_tokens

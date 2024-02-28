@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from TTMAPI.config.db import getPostgreSQL
 from TTMAPI.helpers.log import get_logger
 from TTMAPI.models.driver import Driver
-from TTMAPI.schemas.process import getProcessedExperienceSchema
+from TTMAPI.schemas.process import playgroundResponseSchema
 from TTMAPI.services import Playground
 from TTMAPI.services.OpenAIServices.fix_grammar import fix_grammar
 from TTMAPI.services.OpenAIServices.gpt_process import\
@@ -59,7 +59,7 @@ async def playground_process(
 
     if gpt:
         if split_phrases:
-            gpt_result = split_process(
+            gpt_result, exceptions, tokens = split_process(
                 session=session,
                 answer_text=answer_text,
                 answer_type=answer_type,
@@ -67,8 +67,11 @@ async def playground_process(
                 drivers=drivers,
                 model=model,
                 logger=logger)
+            if exceptions:
+                for exception in exceptions:
+                    raise exception
         else:
-            gpt_result, exception = gpt_process(
+            gpt_result, exception, tokens = gpt_process(
                 session=session,
                 answer_text=answer_text,
                 answer_type=answer_type,
@@ -85,9 +88,10 @@ async def playground_process(
                         component.gpt_result =\
                             gpt_result[driver.id][component.id]
 
-    result = getProcessedExperienceSchema(
+    result = playgroundResponseSchema(
         driver=drivers,
-        experience=answer_text)
+        experience=answer_text,
+        tokens=tokens)
     return result
 
 
@@ -149,7 +153,7 @@ async def get_GPT_simple_match(
         driver = Driver(**driver_cursor)
         drivers.append(driver)
 
-    gpt_result, exception = gpt_process(
+    gpt_result, exception, tokens = gpt_process(
                 session=session,
                 answer_text=trainText,
                 answer_type="MB",

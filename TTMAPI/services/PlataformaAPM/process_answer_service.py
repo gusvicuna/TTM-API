@@ -99,7 +99,7 @@ def process_answer(session, logger):
         else:
             model = "gpt-4"
         if words_in_answer < 11:
-            gpt_results, exception = gpt_process(
+            gpt_results, exception, tokens = gpt_process(
                     session=session,
                     answer_text=fixed_answer,
                     answer_type=answer.experience_type,

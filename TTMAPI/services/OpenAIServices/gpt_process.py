@@ -44,7 +44,7 @@ def gpt_process(
         commerce_type: str,
         model: str,
         drivers,
-        logger):
+        logger) -> tuple:
     """
     Junta la instrucción con el contexto y la respuesta del usuario,
     y llama a GPT para obtener la respuesta del sistema.
@@ -86,7 +86,7 @@ def gpt_process(
         f"Componentes:\n{components}\nUnidades Tácticas:\n{uts}"
 
     # Descomentar para ver el prompt de sistema
-    logger.debug(f"system_instruction: {system_instruction}")
+    # logger.debug(f"system_instruction: {system_instruction}")
 
     # Definir prefijo de la experiencia del usuario según el tipo de respuesta
     if commerce_type is not None and commerce_type != "":
@@ -103,7 +103,7 @@ def gpt_process(
     user_experience += answer_text
 
     # Descomentar para ver el prompt de usuario
-    logger.debug(f"user_experience: {user_experience}")
+    # logger.debug(f"user_experience: {user_experience}")
 
     # Crear resultados vacíos para llenar con GPT
     results = create_empty_results(drivers)
@@ -124,24 +124,39 @@ def gpt_process(
                 presence_penalty=0,
                 stop=["Component"]
             )
-            result = completion.choices[0].message.content
-            logger.info(f"gptresponse: {result}")
         except Exception as e:
             logger.error(f"Error: {e}")
             exception = e
-            return results, exception
+            return results, exception, -1
+
+        result = completion.choices[0].message.content
+        tokens = completion.usage.total_tokens
+        logger.info(f"gptresponse: {result}")
+
+        if completion.choices[0].finish_reason == "length":
+            logger.error(
+                "Error: Se sobrepasó el limite de tokens," +
+                f"{completion.choices[0].usage.total_tokens}")
+            exception = "Error: Se sobrepasó el limite de tokens," +\
+                        f"{completion.choices[0].usage.total_tokens}"
+            return results, exception, tokens
+        elif completion.choices[0].finish_reason == "content_filter":
+            error = "Error: El contenido fue filtrado"
+            logger.error(error)
+            return results, error, -1
 
         try:
             corrected_result = result.replace("'", "\"")
             json_result = json.loads(corrected_result)
         except Exception as e:
-            logger.error(f"General Error: {e}, GPT: {result}")
+            logger.error(f"JSON load Error: {e}, GPT: {result}")
             exception = e
-            return result, exception
+            return result, exception, -1
 
         if not verify_correct_result(json_result):
-            logger.error(f"Formato erroneo, GPT: {result}")
-            return result, f"Formato erroneo, GPT: {result}"
+            exception = f"Formato erroneo, GPT: {result}"
+            logger.error(exception)
+            return result, exception, -1
 
         for driver_result in json_result:
             for component_result in json_result[driver_result]:
@@ -149,4 +164,4 @@ def gpt_process(
                     if int(component_result) in results[int(driver_result)]:
                         results[int(driver_result)][int(component_result)] =\
                             json_result[driver_result][component_result]
-    return results, None
+    return results, exception, tokens
