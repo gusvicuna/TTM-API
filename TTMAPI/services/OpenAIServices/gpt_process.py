@@ -130,8 +130,10 @@ def gpt_process(
             return results, exception, -1
 
         result = completion.choices[0].message.content
-        tokens = completion.usage.total_tokens
-        logger.info(f"gptresponse: {result}")
+        input_tokens = completion.usage.prompt_tokens
+        output_tokens = completion.usage.completion_tokens
+        logger.info(
+            f"gptresponse: {result}, tokens: {completion.usage.total_tokens}")
 
         if completion.choices[0].finish_reason == "length":
             logger.error(
@@ -139,11 +141,11 @@ def gpt_process(
                 f"{completion.choices[0].usage.total_tokens}")
             exception = "Error: Se sobrepasó el limite de tokens," +\
                         f"{completion.choices[0].usage.total_tokens}"
-            return results, exception, tokens
+            return results, exception, input_tokens, output_tokens
         elif completion.choices[0].finish_reason == "content_filter":
             error = "Error: El contenido fue filtrado"
             logger.error(error)
-            return results, error, -1
+            return results, error, -1, -1
 
         try:
             corrected_result = result.replace("'", "\"")
@@ -151,12 +153,12 @@ def gpt_process(
         except Exception as e:
             logger.error(f"JSON load Error: {e}, GPT: {result}")
             exception = e
-            return result, exception, -1
+            return result, exception, -1, -1
 
         if not verify_correct_result(json_result):
             exception = f"Formato erroneo, GPT: {result}"
             logger.error(exception)
-            return result, exception, -1
+            return result, exception, -1, -1
 
         for driver_result in json_result:
             for component_result in json_result[driver_result]:
@@ -164,4 +166,4 @@ def gpt_process(
                     if int(component_result) in results[int(driver_result)]:
                         results[int(driver_result)][int(component_result)] =\
                             json_result[driver_result][component_result]
-    return results, exception, tokens
+    return results, exception, input_tokens, output_tokens

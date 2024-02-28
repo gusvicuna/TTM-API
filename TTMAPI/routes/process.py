@@ -59,7 +59,7 @@ async def playground_process(
 
     if gpt:
         if split_phrases:
-            gpt_result, exceptions, tokens = split_process(
+            gpt_result, exceptions, in_tokens, out_tokens = split_process(
                 session=session,
                 answer_text=answer_text,
                 answer_type=answer_type,
@@ -71,7 +71,7 @@ async def playground_process(
                 for exception in exceptions:
                     raise exception
         else:
-            gpt_result, exception, tokens = gpt_process(
+            gpt_result, exception, in_tokens, out_tokens = gpt_process(
                 session=session,
                 answer_text=answer_text,
                 answer_type=answer_type,
@@ -91,7 +91,9 @@ async def playground_process(
     result = playgroundResponseSchema(
         driver=drivers,
         experience=answer_text,
-        tokens=tokens)
+        input_tokens=in_tokens,
+        output_tokens=out_tokens,
+        model=model)
     return result
 
 
