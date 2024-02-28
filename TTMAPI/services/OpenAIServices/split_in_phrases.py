@@ -8,9 +8,12 @@ api_key = config["OPENAI_API_KEY"]
 client = OpenAI(api_key=api_key)
 
 prompt_instruction = "Separa el siguiente texto en frases." +\
-    "Debes entregarme el resultado en una lista de strings, cada uno siendo una frase.\n" +\
-    "Ejemplo:" + "Input: La vida es grande y la muerte también aunque ambas no existen" +\
-    'Output: ["La vida es grande", "y la muerte también", "aunque ambas no existen"].'
+    " Debes entregarme el resultado en una lista de strings," +\
+    " cada uno siendo una frase.\n" +\
+    "Ejemplo:" + "Input: La vida es grande y la muerte también" +\
+    " aunque ambas no existen" +\
+    'Output: ["La vida es grande", "y la muerte también",' +\
+    '"aunque ambas no existen"].'
 
 
 def split_in_phrases(text: str, logger):
@@ -26,5 +29,4 @@ def split_in_phrases(text: str, logger):
             presence_penalty=0
         )
     result = completion.choices[0].message.content
-    logger.debug(f"result: {result}")
     return json.loads(result)

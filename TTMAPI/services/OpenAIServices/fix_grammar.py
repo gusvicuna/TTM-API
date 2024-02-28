@@ -32,8 +32,6 @@ def fix_grammar(
     if convertToChilean:
         system_instruction += prompt_modifiable_instruction
 
-    logger.debug(f"System: {system_instruction}")
-
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -52,5 +50,4 @@ def fix_grammar(
         frequency_penalty=0,
         presence_penalty=0
     )
-    logger.debug(f"Final: {completion.choices[0].message.content}")
     return completion.choices[0].message.content
