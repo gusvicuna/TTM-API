@@ -2,13 +2,13 @@ from TTMAPI.models.sqlalchemy_models import Component
 from sqlalchemy.dialects.postgresql import insert
 
 
-def upsert_component(session, component_data, driver, logger):
+def upsert_component(session, component_data, component_type, driver, logger):
     # Preparar el statement de inserción
     stmt = insert(Component).values(
         id=component_data["id"],
         name=component_data["name"],
         description=component_data["description"],
-        type="component",
+        type=component_type,
         ttm_priority=component_data["ttm_priority"],
         has_manual_desc=bool(component_data["description"]),
         driver_id=driver.id,
@@ -22,6 +22,7 @@ def upsert_component(session, component_data, driver, logger):
         set_=dict(
             name=component_data["name"],
             description=component_data["description"],
+            type=component_type,
             ttm_priority=component_data["ttm_priority"],
             has_manual_desc=bool(component_data["description"]),
             )

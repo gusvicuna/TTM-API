@@ -57,6 +57,7 @@ async def create_surveys(
                         component = upsert_component(
                             session=session,
                             component_data=component_data,
+                            component_type="component",
                             driver=driver,
                             logger=logger
                         )
@@ -67,6 +68,48 @@ async def create_surveys(
                                 phrase=aception_phrase,
                                 component=component
                             )
+                    objects = upsert_component(
+                        session=session,
+                        component_data=driver_data["objects"],
+                        component_type="objects",
+                        driver=driver,
+                        logger=logger
+                    )
+                    for aception_phrase in driver_data["objects"].get(
+                            "aceptions", []):
+                        upsert_aception(
+                            session=session,
+                            phrase=aception_phrase,
+                            component=objects
+                        )
+                    positives = upsert_component(
+                        session=session,
+                        component_data=driver_data["positives"],
+                        component_type="positives",
+                        driver=driver,
+                        logger=logger
+                    )
+                    for aception_phrase in driver_data["positives"].get(
+                            "aceptions", []):
+                        upsert_aception(
+                            session=session,
+                            phrase=aception_phrase,
+                            component=positives
+                        )
+                    negatives = upsert_component(
+                        session=session,
+                        component_data=driver_data["negatives"],
+                        component_type="negatives",
+                        driver=driver,
+                        logger=logger
+                    )
+                    for aception_phrase in driver_data["negatives"].get(
+                            "aceptions", []):
+                        upsert_aception(
+                            session=session,
+                            phrase=aception_phrase,
+                            component=negatives
+                        )
 
             # Upsert answer data
             for answer_data in survey_data.get("answers", []):
