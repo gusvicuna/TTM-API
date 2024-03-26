@@ -10,6 +10,7 @@ def upsert_survey(session, survey_data):
         description=survey_data["description"],
         default_ut_driver_id=survey_data["default_ut"]["driver_id"],
         default_ut_component_id=survey_data["default_ut"]["ut_id"],
+        has_been_described=False
     )
 
     # Si ya existe un registro con el mismo id, actualizamos los campos
