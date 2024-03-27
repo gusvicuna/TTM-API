@@ -50,4 +50,5 @@ def fix_grammar(
         frequency_penalty=0,
         presence_penalty=0
     )
+    logger.info(f"Resultado: {completion.choices[0].message.content}")
     return completion.choices[0].message.content

@@ -99,7 +99,7 @@ def process_answer(session, logger):
         else:
             model = "gpt-4"
         if words_in_answer < 11:
-            gpt_results, exception, tokens = gpt_process(
+            gpt_results, exception, in_tokens, out_tokens = gpt_process(
                     session=session,
                     answer_text=fixed_answer,
                     answer_type=answer.experience_type,
@@ -115,7 +115,7 @@ def process_answer(session, logger):
                 return error_text
         else:
             try:
-                gpt_results, exceptions = split_process(
+                gpt_results, exceptions, in_tokens, out_tokens = split_process(
                         session=session,
                         answer_text=fixed_answer,
                         answer_type=answer.experience_type,
@@ -125,7 +125,7 @@ def process_answer(session, logger):
                         logger=logger)
             except Exception as e:
                 error_text = "Error con split GPT process." +\
-                    f"Error: {e}."
+                    f" Error: {e}."
                 logger.error(error_text)
                 handle_error(session, answer, error_text, logger)
                 return error_text

@@ -138,9 +138,9 @@ def gpt_process(
         if completion.choices[0].finish_reason == "length":
             logger.error(
                 "Error: Se sobrepasó el limite de tokens," +
-                f"{completion.choices[0].usage.total_tokens}")
+                f"{completion.usage.total_tokens}")
             exception = "Error: Se sobrepasó el limite de tokens," +\
-                        f"{completion.choices[0].usage.total_tokens}"
+                        f"{completion.usage.total_tokens}"
             return results, exception, input_tokens, output_tokens
         elif completion.choices[0].finish_reason == "content_filter":
             error = "Error: El contenido fue filtrado"
