@@ -94,51 +94,51 @@ def process_answer(session, logger):
     # el tipo de proceso dependiendo de la cantidad de palabras
     words_in_answer = len(fixed_answer.split(" "))
     if words_in_answer > 5:
-        if words_in_answer <= 7:
-            model = "gpt-3.5-turbo-1106"
-        else:
-            model = "gpt-4"
-        if words_in_answer < 11:
-            gpt_results, exception, in_tokens, out_tokens = gpt_process(
-                    session=session,
-                    answer_text=fixed_answer,
-                    answer_type=answer.experience_type,
-                    commerce_type=survey.commerce_type,
-                    model=model,
-                    drivers=drivers,
-                    logger=logger)
-            if exception:
-                error_text = "Error con GPT process." +\
-                    f"Error: {exception}. Respuesta GPT: {gpt_results}"
-                logger.error(error_text)
-                handle_error(session, answer, error_text, logger)
-                return error_text
-        else:
-            try:
-                gpt_results, exceptions, in_tokens, out_tokens = split_process(
-                        session=session,
-                        answer_text=fixed_answer,
-                        answer_type=answer.experience_type,
-                        commerce_type=survey.commerce_type,
-                        model=model,
-                        drivers=drivers,
-                        logger=logger)
-            except Exception as e:
-                error_text = "Error con split GPT process." +\
-                    f" Error: {e}."
-                logger.error(error_text)
-                handle_error(session, answer, error_text, logger)
-                return error_text
-        for driver_id in gpt_results:
-            driver = None
-            for obj in drivers:
-                if obj.id == driver_id:
-                    driver = obj
-                    break
-            for component_id in gpt_results[driver_id]:
-                component = next(
-                    obj for obj in driver.components if obj.id == component_id)
-                component.gpt_result = gpt_results[driver_id][component_id]
+        # if words_in_answer <= 7:
+        model = "gpt-3.5-turbo-1106"
+        # else:
+        #     model = "gpt-4"
+        # if words_in_answer < 11:
+        gpt_results, exception, in_tokens, out_tokens = gpt_process(
+                session=session,
+                answer_text=fixed_answer,
+                answer_type=answer.experience_type,
+                commerce_type=survey.commerce_type,
+                model=model,
+                drivers=drivers,
+                logger=logger)
+        if exception:
+            error_text = "Error con GPT process." +\
+                f"Error: {exception}. Respuesta GPT: {gpt_results}"
+            logger.error(error_text)
+            handle_error(session, answer, error_text, logger)
+            return error_text
+        # else:
+        #     try:
+        #         gpt_results, exceptions, in_tokens, out_tokens = split_process(
+        #                 session=session,
+        #                 answer_text=fixed_answer,
+        #                 answer_type=answer.experience_type,
+        #                 commerce_type=survey.commerce_type,
+        #                 model=model,
+        #                 drivers=drivers,
+        #                 logger=logger)
+        #     except Exception as e:
+        #         error_text = "Error con split GPT process." +\
+        #             f" Error: {e}."
+        #         logger.error(error_text)
+        #         handle_error(session, answer, error_text, logger)
+        #         return error_text
+    for driver_id in gpt_results:
+        driver = None
+        for obj in drivers:
+            if obj.id == driver_id:
+                driver = obj
+                break
+        for component_id in gpt_results[driver_id]:
+            component = next(
+                obj for obj in driver.components if obj.id == component_id)
+            component.gpt_result = gpt_results[driver_id][component_id]
 
     # Se guardan los resultados en la base de datos
     try:
