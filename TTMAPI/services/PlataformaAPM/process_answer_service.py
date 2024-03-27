@@ -129,16 +129,16 @@ def process_answer(session, logger):
         #         logger.error(error_text)
         #         handle_error(session, answer, error_text, logger)
         #         return error_text
-    for driver_id in gpt_results:
-        driver = None
-        for obj in drivers:
-            if obj.id == driver_id:
-                driver = obj
-                break
-        for component_id in gpt_results[driver_id]:
-            component = next(
-                obj for obj in driver.components if obj.id == component_id)
-            component.gpt_result = gpt_results[driver_id][component_id]
+        for driver_id in gpt_results:
+            driver = None
+            for obj in drivers:
+                if obj.id == driver_id:
+                    driver = obj
+                    break
+            for component_id in gpt_results[driver_id]:
+                component = next(
+                    obj for obj in driver.components if obj.id == component_id)
+                component.gpt_result = gpt_results[driver_id][component_id]
 
     # Se guardan los resultados en la base de datos
     try:
